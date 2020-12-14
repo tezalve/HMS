@@ -12,16 +12,8 @@ class Doctor extends Model{
 
     public $timestamps = false;
     
-    // protected $table = "doctors";
-
-    // protected $casts = [
-    //     'consultation_fee' => 'int'
-    // ];
-
     protected $guarded = [
-        'bloodgroup',
-        'updated_at',
-        'created_at'
+        'bloodgroup'
     ];  
 
     // protected $fillable = [

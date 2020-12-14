@@ -1,10 +1,11 @@
-@extends('layouts.master')
-
+@extends('layouts.mister')
 @section('content')
+
     <div class="row">
+
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
-                <h2>HMS</h2>
+                <h1>Doctor Information</h1>
             </div>
             <div class="">
                 <a class="" href="{{ route('doctors.create') }}">Add a Doctor</a>
@@ -50,7 +51,4 @@
             </tr>
         @endforeach
     </table>
-
-    
-
-@endsection
+@stop

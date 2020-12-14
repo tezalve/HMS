@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\PatientController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +18,7 @@ use App\Http\Controllers\DoctorController;
 // Route::get('/', [DoctorController::Class, 'index']);
 
 Route::resource('doctors', DoctorController::Class);
+Route::resource('patients', PatientController::Class);
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/', function () {
     return view('welcome');

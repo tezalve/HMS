@@ -1,0 +1,483 @@
+/*
+ * Base structure
+ */
+
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+  background-color: #EAEAEA;
+  /*background-color: green;*/
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.main-wrap{
+  padding: 0px !important;
+}
+
+/*
+ * Global add-ons
+ */
+
+
+/*
+ * Top navigation
+ * Hide default border to remove 1px line.
+ */
+.top-bar{
+  height: 50px;
+  background-color: #525A6E;
+}
+
+@media (min-width: 992px) {
+  .navbar-collapse {
+    height: auto;
+    border-top: 0;
+    box-shadow: none;
+    max-height: none;
+    padding-left:0;
+    padding-right:0;
+  }
+  .navbar-collapse.collapse {
+    display: block !important;
+    width: auto !important;
+    padding-bottom: 0;
+    overflow: visible !important;
+  }
+  .navbar-collapse.in {
+    overflow-x: visible;
+  }
+
+  .navbar
+  {
+    max-width:300px;
+    margin-right: 0;
+    margin-left: 0;
+  } 
+
+  .navbar-nav,
+  .navbar-nav > li,
+  .navbar-left,
+  .navbar-right,
+  .navbar-header
+  {float:none !important;}
+
+  .navbar-right .dropdown-menu {left:0;right:auto;}
+  .navbar-collapse .navbar-nav.navbar-right:last-child {
+      margin-right: 0;
+  }
+}
+/*
+ * Sidebar
+ */
+
+/* Hide for mobile, show later */
+.sidebar {
+    /*position: fixed;
+    top: 50px;*/
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    display: block;
+    height: auto;
+    padding: 0px;
+    overflow-x: hidden;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    background-color: #DBDCDD;
+    //border-right: 1px solid #eee;
+}
+
+@media (min-width: 992px){
+  .sidebar {
+    position: fixed;
+    top: 50px;
+    /*bottom: 0;
+    left: 0;
+    z-index: 1000;
+    display: block;
+    height: auto;
+    padding: 0px;*/
+    overflow-x: hidden;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    background-color: #DBDCDD;
+    //border-right: 1px solid #eee;
+  }
+}
+
+/* Sidebar navigation */
+.navbar-custom{
+  background-color: transparent;
+}
+
+@media (min-width: 992px){
+  .navbar-custom{
+    background-color: transparent;
+    border: none;
+  }
+}
+
+.nav-sidebar {
+  //margin-right: -21px; /* 20px padding + 1px border */
+  //margin-bottom: 20px;
+  //margin-left: -20px;
+}
+.nav-sidebar > li{
+  border-bottom: 1px #C0C0C0 solid;
+}
+.nav-sidebar > li > a {
+  padding-right: 20px;
+  padding-left: 20px;
+  /*border-bottom: 1px solid;*/
+  font-weight:bold;
+  color:black;
+  padding-top: 7px;
+  padding-bottom: 7px;
+}
+.nav-sidebar > .active > a,
+.nav-sidebar > .active > a:hover,
+.nav-sidebar > .active > a:focus {
+  color: #fff;
+  background-color: #EAEAEA;
+}
+.company_name{
+  color: #fff !important;
+}
+.logo-placeholder{
+  //width: 100%;
+  //border-bottom: 1px #C0C0C0 solid;
+  padding: 30px;
+}
+.logo{
+  margin: 0 auto;
+}
+
+
+@media (max-width: 992px) {
+    .navbar-header {
+        float: none;
+    }
+    .navbar-left,.navbar-right {
+        float: none !important;
+    }
+    .navbar-toggle {
+        display: block;
+    }
+    .navbar-collapse {
+        border-top: 1px solid transparent;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+    .navbar-fixed-top {
+    top: 0;
+    border-width: 0 0 1px;
+  }
+    .navbar-collapse.collapse {
+        display: none!important;
+    }
+    .navbar-nav {
+        float: none!important;
+    margin-top: 7.5px;
+  }
+  .navbar-nav>li {
+        float: none;
+    }
+    .navbar-nav>li>a {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    .collapse.in{
+      display:block !important;
+  }
+}
+
+/*
+ * Main content
+ */
+
+.main {
+  padding: 0px;
+  padding-right: 20px;
+  padding-left: 20px;
+}
+/*@media (min-width: 778px) {
+  .main {
+    padding: 0px;
+  }
+}*/
+.main .page-header {
+  margin: 0px;
+  margin-top: 5px;
+  padding: 0px;
+  border: none;
+}
+
+.main .page-header h3{
+  font-weight: bold;
+  color: #525A6E;
+  margin-top: 5px;
+}
+
+
+/*
+ * Placeholder dashboard ideas
+ */
+
+.placeholders {
+  margin-bottom: 30px;
+  text-align: center;
+}
+.placeholders h4 {
+  margin-bottom: 0;
+}
+.placeholder {
+  margin-bottom: 20px;
+}
+.placeholder img {
+  display: inline-block;
+  border-radius: 50%;
+}
+
+.border{
+  border: 1px solid;
+}
+
+
+.entry_panel_body{
+  padding:0px !important;
+  padding-top:3px !important;
+  padding-bottom:3px !important;
+}
+.entry_panel_label{
+  background-color: #DBDCDD;
+  padding: 2px;
+  /*padding:1px;*/
+  padding-left:10px;
+  padding-right:3px;
+  color:#000000;
+  font-weight:  100;
+  /*border: #EAEAEA 1px solid;*/
+  border: none;
+  margin-bottom:3px;
+}
+
+.entry_panel_label_exception{
+  background-color: white;
+  padding: 2px;
+  /*padding:1px;*/
+  padding-left:10px;
+  padding-right:3px;
+  color:#000000;
+  font-weight:  100;
+  /*border: #EAEAEA 1px solid;*/
+  border: none;
+  margin-bottom:3px;
+}
+
+
+.entry_panel_input{
+  /*border: none;*/
+  border: #DBDCDD 1px solid;
+  /*background-color:#EAEAEA;*/
+  padding-top:1px;
+  padding-bottom:1px;
+  /*margin-bottom:10px;*/
+}
+.entry_panel_dropdown{
+  border: #DBDCDD 1px solid;
+  /*border: none;*/
+  padding-top:2px;
+  padding-bottom:2px;
+  background-color:#ffffff;
+  /*padding-left:2px;
+  padding-right:2px;*/
+}
+.entry_panel_file_input{
+  /*border: #DBDCDD 1px solid;*/
+  border: none;
+  padding-top:1px;
+  padding-bottom:1px;
+  /*background-color:#ffffff;*/
+  /*padding-left:2px;
+  padding-right:2px;*/
+}
+
+/*****Start TABLE CSS*****/
+.datatablescope{
+  margin-top: 2%;
+  /*margin-bottom:3%; */
+}
+
+table thead{
+  background-color: #525A6E;
+  color:#FFFFFF;
+}
+
+.dataTables_scrollHeadInner{
+  background-color: #525A6E;
+}
+
+table>tbody>tr>td>input{
+  border: none;
+  background-color: transparent;
+}
+
+table>thead>tr>th>input{
+  color:#000000;
+}
+
+/*****End TABLE CSS*****/
+
+.bottom_entry_panel{
+  margin-top: 2%;
+}
+
+.button{
+  color: #fff;
+  border-radius: 0px;
+  margin-left: 1%;
+}
+.button:hover{
+  color: #fff;
+  border-radius: 0px;
+}
+
+.button-save{
+  background-color: #13A555;
+}
+
+.button-save:hover{
+  background-color: #138145;
+}
+
+#less_type{
+  margin-right:3px;
+}
+#less_value{
+  margin-right:3px;
+  width:20%;
+}
+#less_output{
+  width: 20%;
+}
+
+.sorting_1{
+  background-color: #ffffff !important;
+}
+
+.calculation_panel{
+  padding:0px;
+}
+
+.calculation_panel_display{
+  padding:0px;
+  min-height: 105px;
+  height: 100%;
+  background-color: #303B5C;
+  text-align: center;
+  vertical-align: center;
+  color: aliceblue;
+}
+.calculation_panel_display p{
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.payment_mode_bank_card{
+  display: none;
+}
+
+.footer{
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    margin-top: 30px;
+    background-color: #EAEAEA;
+}
+
+.contact{
+  text-align: center;
+  top:60px;
+}
+#depreciation_yes{
+  display:none;
+}
+
+
+/* View image of items in table on hover */
+
+td .item_view{
+  display:none;
+  position: absolute;
+  border: 2px solid;
+  left:10%;
+}
+td .item_view img{
+  height: 120px;
+}
+td:hover .item_view {
+  display: block;
+}
+/* End of Image show on hover */
+
+
+/* POS Page design */
+.product_list{
+  border-left: 1px solid #C0C0C0;
+}
+
+
+
+/* Report Main Page Button Design */
+.report_button{
+  background-color: #525A6E !important;   /*   #2E3748   */
+  background-image: linear-gradient(to bottom,#525A6E 0,#525A6E 100%);
+  background-repeat:no-repeat;  
+  padding:10px;
+  padding-left:3px;
+  padding-right:3px;
+  color:#EAEAEA;
+  font-weight:100;
+  font-size: 15px;
+  border: #EAEAEA 2px solid;
+  margin-bottom:3px;
+  border-radius:0px;
+}
+
+
+
+.payroll_gross_hide_show {
+  display: none;
+}
+/*.payroll_gross_hide_show {
+  display: none;
+  padding-left:2px !important;
+  padding-right:2px !important; 
+}*/
+.payroll_grade_hide_show {
+  display: none;
+}
+/*.payroll_grade_hide_show {
+  display: none;
+  padding-left:2px !important;
+  padding-right:2px !important; 
+}*/
+.payroll_hour_hide_show {
+  display: none;
+}
+/*.payroll_hour_hide_show {
+  display: none;
+  padding-left:2px !important;
+  padding-right:2px !important; 
+}*/
+.pos_purchase{
+  background-color: #CFCFCF !important;
+  padding-left:3px;
+  padding-right:3px;
+}
+
+table.dataTable thead td {
+  padding: 5px 10px !important;
+  border-bottom: 1px solid #111111 !important;
+}
+
+
+
+}

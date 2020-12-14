@@ -1,5 +1,4 @@
-@extends('layouts.master')
-
+@extends('layouts.mister')
 @section('content')
 
     @if ($errors->any())
@@ -11,7 +10,7 @@
                 @endforeach
             </ul>
         </div>
-    @endif
+    @endif -->
 
     <form action="{{ route('doctors.store') }}" method="POST" >
         @csrf
@@ -140,7 +139,6 @@
 				</select>
 			</div>
 		</div>
-
 
 		<div class="col-lg-6 col-md-6 col-xs-12">
 			<div class="col-lg-12 entry_panel_body">
