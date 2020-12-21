@@ -1,16 +1,5 @@
-@extends('layouts.mister')
+@extends('layouts.master')
 @section('content')
-
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <strong>Error!</strong> 
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif -->
 
     <form action="{{ route('doctors.store') }}" method="POST" >
         @csrf
@@ -116,7 +105,7 @@
 		<div class="col-lg-6 col-md-6 col-xs-12">
 			<div class="col-lg-12 entry_panel_body ">
 	            <label for="DOB" class="col-lg-5 col-md-5 col-xs-5 entry_panel_label">DOB</label>
-				<input name="dob" type="text" id="dob" placeholder="dd-mm-yyyy" class="col-lg-7 col-md-7 col-xs-7 entry_panel_input">				
+				<input name="dob" type="text" id="dob" placeholder="yyyy-mm-dd" class="col-lg-7 col-md-7 col-xs-7 entry_panel_input">				
 			</div>
 		</div>	
 

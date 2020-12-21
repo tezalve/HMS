@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Patient;
 use App\Models\Occupation;
 use Illuminate\Http\Request;
+use Validator;
 
 class PatientController extends Controller
 {
@@ -46,29 +47,25 @@ class PatientController extends Controller
             'fast_name'  		=> 'required|min:2',
             'middle_name'  		=> 'required',
             'phone'  			=> 'required',
-            'dob' 				=> 'required'
+            'dob' 				=> 'required',
+            'occupations' 		=> 'required'
         ]);
 
-		// if($validated -> fails()) {
-		// 	return Redirect::back()->withErrors($validated)->withInput();
-        // }
-        
-
-        $gistration = new DataController();
+        $gistration                 = new DataController();
         $gistration_no  			= $gistration->geneart_gistration("patientregistration", "registration_no");
         $olddate 					= $request->dob;
         $olddate 					= str_replace('/', '-', $olddate);
         $newdate 					= date('Y-m-d', strtotime($olddate));
-        // dd($_POST);
+        
         $fastname 					= $request->fast_name;
         $middlename 				= $request->middle_name;
         $lastname 					= $request->last_name;
         $patientname  				= $fastname." ".$middlename." ".$lastname;
-        // DD($patientname);
+
         $patient 					= new Patient;
-        $patient->name 				= $request->patientname;
+        $patient->name 				= $patientname;
         $patient->phone 			= $request->phone;
-        $patient->dob 				= $request->newdate;
+        $patient->dob 				= $newdate;
         $patient->gender			= $request->gender;
         $patient->fathersname 		= $request->fathersname;
         $patient->mothersname 		= $request->mothersname;
@@ -77,38 +74,15 @@ class PatientController extends Controller
         $patient->relegion 			= $request->religion;
         $patient->nationality 		= $request->nationality;
         $patient->passportid 		= $request->passno;
-        $patient->nationality 		= $request->nid;
+        $patient->nationalid 		= $request->nid;
         $patient->blood_group 		= $request->bloodgroup;
-        $patient->registration_no 	= $request->gistration_no;
+        $patient->registration_no 	= $gistration_no;
         $patient->occupations_id 	= $request->occupations;
 
-        Patient::create($request->all());
-        
-        return redirect()->route('patients.index')->with('message', 'Success');
-	
-        // $request->validate([
-        //     'name' => ['required','min:5', 'string'],
-        //     'address' => ['required', 'string'],
-		// 	'phone' => 'required',
-		// 	'gender' => 'required',
-		// 	'dob' => 'required',
-        //     'fathersname' => 'required',
-        //     'motherssname' => 'required',
-        //     'spousesname' => 'required',
-        //     'relegion' => 'required',
-        //     'nationality' => 'required',
-        //     'passportid' => 'required',
-        //     'nationalid' => 'required',
-        //     'blood_group' => 'required',
-        //     'registration_no' => 'required',
-        //     'occupations_id' => 'required'
-        // ]);
+        $patient->save();
 
-        // Patient::create($request->all());
-
-        // return redirect()->route('patients.index')
-		//     ->with('success', 'Doctor created successfully.');
-    }
+        return redirect()->route('patients.index')
+        ->with('success', 'patient created successfully');    }
 
     /**
      * Display the specified resource.
@@ -129,7 +103,8 @@ class PatientController extends Controller
      */
     public function edit(Patient $patient)
     {
-        return view('patients.edit', compact('patient'));
+        $occupation = Occupation::all();
+        return view('patients.edit', compact('patient','occupation'));
     }
 
     /**
@@ -141,24 +116,43 @@ class PatientController extends Controller
      */
     public function update(Request $request, Patient $patient)
     {
-        $request->validate([
-            'name' => ['required','min:5', 'string'],
-            'address' => ['required', 'string'],
-			'email' => ['required'],
-			'phone' => 'required',
-			'doctor_status' => 'required',
-			'reference_status' => 'required',
-			'gender' => 'required',
-			'married' => 'required',
-			'consultation_fee' => 'required',
-			'dob' => 'required',
-			'department_id' => 'required',
-			'doctor_degree' => 'required'
+        $validated = $request->validate([
+            'dob' 				=> 'required'
         ]);
-        $patient->update($request->all());
 
+        // dd("$request");
+        $gistration = new DataController();
+        $gistration_no  			= $gistration->geneart_gistration("patientregistration", "registration_no");
+        $olddate 					= $request->dob;
+        $olddate 					= str_replace('/', '-', $olddate);
+        $newdate 					= date('Y-m-d', strtotime($olddate));
+        
+        $fastname 					= $request->fast_name;
+        $middlename 				= $request->middle_name;
+        $lastname 					= $request->last_name;
+        $patientname  				= $fastname." ".$middlename." ".$lastname;
+
+        $patient                    = Patient::find($patient->id);
+        $patient->name 				= $patientname;
+        $patient->phone 			= $request->phone;
+        $patient->dob 				= $newdate;
+        $patient->gender			= $request->gender;
+        $patient->fathersname 		= $request->fathersname;
+        $patient->mothersname 		= $request->mothersname;
+        $patient->spousename 		= $request->spousesname;
+        $patient->address 			= $request->address;
+        $patient->relegion 			= $request->religion;
+        $patient->nationality 		= $request->nationality;
+        $patient->passportid 		= $request->passno;
+        $patient->nationalid 		= $request->nid;
+        $patient->blood_group 		= $request->bloodgroup;
+        $patient->registration_no 	= $gistration_no;
+        $patient->occupations_id 	= $request->occupations;
+
+        $patient->save();
+        
         return redirect()->route('patients.index')
-            ->with('success', 'Patients updated successfully');
+            ->with('success', 'patient updated successfully');  
     }
 
     /**
@@ -171,7 +165,7 @@ class PatientController extends Controller
     {
         $patient->delete();
 
-        return redirect()->route('patient.index')
+        return redirect()->route('patients.index')
             ->with('success', 'patient deleted successfully');
     }
 }

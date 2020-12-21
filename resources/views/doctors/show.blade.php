@@ -1,4 +1,4 @@
-@extends('layouts.mister')
+@extends('layouts.master')
 @section('content')
 
     <div class="row">
@@ -65,6 +65,12 @@
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <strong>Degrees: {{ $doctor->doctor_degree }}</strong>
+
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <strong>Blood Group: {{ $doctor->bloodgroup }}</strong>
 
             </div>
         </div>

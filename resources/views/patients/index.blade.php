@@ -1,4 +1,4 @@
-@extends('layouts.mister')
+@extends('layouts.master')
 @section('content')
 
 <h1>Patient Information</h1>

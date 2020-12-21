@@ -12,9 +12,7 @@ class Doctor extends Model{
 
     public $timestamps = false;
     
-    protected $guarded = [
-        'bloodgroup'
-    ];  
+    protected $guarded = ['submit'];  
 
     // protected $fillable = [
     //     'name',

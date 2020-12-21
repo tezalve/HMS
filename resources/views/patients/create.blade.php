@@ -1,6 +1,5 @@
-@extends('layouts.mister')
+@extends('layouts.master')
 @section('content')
-
     <legend style="background: coral;">New Patient Registration</legend>
 
     <form action="{{ route('patients.store') }}" method="POST">
@@ -53,7 +52,7 @@
 		<div class="col-lg-6 col-md-6 col-xs-12">
 			<div class="col-lg-12 entry_panel_body ">
 				<label for="invoice num" class="col-lg-4 col-md-4 col-xs-4 entry_panel_label">DOB</label>
-				<input type="text" id="dob" name="dob" placeholder="dd-mm-yyyy" class="col-lg-8 col-md-8 col-xs-8 entry_panel_input" value="">
+				<input type="text" id="dob" name="dob" placeholder="yyyy-mm-dd" class="col-lg-8 col-md-8 col-xs-8 entry_panel_input" value="">
 			</div>
 		</div>
 
@@ -108,7 +107,6 @@
 			</div>
 		</div>
 
-
 		<div class="col-lg-6 col-md-6 col-xs-12">
 			<div class="col-lg-12 entry_panel_body ">
 				<label for="invoice num" class="col-lg-4 col-md-4 col-xs-4 entry_panel_label">National id</label>
@@ -123,7 +121,6 @@
 					<option value="bangladeshi">Bangladeshi</option>
 					<option value="bangladeshi">Others</option>
 				</select>
-
 			</div>
 		</div>
 
@@ -154,31 +151,32 @@
 		</div>
 	</form>
 
-
-	<div class="modal fade" id="occupationsmodel" tabindex="-1" role="dialog" aria-labelledby="catAddLabel" aria-hidden="true">
-		<div class="modal-dialog" style="width: 500px;">
-			<div class="modal-content">
-				<form action="">
-					<div class="modal-header" style="background: coral; padding: 10px;">
-						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-						<h4 class="modal-title" id="catAddLabel">Add New Occupations</h4>
-					</div>
-					<div class="modal-body">
-						<table style="width: 450px;">
-							<tr>
-								<td>
-									<input name="occupationsdescription" type="text" id="occupationsdescription" placeholder="Occupations Description" class="col-lg-12 col-md-12 col-xs-12" style="height: 30px;">
-								</td>
-							</tr>      		
-						</table>
-					</div>
-					<div class="col-lg-6 col-md-6 col-xs-12">
-						<div class="col-lg-12 entry_panel_body">
-							<input type="submit" id="submit" name="submit" value="Submit" class="col-lg-3 col-md-3 col-xs-3 btn btn-save btn-sm button button-save pull-right">
+	<form action="">
+		<div class="modal fade" id="occupationsmodel" tabindex="-1" role="dialog" aria-labelledby="catAddLabel" aria-hidden="true">
+			<div class="modal-dialog" style="width: 500px;">
+				<div class="modal-content">
+					<form action="">
+						<div class="modal-header" style="background: coral; padding: 10px;">
+							<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+							<h4 class="modal-title" id="catAddLabel">Add New Occupations</h4>
 						</div>
-					</div>  
-				</form>
+						<div class="modal-body">
+							<table style="width: 450px;">
+								<tr>
+									<td>
+										<input name="occupationsdescription" type="text" id="occupationsdescription" placeholder="Occupations Description" class="col-lg-12 col-md-12 col-xs-12" style="height: 30px;">
+									</td>
+								</tr>      		
+							</table>
+						</div>
+						<div class="col-lg-6 col-md-6 col-xs-12">
+							<div class="col-lg-12 entry_panel_body">
+								<input type="submit" id="submit" name="submit" value="Submit" class="col-lg-3 col-md-3 col-xs-3 btn btn-save btn-sm button button-save pull-right">
+							</div>
+						</div>  
+					</form>
+				</div>
 			</div>
 		</div>
-	</div>
+	</form>
 	@stop

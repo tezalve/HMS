@@ -1,4 +1,4 @@
-@extends('layouts.mister')
+@extends('layouts.master')
 @section('content')
 
     @if ($errors->any())
@@ -37,7 +37,6 @@
 			</div>
 		</div>	
 
-
 		<div class="col-lg-6 col-md-6 col-xs-12">
 			<div class="col-lg-12 entry_panel_body ">
 	            <label for="Gender" class="col-lg-5 col-md-5 col-xs-5 entry_panel_label">Gender</label>
@@ -47,7 +46,6 @@
 				</select>
 			</div>
 		</div>	
-
 
 		<div class="col-lg-6 col-md-6 col-xs-12">
 			<div class="col-lg-12 entry_panel_body ">
@@ -61,8 +59,7 @@
 	            <label for="Email" class="col-lg-5 col-md-5 col-xs-5 entry_panel_label">Email</label>
 				<input name="email" value="{{$doctor->email}}" type="text" id="email" placeholder="email@domain.com" class="col-lg-7 col-md-7 col-xs-7 entry_panel_input">				
 			</div>
-		</div>			
-
+		</div>		
 
 		<div class="col-lg-6 col-md-6 col-xs-12">
 			<div class="col-lg-12 entry_panel_body ">
@@ -83,7 +80,6 @@
 				</select>
 			</div>
 		</div>	
-		
 
 		<div class="col-lg-6 col-md-6 col-xs-12">
 			<div class="col-lg-12 entry_panel_body ">
@@ -94,7 +90,6 @@
 				</select>
 			</div>
 		</div>	
-
 
 		<div class="col-lg-6 col-md-6 col-xs-12">
 			<div class="col-lg-12 entry_panel_body ">
@@ -112,16 +107,13 @@
 			</div>
 		</div>	
 
-
-
 		<div class="col-lg-6 col-md-6 col-xs-12">
 			<div class="col-lg-12 entry_panel_body ">
 	            <label for="DOB" class="col-lg-5 col-md-5 col-xs-5 entry_panel_label">DOB</label>
 				<input name="dob" value="{{$doctor->dob}}" type="text" id="dob" placeholder="dd-mm-yyyy" class="col-lg-7 col-md-7 col-xs-7 entry_panel_input">				
 			</div>
 		</div>	
-
-
+		
 		<div class="col-lg-6 col-md-6 col-xs-12">
 			<div class="col-lg-12 entry_panel_body ">
 	            <label for="Consultation Fee" class="col-lg-5 col-md-5 col-xs-5 entry_panel_label">Consultation Fee</label>

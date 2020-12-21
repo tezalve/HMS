@@ -10,7 +10,7 @@
     <meta name="author" content="">
 
     <!-- <title>Hospital Management System</title> -->
-    <title>HMS</title>
+    <title>8 HMS 8</title>
     <script src="/js/jquery.js"></script>
     <!-- Bootstrap Core CSS -->
 
@@ -66,7 +66,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href=""><i class="fa fa-h-square fa-2x"></i>MS</a>
+                <a class="navbar-brand" href="/"><i class="fa fa-h-square fa-2x"></i>MS</a>
             </div>
             <!-- /.navbar-header -->
 
@@ -82,7 +82,15 @@
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="{{{ URL::to('/uses/logout') }}}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <a href="{{ route('logout') }}"
+                                                onclick="event.preventDefault();
+                                                        this.closest('form').submit();">
+                                    {{ __('Logout') }}
+                                </a>
+                            </form>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -108,18 +116,18 @@
                             </div>
                              //input-group --> 
                         </li>
-                        <!-- <li>
-                            <a href="{{URL::route('main.index')}}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
-                        </li> -->
                         <li>
-                            <a href="{{URL::route('patients.index')}}"><i class="fa fa-dashboard fa-fw"></i> Patient Information</a>
+                            <a href="/"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('patients.index') }}"><i class="fa fa-dashboard fa-fw"></i> Patient</a>
                         </li>                        
-<!--                         <li>
+                         <!-- <li>
                             <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>Patient Registration<span class="fa arrow"></span></a>
                             <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>Patient Information<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="{{URL::route('patients.index')}}">Create Patient</a>
+                                    <a href="">Create Patient</a>
                                 </li>
                             </ul>
                         </li> -->
@@ -127,18 +135,18 @@
                         <li>
                             <a href=""><i class="fa fa-bar-chart-o fa-fw"></i>Diagnostic<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-                                <!-- <li>
-                                    <a href="{{URL::route('invoice.index')}}">Invoice</a>
+                                <li>
+                                    <a href="{{ route('invoices.index') }}">Invoice</a>
                                 </li>
                                 <li>                                
-                                    <a href="{{URL::route('invoicelists.index')}}">Invoice List</a>
-                                </li> -->
+                                    <a href="{{ route('invoicelists.index') }}">Invoice List</a>
+                                </li>
 <!--                                 <li>
-                                    <a href="{{URL::route('duecollection.index')}}">List Of Due Invoice</a>
+                                    <a href="">List Of Due Invoice</a>
                                 </li>                                 -->
-                                <!-- <li>
-                                    <a href="{{URL::route('diareport.index')}}">Diagnostic Report</a>
-                                </li>                                  -->
+                                <li>
+                                    <a href="{{ route('diagnosticreports.index') }}">Diagnostic Report</a>
+                                </li>                                 
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
@@ -147,11 +155,11 @@
                             <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>Lab Management<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="{{URL::route('barcodeprint.index')}}">Barcode Print</a>
+                                    <a href="{{ route('barcodeprints.index') }}">Barcode Print</a>
                                 </li>
 
                                 <li>
-                                    <a href="{{URL::route('labreport.index')}}">Generate Lab Report</a>
+                                    <a href="{{ route('labreports.index') }}">Generate Lab Report</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
@@ -160,24 +168,24 @@
                             <a href="#"><i class="fa fa-wrench fa-fw"></i>Master Setup<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="{{URL::route('doctor.index')}}">Doctor Registration </a>
+                                    <a href="{{URL::route('doctors.index')}}">Doctor Registration </a>
                                 </li>
                                 <li>
-                                    <a href="{{URL::route('investigation.index')}}">Investigation Registration</a>
+                                    <a href="{{ URL::route('investigations.index') }}">Investigation Registration</a>
                                 </li>
 
                                 <li>
-                                    <a href="{{URL::route('labreportchart.index')}}">Lab Report Chart</a>
+                                    <a href="{{ route('labreportcharts.index') }}">Lab Report Chart</a>
                                 </li>
                                                                 
                                 <li>
-                                    <a href="{{URL::route('bed.index')}}">Bed Information</a>
+                                    <a href="{{URL::route('beds.index')}}">Bed Information</a>
                                 </li>
                                 <li>
-                                    <a href="{{URL::route('clinicalchart.index')}}">Clinical Chart Registration</a>
+                                    <a href="{{URL::route('clinicalcharts.index')}}">Clinical Chart Registration</a>
                                 </li>                                
 <!--                                 <li>
-                                    <a href="{{URL::route('labreportchart.index')}}">Lab Report Chart</a>
+                                    <a href="">Lab Report Chart</a>
                                 </li -->                               
                             </ul>
                             <!-- /.nav-second-level-->
@@ -198,12 +206,16 @@
             </div>
             <div class="col-lg-12">
 
-                  @if ( Session::has('flash_message') )
-                  <div class="alert {{ Session::get('flash_type') }}">
-                    <a class="close" data-dismiss="alert" href="#">&times;</a>
-                    <h3>{{ Session::get('flash_message') }}</h3>
-                  </div>
-                  @endif
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <strong>Error!</strong>
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li> {{ $error }} </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                   
                 @yield('content')
 

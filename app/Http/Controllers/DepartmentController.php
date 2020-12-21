@@ -27,7 +27,8 @@ class DepartmentController extends Controller
      */
     public function create()
     {
-        //
+        $departmentdata = DB::table('department')->get();
+		echo json_encode($departmentdata);
     }
 
     /**
@@ -38,7 +39,19 @@ class DepartmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd("tst");
+        $validated = $request->validate([
+            'new_department'  	=> 'required',
+        ]);
+
+        $department = new Department;
+        $department->departmentname 		= $request->new_department;
+        $department->description 			= $request->new_department;
+        $department->investigationType_id 	= $request->investigationType;
+
+        $request->save();
+            
+        return redirect()->back();
     }
 
     /**
