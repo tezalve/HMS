@@ -27,8 +27,11 @@
             var departmentid     = document.getElementById('department').value;
             var senddata = '&department_id='+departmentid;
                 $.ajax({
+                    headers: {
+                            'X-CSRF-TOKEN':'{{csrf_token()}}'
+                    },
                     type: "POST",
-                    url :   "{{URL::to('/')}}/serverdata/subdepartmentdata",
+                    url :   "{{URL::to('/')}}/subdeplist",
                     data :  senddata,
                     dataType: "json",
                     success: function(data){

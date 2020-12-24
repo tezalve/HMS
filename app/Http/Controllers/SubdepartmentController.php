@@ -45,7 +45,7 @@ class SubdepartmentController extends Controller
         $insertSubdepartment = new Subdepartment;
         $insertSubdepartment->description 		= $request->new_sub_department;
         $insertSubdepartment->department_id 	= $request->departmentlist;
-        
+        dd($insertSubdepartment);
         $insertSubdepartment->save();
             
         return redirect()->back();

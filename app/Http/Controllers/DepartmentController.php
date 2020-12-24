@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Department;
 use Illuminate\Http\Request;
+use DB;
 
 class DepartmentController extends Controller
 {
@@ -39,7 +40,7 @@ class DepartmentController extends Controller
      */
     public function store(Request $request)
     {
-        dd("tst");
+        
         $validated = $request->validate([
             'new_department'  	=> 'required',
         ]);
@@ -48,8 +49,8 @@ class DepartmentController extends Controller
         $department->departmentname 		= $request->new_department;
         $department->description 			= $request->new_department;
         $department->investigationType_id 	= $request->investigationType;
-
-        $request->save();
+        dd($department);
+        $department->save();
             
         return redirect()->back();
     }

@@ -13,12 +13,6 @@
         </div>
     </div>
 
-    @if ($message = Session::get('success'))
-        <div class="alert alert-success">
-            <p></p>
-        </div>
-    @endif
-
     <table class="table table-bordered table-responsive-lg">
         <tr>
             <th>ID</th>

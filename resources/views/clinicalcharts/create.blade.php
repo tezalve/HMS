@@ -2,18 +2,21 @@
 @section ('includes')
 
     <script>
-
     jQuery(document).ready(function($){
         $('#department').change(function(){
 
             var departmentid     = document.getElementById('department').value;
             var senddata = '&department_id='+departmentid;
                 $.ajax({
+                    headers: {
+                            'X-CSRF-TOKEN':'{{csrf_token()}}'
+                    },
                     type: "POST",
-                    url :   "{{URL::to('/')}}/serverdata/subdepartmentdata",
+                    url :   "{{URL::to('/')}}/subdeplist",
                     data :  senddata,
                     dataType: "json",
                     success: function(data){
+                        
                         $('#subdepartment').empty();
                         var opts = data;
                         // Use jQuery's each to iterate over the opts value
@@ -31,16 +34,6 @@
 
     @section('content')
         <legend style="background: coral;">New Clinical Chart Entry</legend>
-
-        @if (count($errors) > 0)
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
 
         <form action="{{ route('clinicalcharts.store') }}" method='POST' id="createnewclinicalchart">
         @csrf
@@ -162,6 +155,7 @@
                 </div>
             </div>
         </div>
+
         <!-- for sub Detertment -->
 
         <div class="modal fade" id="subaddDepartment" tabindex="-1" role="dialog" aria-labelledby="catAddLabel" aria-hidden="true">
@@ -213,7 +207,7 @@
             <div class="modal-dialog" style="width: 400px;">
                 <div class="modal-content">
 
-                    <form action="{{ route('unitinfos.create') }}" method="POST" id="unitform">
+                    <form action="{{ route('unitinfos.store') }}" method="POST" id="unitform">
                     @csrf
                         <div class="modal-header" style="background: coral; padding: 10px;">
                                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -226,7 +220,7 @@
                                         <label for="addunit" class="col-lg-12 col-md-12 col-xs-12 entry_panel_label" style="margin-top: 2px;">Unit Name</label>
                                     </td>
                                     <td>
-                                        <input name="addunit" type="text" id="addunit" placeholder="Unit Name" class="col-lg-12 col-md-12 col-xs-12 entry_panel_input">
+                                        <input name="new_addunit" type="text" id="addunit" placeholder="Unit Name" class="col-lg-12 col-md-12 col-xs-12 entry_panel_input">
                                     </td>
                                 </tr>
                             </table>
@@ -263,8 +257,11 @@
                 //Reload the options of dropdown list using ajax.
 
                 $.ajax({
+                    headers: {
+                            'X-CSRF-TOKEN':'{{csrf_token()}}'
+                    },
                     // type: "POST",
-                    url: "{{URL::to('/')}}/department/create",
+                    url: '@(Url.Action("create","Department"))',
                     dataType: "json",
                     success: function(data){
                         $('#department').empty();
@@ -302,8 +299,11 @@
                 //Reload the options of dropdown list using ajax.
 
                 $.ajax({
+                    headers: {
+                            'X-CSRF-TOKEN':'{{csrf_token()}}'
+                    },
                     // type: "POST",
-                    url: "{{URL::to('/')}}/subdepartments/create",
+                    url: '@(Url.Action("create","Subdepartment"))',
                     dataType: "json",
                     success: function(data){
                         $('#subdepartment').empty();
@@ -339,8 +339,11 @@
                 //Reload the options of dropdown list using ajax.
 
                 $.ajax({
+                    headers: {
+                            'X-CSRF-TOKEN':'{{csrf_token()}}'
+                    },
                     // type: "POST",
-                    url: "{{URL::to('/')}}/units/create",
+                    url: '@(Url.Action("create","Unitinfo"))',
                     dataType: "json",
                     success: function(data){
                         $('#unit').empty();

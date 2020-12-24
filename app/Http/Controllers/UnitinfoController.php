@@ -36,15 +36,17 @@ class UnitinfoController extends Controller
      */
     public function store(Request $request)
     {
-        dd('tesy');
+        
         $validated = $request->validate([
 				'new_addunit'  	=> 'required'
 				
         ]);
 
         $insertUnit = new Unitinfo;
-        $insertUnit->description 		= Input::get('new_addunit');
-            
+        $insertUnit->description 		= $request->new_addunit;
+        dd($insertUnit);    
+        $insertUnit->save(); 
+
         return redirect()->back();
     }
 

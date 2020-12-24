@@ -1,63 +1,62 @@
 @extends('layouts.master')
 @section ('includes')
 
-<style>
+	<style>
+	table thead{
+	background-color: #525A6E;
+	color:#FFFFFF;
+	}
+	input {
+		border: none;
+	}
 
-
-
-table thead{
-  background-color: #525A6E;
-  color:#FFFFFF;
-}
-input {
-	border: none;
-}
-
-</style>
+	</style>
 	<script type="text/javascript" language="javascript" src="/js/jquery.dataTables.js"></script>
 	<script type="text/javascript" language="javascript" src="/js/jquery.validation.tooltip.js"></script>
 	<script type="text/javascript" language="javascript" src="/js/jquery.validate.min.js"></script>
 
-	
-	<!-- Validation end -->
-<script type="text/javascript">
-	$(document).ready(function(){
-	  var ac_config = {
-	    source: "/auto/investigtion",
-	    select: function(event, ui){
-	      $("#description").val(ui.item.name);
-	      $("#investigtion_id").val(ui.item.id);
-	    },
-	    minLength:1
-	  };
-	  $("#description").autocomplete(ac_config);
-	});
+		<!-- Validation end -->
+	<script type="text/javascript">
+		$(document).ready(function(){
+		var ac_config = {
+			source: "/auto/investigtion",
+			select: function(event, ui){
+			$("#description").val(ui.item.name);
+			$("#investigtion_id").val(ui.item.id);
+			},
+			minLength:1
+		};
+		$("#description").autocomplete(ac_config);
+		});
 
-$( document ).ready(function() {
-        $('#investigtion_name').select2({
-        placeholder: 'Enter a investigtion name',
-            ajax: {
-                dataType: 'json',
-                url: "{{URL::to('/')}}/auto/investigtionnew",
-                // url: "{{URL::to('/')}}/auto/patient",
-                delay: 250,
-                data: function(params) {
-                    return {
-                        term: params.term
-                    }
-                },
-                processResults: function (data, params) {
-                    params.page = params.page || 1;
-                    return {
-                        results: data
-                    };
-                },
-            }
-        });
-  });
-
-    
-</script>
+		$(document).ready(function() {
+			$('#investigtion_name').select2({
+			placeholder: 'Enter a investigtion name',
+			
+				ajax: {
+					headers: {
+						'X-CSRF-TOKEN':'{{csrf_token()}}'
+					},
+					type: 'POST',
+					dataType: 'json',
+					url: "{{URL::to('/')}}/investigtionnew",
+					// url: "{{URL::to('/')}}/auto/patient",
+					delay: 250,
+					data: function(params) {
+						return {
+							term: params.term
+						}
+					},
+					processResults: function (data, params) {
+						params.page = params.page || 1;
+						return {
+							results: data
+						};
+					},
+				}
+			});
+		});
+	</script>
 
 	<script type="text/javascript" language="javascript" class="init">
 		$(document).ready(function() {
@@ -82,8 +81,6 @@ $( document ).ready(function() {
 					var groupls   		 = document.getElementById("groupls").value;
 					var slno   			 = document.getElementById("slno").value;
 					var result_value 	 = document.getElementById("result_value").value;
-
-
 
 				example.row.add([    // type text shorate hobe for the addition and deletion feature 
 					'<input style="width:100%;"  type="text"   		id="parametername_grid"  		name="parametername_grid[]"  	readonly value="'+parameter_name+'">',
@@ -136,7 +133,7 @@ $(document).ready( function (){
 
 		  $.ajax({ 
 		    type: 'POST', 
-		    url: "<?php echo URL::to('/'); ?>/auto/isempty",
+		    url: "<?php echo URL::to('/'); ?>/isempty",
 		    // data: {p:level1}, 
 
 		    data: {tablename:tablename,columnname:columnname,condition:condition}, 
@@ -184,7 +181,8 @@ $(document).ready( function (){
 @stop
 @section('content')
 	
-    <form action="{{ route('labreportcharts.store') }}" id="createpatient" method="POST">
+    <form action="{{ route('labreportcharts.store') }}" method="POST">
+	@csrf
 		<!-- <input type="hidden" id="investigtion_id" name="investigtion_id"> -->
 		<div class="col-lg-12 col-md-12 col-xs-12">
 			<div class="col-lg-6 entry_panel_body ">
@@ -197,18 +195,18 @@ $(document).ready( function (){
 		<div class="col-lg-6 col-md-6 col-xs-12">
 			<div class="col-lg-12 entry_panel_body ">
 				<label for="invoice num" class="col-lg-5 col-md-5 col-xs-5 entry_panel_label">Report File Name</label>
-			      <select id="reportfilename" name="reportfilename" placeholder="" class="col-lg-7 col-md-7 col-xs-7 entry_panel_dropdown" >
-			          <option value="Hematology">Hematology</option>
-			          <option value="Biochemistry">Biochemistry</option>
-			          <option value="Pathology">Pathology</option>
-			          <option value="Serology">Serology</option>
-			          <option value="Microbiology">Microbiology</option>
-			          <option value="Immunology">Immunology</option>
-			          <option value="HematologyCBC">HematologyCBC</option>
-			          <option value="USG">USG</option>
-			          <option value="X-Ray">X-Ray</option>
-			          <option value="Others">Others</option>
-		          </select>
+				<select id="reportfilename" name="reportfilename" placeholder="" class="col-lg-7 col-md-7 col-xs-7 entry_panel_dropdown" >
+					<option value="Hematology">Hematology</option>
+					<option value="Biochemistry">Biochemistry</option>
+					<option value="Pathology">Pathology</option>
+					<option value="Serology">Serology</option>
+					<option value="Microbiology">Microbiology</option>
+					<option value="Immunology">Immunology</option>
+					<option value="HematologyCBC">HematologyCBC</option>
+					<option value="USG">USG</option>
+					<option value="X-Ray">X-Ray</option>
+					<option value="Others">Others</option>
+				</select>
 			</div>
 		</div>
 

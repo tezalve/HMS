@@ -48,7 +48,7 @@ class InvestigationController extends Controller
 				'subdepartment' 	 => 'required|exists:sub_department,id'
         ]);
 
-		$investigation = new Investigation;
+		$investigation                          = new Investigation;
 		$investigation->name 					= $request->investigationname;
 		$investigation->price 					= $request->price;
 		$investigation->refferal_fee 			= $request->refferal_fee;
@@ -61,7 +61,7 @@ class InvestigationController extends Controller
 		$investigation->doctor_status 			= 2;
 		$investigation->unit_info_id 			= 1;
         $investigation->investigation_group		= 1;
-        
+        dd($investigation);
         $request->save();
 
 		return view("investigations.index")->with('message', 'Successfully created investigation');

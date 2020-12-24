@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Labreportchart;
+use App\Models\Labreport;
 use Illuminate\Http\Request;
+use DB;
 
 class LabreportchartController extends Controller
 {
@@ -62,6 +64,7 @@ class LabreportchartController extends Controller
                 $insert_labreport->group_sl 			= $groupls_grid[$r];
                 $insert_labreport->sl_no 				= $slno_grid[$r];
                 $insert_labreport->report_file_name 	= $request->reportfilename;
+                dd($insert_labreport);
                 $insert_labreport->save();
             }	
         }

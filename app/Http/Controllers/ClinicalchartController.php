@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Clinicalchart;
 use App\Models\Department;
 use App\Models\Unitinfo;
+use App\Models\Investigation;
 use Illuminate\Http\Request;
 use DB;
 

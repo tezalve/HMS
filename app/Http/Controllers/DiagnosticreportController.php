@@ -44,7 +44,7 @@ class DiagnosticreportController extends Controller
 		$patient_name 	= 1;
 
 		switch ($reportname) {
-		    case "Daly Sales":
+		    case "Daily Sales":
 				$reporttype 	= 0;
 				$datefrom 		= 1;
 				$dateto 		= 1;
@@ -87,10 +87,10 @@ class DiagnosticreportController extends Controller
 				$patient_name 	= 0;
 		        break;		        
 		    default:
-		    return redirect('diareport');		
+		    return redirect('diagnosticreports');		
 		}		
 
-		return view('diagnosticreport.diagnostic_report')
+		return view('diagnosticreports.diagnostic_report')
 					 ->with('reporttype',$reporttype)
 					 ->with('datefrom',$datefrom)
 					 ->with('dateto',$dateto)
