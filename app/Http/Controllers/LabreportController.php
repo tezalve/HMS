@@ -34,7 +34,10 @@ class LabreportController extends Controller
 								JOIN investigation c ON b.investigation_id=c.id
 								JOIN doctors d ON a.reference_doctor_id=d.id
 								JOIN patientregistration e ON a.patientregistration_id=e.id
-							GROUP BY a.id,b.investigation_id");
+                                GROUP BY a.id,a.date,a.discountpc,a.discountstatus,a.discountamount,a.advanceamount,
+								a.due,a.invoice_no,b.investigation_id,b.quantity,b.price,c.name,
+								d.name,e.name,e.phone,month(e.dob),e.address,
+								e.registration_no,e.gender,e.relegion");
 
 		return json_encode(array('data' => $data));	
     }

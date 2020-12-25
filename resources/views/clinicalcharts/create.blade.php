@@ -262,6 +262,7 @@
                     },
                     // type: "POST",
                     url: '@(Url.Action("create","Department"))',
+                    data : {_token: '{{csrf_token()}}'},
                     dataType: "json",
                     success: function(data){
                         $('#department').empty();
@@ -300,7 +301,7 @@
 
                 $.ajax({
                     headers: {
-                            'X-CSRF-TOKEN':'{{csrf_token()}}'
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     // type: "POST",
                     url: '@(Url.Action("create","Subdepartment"))',

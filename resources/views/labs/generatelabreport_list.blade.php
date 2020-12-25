@@ -25,7 +25,7 @@ table.dataTable tbody td {
       ordering:       false,
       bInfo:          false,
 
-		"ajax": "{{URL::to('/')}}/labreport/create",
+		"ajax": "{{URL::to('/')}}/labreports/create",
 		"columns": [
 
 			{ "data": "invoice_no" },
@@ -52,8 +52,8 @@ table.dataTable tbody td {
 
 	<legend>List Of Due Invoice</legend>
 
-	<form action="duecollections.store" id="createpatient" method="POST">
-
+	<form action="{{route('duecollections.store')}}" id="createpatient" method="POST">
+	@csrf
 		<table id="example" class="display" cellspacing="0" width="100%">
 		<thead>
 			<tr>

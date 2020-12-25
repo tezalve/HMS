@@ -255,8 +255,12 @@ $( document ).ready(function() {
         $('#patientid').select2({
         placeholder: 'Enter a patent name',
             ajax: {
+                headers: {
+						        'X-CSRF-TOKEN':'{{csrf_token()}}'
+					      },
+                type: 'post',
                 dataType: 'json',
-                url: "{{URL::to('/')}}/auto/patient",
+                url: "{{URL::to('/')}}/patient",
                 delay: 250,
                 data: function(params) {
                     return {
@@ -277,8 +281,12 @@ $( document ).ready(function() {
         $('#consultantby').select2({
         placeholder: 'Enter a consultant by',
             ajax: {
+                headers: {
+						        'X-CSRF-TOKEN':'{{csrf_token()}}'
+					      },
+                type: 'post',
                 dataType: 'json',
-                url: "{{URL::to('/')}}/auto/doctord",
+                url: "{{URL::to('/')}}/doctord",
                 delay: 250,
                 data: function(params) {
                     return {
@@ -300,8 +308,12 @@ $( document ).ready(function() {
         $('#referenceby').select2({
         placeholder: 'Enter a reference by',
             ajax: {
+                headers: {
+						        'X-CSRF-TOKEN':'{{csrf_token()}}'
+					      },
+                type: 'post',
                 dataType: 'json',
-                url: "{{URL::to('/')}}/auto/doctord",
+                url: "{{URL::to('/')}}/doctord",
                 delay: 250,
                 data: function(params) {
                     return {
@@ -322,7 +334,7 @@ $( document ).ready(function() {
 
 $(document).ready(function(){
   var ac_config = {
-    source: "{{URL::to('/')}}/auto/investigtion",
+    source: "{{URL::to('/')}}/investigtion",
     select: function(event, ui){
       $("#description").val(ui.item.name);
       $("#investigtion_id").val(ui.item.id);
@@ -427,8 +439,11 @@ function findinvestigation(id){
 
   level1 = id;
   $.ajax({ 
+    headers: {
+				'X-CSRF-TOKEN':'{{csrf_token()}}'
+		},
     type: 'POST', 
-    url: "<?php echo URL::to('/'); ?>/auto/investigationdata",
+    url: "{{URL::to('/')}}/investigationdata",
     data: {p:level1}, 
     dataType: 'json',
     success: function(getdata){ 
@@ -480,7 +495,7 @@ function findinvestigation(id){
 <legend style="background: coral;">Invoice</legend>
 <!-- 'onkeypress'=> "return event.keyCode != 13;"-->
 <form action="{{ route('invoices.store') }}" id="top-entrypanel-validation" method="POST" onkeypress="return event.keyCode != 13;">
-
+@csrf
 	<input type="hidden" id="refferal_fee"       name="refferal_fee"     >
 	<input type="hidden" id="refferal_type"      name="refferal_type"    >
 	<input type="hidden" id="refferal_amount"    name="refferal_amount"   >

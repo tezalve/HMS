@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Invoice, Invoicelist, Invoiceledger, Invoicereturn};
+use App\Models\{Invoice, Invoicelist, Invoiceledger, Invoicereturn, Doctorsledger};
 use Illuminate\Http\Request;
 use DB;
 
@@ -181,7 +181,7 @@ class InvoiceController extends Controller
             'successfullymessage'   => 'successfully saved'
         );
 
-        return redirect('invoice')->with('message', json_encode($parameter));
+        return redirect('invoices')->with('message', json_encode($parameter));
     }  
 
 

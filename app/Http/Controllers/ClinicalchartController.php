@@ -11,6 +11,7 @@ use DB;
 
 class ClinicalchartController extends Controller
 {
+    
     /**
      * Display a listing of the resource.
      *

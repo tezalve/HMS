@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Duecollection;
+use App\Models\Doctorsledger;
+use App\Models\InvoiceLedger;
 use Illuminate\Http\Request;
 
 class DuecollectionController extends Controller

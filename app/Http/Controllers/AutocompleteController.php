@@ -8,7 +8,7 @@ use DB;
 
 class AutocompleteController extends Controller
 {
-
+	
 
     public function getPatientauto(){
 		$term = $request->term;
@@ -66,7 +66,7 @@ class AutocompleteController extends Controller
 		$matches = array_slice($matches, 0, 12);
 		print json_encode($matches);
 	}	
-	public function getInvestigtion(){
+	public function investigtion(){
 		$term = $request->term;
 		$search = DB::select("SELECT id,name,price,refferal_fee,refferal_type from investigation WHERE investigation_group=1 AND name LIKE '%$term%' ");
 
@@ -96,7 +96,7 @@ class AutocompleteController extends Controller
 		print json_encode($matches);
 	}		
 
-	public function postInvestigationdata(){  
+	public function investigationdata(){  
 
 		$parameter_val = $_POST['p'];
 

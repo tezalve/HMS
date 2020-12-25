@@ -125,7 +125,7 @@
     <div class="modal fade" id="addDepartment" tabindex="-1" role="dialog" aria-labelledby="catAddLabel" aria-hidden="true">
         <div class="modal-dialog" style="width: 400px;">
             <div class="modal-content">
-                <form action="departments.store" method="POST" id="departmentForm">
+                <form action="{{route('departments.store')}}" method="POST" id="departmentForm">
                 @csrf
                     <div class="modal-header" style="background: coral; padding: 10px;">
                             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -154,9 +154,10 @@
                             </tr>
                         </table>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn" style="width: 140px; background: rgb(9, 173, 61); height:30px;" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn" style="width: 140px; background: rgb(9, 173, 61); height:30px;" name="category_save">Save</button>
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="col-lg-12 entry_panel_body">
+                            <input type="submit" id="submit" name="submit" value="SAVE" class="col-lg-3 col-md-3 col-xs-3 btn btn-save btn-sm button button-save pull-right">
+                        </div>
                     </div>
                 </form>
             </div>
@@ -166,7 +167,8 @@
     <div class="modal fade" id="subaddDepartment" tabindex="-1" role="dialog" aria-labelledby="catAddLabel" aria-hidden="true">
         <div class="modal-dialog" style="width: 600px;">
             <div class="modal-content">
-                <form action="subdepartments.store" method="POST" id="subdepartmentForm">
+                <form action="{{ route('subdepartments.store') }}" method="POST" id="subdepartmentForm">
+                @csrf
                     <div class="modal-header" style="background: coral; padding: 10px;">
                             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                             <h4 class="modal-title" id="catAddLabel">Add New Sub Department</h4>
@@ -195,9 +197,10 @@
                             </tr>
                         </table>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn" style="width: 140px; background: rgb(9, 173, 61); height:30px;" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn" style="width: 140px; background: rgb(9, 173, 61); height:30px;" name="category_save">Save</button>
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="col-lg-12 entry_panel_body">
+                            <input type="submit" id="submit" name="submit" value="SAVE" class="col-lg-3 col-md-3 col-xs-3 btn btn-save btn-sm button button-save pull-right">
+                        </div>
                     </div>
                 </form>
             </div>
@@ -225,8 +228,11 @@
                 //Reload the options of dropdown list using ajax.
 
                 $.ajax({
+                    headers: {
+                            'X-CSRF-TOKEN':'{{csrf_token()}}'
+                    },
                     // type: "POST",
-                    url: "{{URL::to('/')}}/department/create",
+                    url: "{{URL::to('/')}}/departments/create",
                     dataType: "json",
                     success: function(data){
                         $('#department').empty();
@@ -261,8 +267,11 @@
 
             //Reload the options of dropdown list using ajax.
             $.ajax({
-                // type: "POST",
-                url: "{{URL::to('/')}}/subdepartment/create",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: "POST",
+                url: "{{URL::to('/')}}/subdepartments/create",
                 dataType: "json",
                 success: function(data){
                     $('#subdepartment').empty();
