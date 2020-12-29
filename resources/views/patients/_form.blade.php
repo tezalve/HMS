@@ -34,7 +34,7 @@
 			</div>
 		</div>
 
-		<div class="col-lg-6 col-md-6 col-xs-12 hidden">
+		<div class="col-lg-6 col-md-6 col-xs-12">
 			<div class="col-lg-12 entry_panel_body ">
 				<label for="invoice num" class="col-lg-4 col-md-4 col-xs-4 entry_panel_label">Age</label>
 				<input type="text" id="years" 	  name="years" 	   placeholder="YY.." class="col-lg-4 col-md-4 col-xs-4 entry_panel_input" value="">
@@ -211,4 +211,293 @@
 		});
 
 	</script>
+	<script>
+	// function getAge(dateString) {
+	function getAge(iday,imonth,iyear) {	
+
+	// dateString = '15/01/2011'
+
+			var txtDOB = 0;
+			var d = new Date();
+			var current_year 	= d.getFullYear();
+			var current_month 	= d.getMonth()+1;
+			var current_day  	= d.getDate();
+
+			// var user_day 	= iday;
+			// var user_month 	= imonth;
+			// var user_year 	= user_year;
+
+
+			var GetYearCode = current_year 	- iyear;
+			var GetMonCode  = current_month - imonth;
+			var GetDayCode  = current_day 	- iday;
+
+			// console.log(GetYearCode);
+
+			
+
+		if (GetDayCode< 0){
+			if (GetMonCode < 0){
+				GetYearCode 	= GetYearCode - 1;
+				GetMonCode 		= 11 + GetMonCode;
+				GetDayCode 		= 30 + GetDayCode;
+				// txtDOB = DateSerial(GetYearCode, GetMonCode, GetDayCode)
+				if (GetDayCode.toString().substr(0, 2) < 9){
+					GetDayCode = "0"+GetDayCode;
+				}
+				if (GetMonCode.toString().substr(0, 2) < 9){
+					GetMonCode = "0"+GetMonCode;
+				}          
+				// txtDOB = GetYearCode+"/"+GetMonCode+"/"+GetDayCode;
+				txtDOB = GetDayCode+"/"+GetMonCode+"/"+GetYearCode;
+				// d.getDate()+"/"+x+"/"+d.getFullYear()
+			}else if (GetMonCode == 0){
+				GetYearCode 	= GetYearCode - 1;
+				GetMonCode 		= 11;
+				GetDayCode 		= 30 + GetDayCode;
+				if (GetDayCode.toString().substr(0, 2) < 9){
+					GetDayCode = "0"+GetDayCode;
+				}
+				if (GetMonCode.toString().substr(0, 2) < 9){
+					GetMonCode = "0"+GetMonCode;
+				}          
+
+				// txtDOB.Text = DateSerial(GetYearCode, GetMonCode, GetDayCode)
+				// txtDOB = GetYearCode+"/"+GetMonCode+"/"+GetDayCode;
+				txtDOB = GetDayCode+"/"+GetMonCode+"/"+GetYearCode;
+			}else if (GetMonCode >0){
+				GetYearCode 	= GetYearCode;
+				GetMonCode 		= GetMonCode - 1;
+				GetDayCode 		= 30 + GetDayCode;
+				if (GetDayCode.toString().substr(0, 2) < 9){
+					GetDayCode = "0"+GetDayCode;
+				}
+				if (GetMonCode.toString().substr(0, 2) < 9){
+					GetMonCode = "0"+GetMonCode;
+				}        
+
+				// txtDOB.Text = DateSerial(GetYearCode, GetMonCode, GetDayCode)
+				// txtDOB = GetYearCode+"/"+GetMonCode+"/"+GetDayCode;
+				txtDOB = GetDayCode+"/"+GetMonCode+"/"+GetYearCode;
+			}
+
+			
+		}else if (GetDayCode == 0) {
+			if (GetMonCode < 0) {
+				GetYearCode 	= GetYearCode - 1;
+				GetMonCode 		= 11 + GetMonCode;
+				GetDayCode 		= 30 + GetDayCode;
+				if (GetDayCode.toString().substr(0, 2) < 9){
+					GetDayCode = "0"+GetDayCode;
+				}
+				if (GetMonCode.toString().substr(0, 2) < 9){
+					GetMonCode = "0"+GetMonCode;
+				}        
+
+				// txtDOB.Text = DateSerial(GetYearCode, GetMonCode, GetDayCode)
+				// txtDOB = GetYearCode+"/"+GetMonCode+"/"+GetDayCode;
+				txtDOB = GetDayCode+"/"+GetMonCode+"/"+GetYearCode;
+			}else if (GetMonCode == 0) {
+				GetYearCode 	= Val(GetYearCode) - 1;
+				GetMonCode 		= 11;
+				GetDayCode 		= 30 + GetDayCode;
+				if (GetDayCode.toString().substr(0, 2) < 9){
+					GetDayCode = "0"+GetDayCode;
+				}
+				if (GetMonCode.toString().substr(0, 2) < 9){
+					GetMonCode = "0"+GetMonCode;
+				}      
+
+				// txtDOB = GetYearCode+"/"+GetMonCode+"/"+GetDayCode;
+				txtDOB = GetDayCode+"/"+GetMonCode+"/"+GetYearCode;
+			}else if (GetMonCode >0) {
+				GetYearCode 	= GetYearCode;
+				GetMonCode 		= GetMonCode - 1;
+				GetDayCode 		= 30 + GetDayCode;
+				if (GetDayCode.toString().substr(0, 2) < 9){
+					GetDayCode = "0"+GetDayCode;
+				}
+				if (GetMonCode.toString().substr(0, 2) < 9){
+					GetMonCode = "0"+GetMonCode;
+				}  
+
+				// txtDOB.Text = DateSerial(GetYearCode, GetMonCode, GetDayCode)
+				// txtDOB = GetYearCode+"/"+GetMonCode+"/"+GetDayCode;
+				txtDOB = GetDayCode+"/"+GetMonCode+"/"+GetYearCode;
+			}
+			
+		}else if (GetDayCode >0){ 
+			if (GetMonCode <0){
+				GetYearCode 	= GetYearCode - 1;
+				GetMonCode 		= 11 + GetMonCode;
+				GetDayCode 		= 30 + GetDayCode;
+				if (GetDayCode.toString().substr(0, 2) < 9){
+					GetDayCode = "0"+GetDayCode;
+				}
+				if (GetMonCode.toString().substr(0, 2) < 9){
+					GetMonCode = "0"+GetMonCode;
+				}          
+
+				// txtDOB.Text 	= DateSerial(GetYearCode, GetMonCode, GetDayCode)
+				txtDOB = GetDayCode+"/"+GetMonCode+"/"+GetYearCode;
+			}else if (GetMonCode == 0) {
+				GetYearCode 	= GetYearCode - 1;
+				GetMonCode 		= 11;
+				GetDayCode 		= 30 + GetDayCode;
+				if (GetDayCode.toString().substr(0, 2) < 9){
+					GetDayCode = "0"+GetDayCode;
+				}
+				if (GetMonCode.toString().substr(0, 2) < 9){
+					GetMonCode = "0"+GetMonCode;
+				}      
+
+				txtDOB = GetDayCode+"/"+GetMonCode+"/"+GetYearCode;
+			}else if (GetMonCode >0){
+				GetYearCode 	= GetYearCode;
+				GetMonCode 		= GetMonCode;
+				GetDayCode 		= GetDayCode;
+				if (GetDayCode.toString().substr(0, 2) < 9){
+					GetDayCode = "0"+GetDayCode;
+				}
+				if (GetMonCode.toString().substr(0, 2) < 9){
+					GetMonCode = "0"+GetMonCode;
+				}            
+				// txtDOB = GetYearCode+"/"+GetMonCode+"/"+GetDayCode;
+				txtDOB = GetDayCode+"/"+GetMonCode+"/"+GetYearCode;
+			}
+			
+			
+		}else if (GetMonCode <0){
+			GetYearCode = GetYearCode - 1;
+			GetMonCode = 12 + GetMonCode;
+			txtDOB = GetDayCode+"/"+GetMonCode+"/"+GetYearCode;
+		}
+
+		//console.log(txtDOB);
+
+		// return txtDOB;
+		// document.getElementsByName('dob').value = txtDOB
+		$( "#dob" ).datepicker( "setDate",txtDOB);
+
+	}
+
+	</script>
+
+	<script >
+	$(function () {
+		$('#fast_name').focusout(function(){
+			$('#fast_name').val(this.value.toUpperCase())
+		});
+		$('#middle_name').focusout(function(){
+			$('#middle_name').val(this.value.toUpperCase())
+		});
+		$('#last_name').focusout(function(){
+			// this.value = this.value.toUpperCase();
+			$('#last_name').val(this.value.toUpperCase())
+		});
+	});    
+	</script>
+
+	<script src="/js/jquery-ui.js"></script>
+	<script>
+	$( "#tabs" ).tabs();
+	// Hover states on the static widgets
+	$( "#dialog-link, #icons li" ).hover(
+		function() {
+			$( this ).addClass( "ui-state-hover" );
+		},
+		function() {
+			$( this ).removeClass( "ui-state-hover" );
+		}
+	);
+	$(function () {
+		$("#dob").datepicker();
+		$("#dob").datepicker("option", "dateFormat", "dd/mm/yy");
+		// $( "#dob" ).datepicker({ changeMonth: true });
+
+		// getter
+		var changeMonth = $( "#dob" ).datepicker( "option", "changeMonth" );
+		
+		// setter
+		$( "#dob" ).datepicker( "option", "changeMonth", true );
+
+
+		$("#months").change(function () {
+
+			if ($(this).val() >11){
+				// alert("aa");
+				$("#months").val("");
+				return;
+			}
+
+			var days 	= $("#days").val()
+
+			var month 	= $(this).val();
+			var years 	= $("#years").val()
+			
+			getAge(days,month,years);		
+		});	
+
+
+		$("#years").change(function () {
+
+			var days 	= $("#days").val()
+			var month 	= $("#months").val()
+			var years 	= $(this).val();
+			
+			getAge(days,month,years);		
+
+		});	
+
+
+
+		$("#days").change(function () {
+			if ($(this).val() >31){
+				// alert("aa");
+				$("#days").val("");
+				return;
+			}
+			var days 	= $(this).val();
+			var month 	= $("#months").val()
+			var years 	= $("#years").val()
+			
+			getAge(days,month,years);
+		});
+		
+
+		// validate signup form on keyup and submit
+			$("#createpatient").validate({
+				
+				rules: {
+					patientname: "required",
+					phone: {
+						required: true,
+						minlength: 4
+					},
+					dob: {
+						required: true
+					},
+					bloodgroup: {
+						required: true
+					},
+				},
+				messages: {
+					patientname: "Please enter patient name",
+					phone: {
+						required: "Please enter a phone number",
+						minlength: "Enter a valid phone number"
+					},
+					dob: {
+						required: "Please enter age",
+					},
+				},
+				tooltip_options: {
+					patientname: {trigger:'focus'},
+				},
+
+			});
+	});
+	</script>
+	<script type="text/javascript"></script>
+
 @stop

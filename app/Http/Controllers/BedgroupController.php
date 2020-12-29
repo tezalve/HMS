@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Bedgroup;
 use Illuminate\Http\Request;
+use DB;
 
 class BedgroupController extends Controller
 {
@@ -36,7 +37,14 @@ class BedgroupController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'new_category_name' => 'required'
+        ]);
+
+        $bedsgroup = new Bedgroup;
+		$bedsgroup->description = $request->new_category_name;
+		$bedsgroup->save();
+		return redirect()->back();
     }
 
     /**
@@ -45,9 +53,10 @@ class BedgroupController extends Controller
      * @param  \App\Models\Bedgroup  $bedgroup
      * @return \Illuminate\Http\Response
      */
-    public function show(Bedgroup $bedgroup)
+    public function show()
     {
-        //
+        $bedgrouplistdata = DB::table('bed_group')->get();
+		echo json_encode($bedgrouplistdata);
     }
 
     /**

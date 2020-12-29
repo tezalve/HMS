@@ -42,6 +42,15 @@ class BedController extends Controller
     public function store(Request $request)
     {
         // dd('test');
+
+        $validated = $request->validate([
+            'bedno'  	        => 'required',
+            'description' 		=> 'required',
+            'bedcategory' 		=> 'required',
+            'floorno'			=> 'required',
+            'unitprice'			=> 'required'
+        ]);
+
         $insertbed = new Bed;
 		$insertbed->bed_no 					= $request->bedno;
 		$insertbed->description 			= $request->description;		
@@ -89,6 +98,15 @@ class BedController extends Controller
      */
     public function update(Request $request, Bed $bed)
     {
+
+        $validated = $request->validate([
+            'bedno'  	        => 'required',
+            'description' 		=> 'required',
+            'bedcategory' 		=> 'required',
+            'floorno'			=> 'required',
+            'unitprice'			=> 'required'
+        ]);
+
         $bed                            = Bed::find($bed->id);
 		$bed->bed_no 					= $request->bedno;
 		$bed->description 			    = $request->description;		

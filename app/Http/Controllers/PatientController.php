@@ -113,8 +113,11 @@ class PatientController extends Controller
     public function update(Request $request, Patient $patient)
     {
         $validated = $request->validate([
+            'fast_name'  		=> 'required|min:2',
+            'middle_name'  		=> 'required',
+            'phone'  			=> 'required',
             'dob' 				=> 'required',
-            'occupations'       => 'required' 
+            'occupations' 		=> 'required'
         ]);
 
         // dd("$request");

@@ -96,6 +96,22 @@ class DoctorController extends Controller {
 	 */
     public function update(Request $request, Doctor $doctor)
     {
+		$request->validate([
+            'name' => ['required','min:5', 'string'],
+            'address' => ['required', 'string'],
+			'email' => ['required'],
+			'phone' => 'required',
+			'doctor_status' => 'required',
+			'reference_status' => 'required',
+			'gender' => 'required',
+			'married' => 'required',
+			'consultation_fee' => 'required',
+			'dob' => 'required',
+			'department_id' => 'required',
+			'doctor_degree' => 'required',
+			'bloodgroup' => 'required'
+        ]);
+
         $doctor->update($request->all());
 
         return redirect()->route('doctors.index')

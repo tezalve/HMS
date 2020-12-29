@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Floor;
 use Illuminate\Http\Request;
+use DB;
 
 class FloorController extends Controller
 {
@@ -35,7 +36,14 @@ class FloorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'new_floorname' => 'required'
+        ]);
+
+        $floor = new Floor;
+		$floor->description = $request->new_floorname;
+		$floor->save();
+		return redirect()->back();
     }
 
     /**
@@ -44,9 +52,10 @@ class FloorController extends Controller
      * @param  \App\Models\Floor  $floor
      * @return \Illuminate\Http\Response
      */
-    public function show(Floor $floor)
+    public function show()
     {
-        //
+        $floorlistdata = DB::table('floor_information')->get();
+        echo json_encode($floorlistdata);
     }
 
     /**
