@@ -8,8 +8,7 @@ class DataController extends Controller {
 
 	function geneart_gistration($table_name, $column_name){
 		$search = DB::select("SELECT MAX($column_name) As invno FROM $table_name");
-
-	
+		
 		foreach ($search as $key)
 			$maxinvoiceno = $key->invno;
 

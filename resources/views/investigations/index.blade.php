@@ -105,8 +105,13 @@ input {
 				<td>{{$investigation->refferal_fee}}</td>
 				<td>@if ($investigation->refferal_type = 1) % @else Tk @endif</td>
 				<td>
-					<a href="{{ route('investigations.edit', $investigation->id) }}">Edit</a>
-					<a href="{{URL::route('investigations.destroy',array($investigation->id))}}">Delete</a>
+					<form action="{{ route('investigations.destroy', $investigation->id) }}", method="post">
+						<a class="btn btn-primary" href="{{ route('investigations.edit', $investigation->id) }}">Edit</a>
+						@csrf
+                        @method('DELETE')
+
+                        <button type="submit" class="btn btn-primary" title="delete">Delete</button>
+                    </form>
 				</td>
 				</tr>
 			@endforeach

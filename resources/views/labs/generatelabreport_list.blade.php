@@ -11,8 +11,6 @@ table.dataTable tbody td {
     padding: 3px 10px;
 }
 </style>
-
-
 	<script type="text/javascript" language="javascript" class="init">
 	$(document).ready(function() {
 	var table = $('#example').dataTable({
@@ -33,7 +31,7 @@ table.dataTable tbody td {
 			{ "data": "investigation_name" },
 			{ "data": "Link",
 				  "mRender": function (data, type, full) {
-				    return '<center><button type="button" id="order" class="btn btn-sm button btn-primary"> <a href="{{URL::to('/')}}/labreport/'+full.invid_icode+'/edit" style="text-decoration: none; color: white;">Generate Report</a></button></center>';
+				    return '<a id="order" class="btn btn-sm button btn-primary" href="{{URL::to('/')}}/labreports/'+full.invid_icode+'/edit/" style="text-decoration: none; color: white;">Generate Report</a>';
 				  }
 			}
 
@@ -50,9 +48,9 @@ table.dataTable tbody td {
 @stop
 @section('content')
 
-	<legend>List Of Due Invoice</legend>
+	<legend>Generate Lab Report</legend>
 
-	<form action="{{route('duecollections.store')}}" id="createpatient" method="POST">
+	<form action="{{ route('duecollections.store') }}" id="createpatient" method="POST">
 	@csrf
 		<table id="example" class="display" cellspacing="0" width="100%">
 		<thead>
@@ -70,8 +68,4 @@ table.dataTable tbody td {
 		</table>
 
 	</form>
-
 @stop
-
-
-

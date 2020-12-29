@@ -44,14 +44,14 @@
                         <td>
                             <form action="{{ route('patients.destroy', $patient->id) }}" method="POST">
 
-                                <a href="{{ route('patients.show', $patient->id ) }}">Show</a>
+                                <a class="btn btn-primary" href="{{ route('patients.show', $patient->id ) }}">Show</a>
 
-                                <a href="{{ route('patients.edit', $patient->id ) }}">Edit</a>
+                                <a class="btn btn-primary" href="{{ route('patients.edit', $patient->id ) }}">Edit</a>
 
                                 @csrf
                                 @method('DELETE')
 
-                                <button type="submit" class="btn btn-primary" title="delete"></button>
+                                <button type="submit" class="btn btn-primary" title="delete">Delete</button>
                             </form>
                         </td>
                     </tr>

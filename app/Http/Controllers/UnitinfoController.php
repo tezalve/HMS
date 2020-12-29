@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Unitinfo;
 use Illuminate\Http\Request;
+use DB;
 
 class UnitinfoController extends Controller
 {
@@ -36,15 +37,14 @@ class UnitinfoController extends Controller
      */
     public function store(Request $request)
     {
-        
+        // dd("$request");
         $validated = $request->validate([
 				'new_addunit'  	=> 'required'
-				
         ]);
 
         $insertUnit = new Unitinfo;
         $insertUnit->description 		= $request->new_addunit;
-        dd($insertUnit);    
+        // dd("$insertUnit");    
         $insertUnit->save(); 
 
         return redirect()->back();

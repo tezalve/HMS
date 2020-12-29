@@ -91,14 +91,13 @@ function netreceivables(){
 
 @section('content')
 <legend>Due Collection</legend>
-{{ Form::open(['route' => 'duecollection.store', 'id' => 'top-entrypanel-validation']) }}
+<form action="{{ route('duecollections.store') }}" id="top-entrypanel-validation" method="post">
+@csrf
 
-
-
-  <input type="hidden" id="invoice_id"         name="invoice_id" 			  value="{{ $sqlduecollection[0]->id }}">
-  <input type="hidden" id="patientid"          name="patientid"  			  value="{{ $sqlduecollection[0]->patientregistration_id }}">
-  <input type="hidden" id="doctore_id"         name="doctore_id" 			  value="{{ $sqlduecollection[0]->doctors_id }}">
-  <input type="hidden" id="doctor_commision"   name="doctor_commision" 	value="{{ $sqlduecollection[0]->doctor_commision }}">
+  <input type="hidden" id="invoice_id"         name="invoice_id" 			  value="{{ $sqlduecollection[0] ->id }}">
+  <input type="hidden" id="patientid"          name="patientid"  			  value="{{ $sqlduecollection[0] ->patientregistration_id }}">
+  <input type="hidden" id="doctore_id"         name="doctore_id" 			  value="{{ $sqlduecollection[0] ->doctors_id }}">
+  <input type="hidden" id="doctor_commision"   name="doctor_commision" 	value="{{ $sqlduecollection[0] ->doctor_commision }}">
   
 
 	<div class="col-lg-8 col-md-8 col-xs-12">
@@ -184,22 +183,22 @@ function netreceivables(){
 
 
 
-<!-- 	<div class="col-lg-8 col-md-8 col-xs-12">
-		<div class="col-lg-12 entry_panel_body ">
-			<label for="" class="col-lg-3 col-md-3 col-xs-3">Due Amount</label>
-			<input name="due_amount" type="text" class="col-lg-3 col-md-3 col-xs-3" id="due_amount" placeholder="Due Amount" value="{{ $sqlduecollection[0]->DueAmount }}" readonly>
-		</div>
-	</div> -->
+  <!-- 	<div class="col-lg-8 col-md-8 col-xs-12">
+      <div class="col-lg-12 entry_panel_body ">
+        <label for="" class="col-lg-3 col-md-3 col-xs-3">Due Amount</label>
+        <input name="due_amount" type="text" class="col-lg-3 col-md-3 col-xs-3" id="due_amount" placeholder="Due Amount" value="{{ $sqlduecollection[0]->DueAmount }}" readonly>
+      </div>
+    </div> -->
 
-<!-- 
-  <div id="invoiceno">
+  <!-- 
     <div id="invoiceno">
-      <label for="">Receive Amount</label>
-      <input name="collection_amount" type="text" class="input-small" id="collection_amount" placeholder="Consultant Name" value="{{ $sqlduecollection[0]->DueAmount }}">
+      <div id="invoiceno">
+        <label for="">Receive Amount</label>
+        <input name="collection_amount" type="text" class="input-small" id="collection_amount" placeholder="Consultant Name" value="{{ $sqlduecollection[0]->DueAmount }}">
+      </div>
     </div>
-  </div>
 
-   -->
+    -->
 
 	<div class="col-lg-8 col-md-8 col-xs-12">
 		<div class="col-lg-12 entry_panel_body ">
@@ -207,7 +206,7 @@ function netreceivables(){
       </div>
     </div> 
 
-{{ Form::close() }}
+</form>
 
 @stop
 

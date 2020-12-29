@@ -500,12 +500,12 @@ function findinvestigation(id){
 	<input type="hidden" id="refferal_type"      name="refferal_type"    >
 	<input type="hidden" id="refferal_amount"    name="refferal_amount"   >
   <input type="hidden" id="investigtion_id"    name="investigtion_id"  >
-  <input type="hidden" id="age"                name="age"                
+  <input type="hidden" id="age"                name="age"               > 
   <input type="hidden" id="regno"              name="regno"              >
   
 
 
-    <div class="col-lg-6 col-md-6 col-xs-12">
+    <div class="col-lg-6 col-md-6 col-xs-12 hidden">
       <div class="col-lg-12 entry_panel_body ">
         <label for="invoice num" class="col-lg-4 col-md-4 col-xs-4 entry_panel_label">Invoice No</label>
         <input type="text" id="invoice_no" name="invoice_no" placeholder="invoice no.." class="col-lg-8 col-md-8 col-xs-8 entry_panel_input">

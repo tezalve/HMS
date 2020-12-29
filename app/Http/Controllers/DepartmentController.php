@@ -36,7 +36,6 @@ class DepartmentController extends Controller
      */
     public function store(Request $request)
     {
-        dd('a');
         $validated = $request->validate([
             'new_department'  	=> 'required',
         ]);
@@ -45,7 +44,7 @@ class DepartmentController extends Controller
         $department->departmentname 		= $request->new_department;
         $department->description 			= $request->new_department;
         $department->investigationType_id 	= $request->investigationType;
-        dd($department);
+        // dd("$department");
         $department->save();
             
         return redirect()->back();

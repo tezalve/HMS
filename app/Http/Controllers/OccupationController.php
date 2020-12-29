@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Occupation;
 use Illuminate\Http\Request;
+use DB;
 
 class OccupationController extends Controller
 {
@@ -24,7 +25,8 @@ class OccupationController extends Controller
      */
     public function create()
     {
-        //
+        $occupationsdata = DB::table('occupations')->get();
+		echo json_encode($occupationsdata);	
     }
 
     /**
@@ -35,7 +37,18 @@ class OccupationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+				'new_occupationsdescription'  	=> 'required'
+        ]);
+
+			$occupation = new Occupation;
+            $occupation->description 		= $request->new_occupationsdescription;
+
+            $occupation->save();
+            
+			return redirect()->route('patients.create');
+		
+		
     }
 
     /**

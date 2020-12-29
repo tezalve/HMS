@@ -220,7 +220,7 @@
                                         <label for="addunit" class="col-lg-12 col-md-12 col-xs-12 entry_panel_label" style="margin-top: 2px;">Unit Name</label>
                                     </td>
                                     <td>
-                                        <input name="new_addunit" type="text" id="addunit" placeholder="Unit Name" class="col-lg-12 col-md-12 col-xs-12 entry_panel_input">
+                                        <input name="addunit" type="text" id="addunit" placeholder="Unit Name" class="col-lg-12 col-md-12 col-xs-12 entry_panel_input">
                                     </td>
                                 </tr>
                             </table>
@@ -257,11 +257,8 @@
                 //Reload the options of dropdown list using ajax.
 
                 $.ajax({
-                    headers: {
-                            'X-CSRF-TOKEN':'{{csrf_token()}}'
-                    },
                     // type: "POST",
-                    url: '@(Url.Action("create","Department"))',
+                    url: "{{URL::to('/')}}/departments/create",
                     data : {_token: '{{csrf_token()}}'},
                     dataType: "json",
                     success: function(data){
@@ -300,11 +297,8 @@
                 //Reload the options of dropdown list using ajax.
 
                 $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
                     // type: "POST",
-                    url: '@(Url.Action("create","Subdepartment"))',
+                    url: "{{URL::to('/')}}/subdepartments/create",
                     dataType: "json",
                     success: function(data){
                         $('#subdepartment').empty();
@@ -340,11 +334,8 @@
                 //Reload the options of dropdown list using ajax.
 
                 $.ajax({
-                    headers: {
-                            'X-CSRF-TOKEN':'{{csrf_token()}}'
-                    },
                     // type: "POST",
-                    url: '@(Url.Action("create","Unitinfo"))',
+                    url: "{{URL::to('/')}}/unitinfos/create",
                     dataType: "json",
                     success: function(data){
                         $('#unit').empty();

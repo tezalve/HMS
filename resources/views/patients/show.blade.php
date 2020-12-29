@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="row">
+    <div class="row" style="padding:0 30px">
         <div class="padd">
             <div class="form-group">
                 <strong>Reg No: {{ $patient->registration_no }}</strong>

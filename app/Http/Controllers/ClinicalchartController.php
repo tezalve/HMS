@@ -2,10 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Clinicalchart;
-use App\Models\Department;
-use App\Models\Unitinfo;
-use App\Models\Investigation;
+use App\Models\{ Clinicalchart,Department,Unitinfo,Investigation };
 use Illuminate\Http\Request;
 use DB;
 
@@ -77,7 +74,7 @@ class ClinicalchartController extends Controller
 			$investigation->doctor_status 			= $request->doctorestatus;
 			$investigation->unit_info_id 			= $request->unit;
             $investigation->investigation_group		= 2;	
-            dd($investigation);
+            // dd($investigation);
             $investigation->save();
             
 		return redirect()->route('clinicalcharts.index')
@@ -101,9 +98,15 @@ class ClinicalchartController extends Controller
      * @param  \App\Models\Clinicalchart  $clinicalchart
      * @return \Illuminate\Http\Response
      */
-    public function edit(Clinicalchart $clinicalchart)
+    public function edit($id)
     {
-        //
+        $investigation = Investigation::find($id);
+		if (empty($investigation)){
+			Session::flash('message', 'Invalid Investigation !!');
+			return redirect('investigation');
+		}
+		$subdepartmentdata = DB::table('sub_department')->where('department_id','=',$investigation->department_id)->get();
+		return view('clinicalcharts.edit')->with('clinicalchartdata',$investigation)->with('department', Department::all())->with('subdepartment',$subdepartmentdata)->with('unitinfo',Unitinfo::all());
     }
 
     /**
@@ -113,9 +116,29 @@ class ClinicalchartController extends Controller
      * @param  \App\Models\Clinicalchart  $clinicalchart
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Clinicalchart $clinicalchart)
+    public function update(Request $request, $id)
     {
-        //
+        $validated = $request->validate([
+				'investigationname'  	=> 'required|min:5',
+				'chargeparunit' 		=> 'required|numeric',
+				'department' 			=> 'required|exists:department,id',
+				'subdepartment'			=> 'required|exists:sub_department,id',
+				'unit'					=> 'required|exists:unit_info,id'
+        ]);
+
+        $investigation = Investigation::find($id);
+
+        $investigation->name 			= $request->investigationname;
+        $investigation->price 			= $request->chargeparunit;
+        $investigation->department_id 	= $request->department;
+        $investigation->sub_department 	= $request->subdepartment;
+        $investigation->unit_info_id 	= $request->unit;
+        $investigation->edit_status 	= $request->editstatus;
+        $investigation->doctor_status 	= $request->doctorestatus;
+        $investigation->save();
+
+        return redirect()->route("clinicalcharts.index")->with('message', 'Successfully update investigation');
+		
     }
 
     /**
@@ -126,6 +149,10 @@ class ClinicalchartController extends Controller
      */
     public function destroy(Clinicalchart $clinicalchart)
     {
-        //
+        dd($clinicalchart);
+        // $clinicalchart->delete();
+
+        return redirect()->route('clinicalchart.index')
+            ->with('success', 'Clinicalchart deleted successfully');
     }
 }

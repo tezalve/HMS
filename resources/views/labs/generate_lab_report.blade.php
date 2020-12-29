@@ -67,7 +67,7 @@ $(document).ready(function() {
 	<div class="col-lg-6 col-md-6 col-xs-12">
 		<div class="col-lg-12 entry_panel_body ">
 			<label for="invoice num" class="col-lg-3 col-md-3 col-xs-3 entry_panel_label">Age</label>
-			<input type="text" id="invoice_no" name="invoice_no" placeholder="Age.." class="col-lg-3 col-md-3 col-xs-3 entry_panel_input" readonly value="{{$reportdata[0]->age }}">
+			<input type="text" id="invoice_no" name="invoice_no" placeholder="Age.." class="col-lg-3 col-md-3 col-xs-3 entry_panel_input" readonly value="">
 			<label for="invoice num" class="col-lg-3 col-md-3 col-xs-3 entry_panel_label">Gender</label>
 			<input type="text" id="invoice_no" name="invoice_no" placeholder="Gender.." class="col-lg-3 col-md-3 col-xs-3 entry_panel_input" readonly value="{{$reportdata[0]->gender }}">			
 		</div>

@@ -1,11 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{DoctorController,PatientController,BedController,BedgroupController,
-    ClinicalchartController,DepartmentController,SubdepartmentController,UnitinfoController,
-    InvestigationController,LabreportchartController,LabreportController,BarcodeprintController,
-    InvoiceController,InvoicelistController,DiagnosticreportController,DataController,
-    AutocompleteController,DiagnosticreportviewController,DuecollectionController};
+use App\Http\Controllers\{  DoctorController, PatientController, BedController,
+                            BedgroupController, ClinicalchartController, DepartmentController,
+                            SubdepartmentController, UnitinfoController, InvestigationController,
+                            LabreportchartController, LabreportController, BarcodeprintController,
+                            InvoiceController, InvoicelistController, DiagnosticreportController,
+                            DataController, AutocompleteController, DiagnosticreportviewController,
+                            DuecollectionController, InvoicereturnController, OccupationController};
 
 /*
 |--------------------------------------------------------------------------
@@ -37,7 +39,8 @@ Route::resource('diagnosticreports',                DiagnosticreportController::
 Route::resource('diagnosticreportviews',            DiagnosticreportviewController::Class);
 Route::resource('datas',                            DataController::Class);
 Route::resource('duecollections',                   DuecollectionController::Class);
-
+Route::resource('invoicereturns',                   InvoicereturnController::Class);
+Route::resource('occupations',                      OccupationController::Class);
 
 Route::post('investigtionnew',                      [AutocompleteController::Class, 'investigtionnew']);
 Route::post('isempty',                              [AutocompleteController::Class, 'isempty']);
@@ -47,6 +50,8 @@ Route::post('patient',                              [AutocompleteController::Cla
 Route::post('investigtion',                         [AutocompleteController::Class, 'investigtion']);
 
 Route::post('subdeplist',                           [DataController::Class, 'subdeplist']);
+
+Route::post('invoicelistswithdate',                 [InvoicelistController::Class, 'invoicelistswithdate']);
 
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/', function () {

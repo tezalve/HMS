@@ -27,7 +27,7 @@ class InvoicelistController extends Controller
     {
         //
 		$invdate 	 = date('Y-m-d', strtotime(str_replace('/','-', date('d/m/Y'))));
-		// dd($invdate);
+
 		$invoicedata = DB::select("SELECT 
 								    a.id,
 								    a.invoice_no,
@@ -37,12 +37,12 @@ class InvoicelistController extends Controller
 								    SUM(b.recieved_amount) as recieved_amount,
 								    SUM(b.return_amount) as return_amount,
 								    SUM(b.refund_amount) as refund_amount,
-								    SUM(b.sales_amount + b.refund_amount - b.less_amount - b.recieved_amount - b.return_amount) as due,
+								    SUM(b.sales_amount+ b.refund_amount - b.less_amount - b.recieved_amount - b.return_amount ) AS due,
 								    c.name as patientname
 								FROM
 								    invoice_master a
 								        JOIN
-								    invoice_ledger b ON a.id = b.invoice_master_id AND a.valid=1 AND a.date = '$invdate'
+								    invoice_ledger b ON a.id = b.invoice_master_id AND a.valid=1 AND b.valid=1 AND a.date = '$invdate'
 								        JOIN
 								    patientregistration c ON a.patientregistration_id = c.id
 								GROUP BY a.id");
@@ -51,10 +51,13 @@ class InvoicelistController extends Controller
 	}
 
 	public function invoicelistswithdate(){
+
+
+
 		// dd($_POST);
 		extract($_POST);
 		// dd($invoicedate);
-		// dd($invoicetype);
+		
 		$invdate 	 = date('Y-m-d', strtotime(str_replace('/','-', $invoicedate)));
 
 		switch ($invoicetype) {
@@ -119,6 +122,9 @@ class InvoicelistController extends Controller
 											        JOIN
 											    patientregistration c ON a.patientregistration_id = c.id
 											GROUP BY a.id");
+
+
+
         }
 
 		// 

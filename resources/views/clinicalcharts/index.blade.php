@@ -66,47 +66,52 @@ input {
 
 @stop
 @section('content')
-<legend style="background: coral;">Clinical Chart List</legend>
+	<legend style="background: coral;">Clinical Chart List</legend>
 
-<div class="col-lg-6 col-md-6 col-sm-6" style="margin-bottom: 2px;">
-	<div class="col-lg-12 entry_panel_body">
-		<a href="{{ route('clinicalcharts.create') }}">
-		   <input type="button" id="button" name="button" value="+ Create Clinical Chart" class="col-lg-4 col-md-4 col-xs-4 btn btn-save btn-sm button button-save pull-left" style="color: white;">
-		</a>		
+	<div class="col-lg-6 col-md-6 col-sm-6" style="margin-bottom: 2px;">
+		<div class="col-lg-12 entry_panel_body">
+			<a href="{{ route('clinicalcharts.create') }}">
+			<input type="button" id="button" name="button" value="+ Create Clinical Chart" class="col-lg-4 col-md-4 col-xs-4 btn btn-save btn-sm button button-save pull-left" style="color: white;">
+			</a>		
+		</div>
 	</div>
-</div>
 
 
-<legend></legend>
+	<legend></legend>
 
-<div class="col-lg-12 datatablescope ">
-	<table id="example" class="display" cellspacing="0" width="100%">
-	<thead style="background-color: cadetblue; color: white;">
-		<tr>
-			<th>Description</th>
-			<th>Department</th>
-			<th>Sub Department</th>
-			<th>Unit</th>
-			<th>Charge</th>
-			<th>Edit</th>
-		</tr>
-	</thead>
-
-	<tbody>
-		@foreach ($clinicalchartdata as $key)
+	<div class="col-lg-12 datatablescope ">
+		<table id="example" class="display" cellspacing="0" width="100%">
+		<thead style="background-color: cadetblue; color: white;">
 			<tr>
-				<td>{{$key->description}}</td>
-				<td>{{$key->department}}</td>
-				<td>{{$key->sub_department}}</td>
-				<td>{{$key->unit}}</td>
-				<td>{{$key->charge}}</td>
-				<td>
-					<a href="">Edit</a>
-				</td>
+				<th>Description</th>
+				<th>Department</th>
+				<th>Sub Department</th>
+				<th>Unit</th>
+				<th>Charge</th>
+				<th>Edit</th>
 			</tr>
-		@endforeach
-	</tbody>
-	</table>
-</div>
+		</thead>
+
+		<tbody>
+			@foreach ($clinicalchartdata as $key)
+				<tr>
+					<td>{{$key->description}}</td>
+					<td>{{$key->department}}</td>
+					<td>{{$key->sub_department}}</td>
+					<td>{{$key->unit}}</td>
+					<td>{{$key->charge}}</td>
+					<td>
+						<form action="{{ route('clinicalcharts.destroy', $key->id) }}", method="POST">					
+							<a class="btn btn-primary" href="{{ route('clinicalcharts.edit', $key->id) }}">Edit</a>
+							@csrf
+							@method('DELETE')
+							<button type="submit" class="btn btn-primary" title="delete">Delete</button>
+						</form>
+					</td>
+				</tr>
+			@endforeach
+		</tbody>
+		</table>
+	</div>
 @stop
 

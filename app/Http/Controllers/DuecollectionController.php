@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Duecollection;
-use App\Models\Doctorsledger;
-use App\Models\InvoiceLedger;
+use App\Models\{Duecollection, Doctorsledger, Invoiceledger};
 use Illuminate\Http\Request;
+use DB;
 
 class DuecollectionController extends Controller
 {
@@ -21,10 +20,10 @@ class DuecollectionController extends Controller
 			FROM invoice_ledger a
 			JOIN patientregistration b ON a.patientregistration_id=b.id
 			JOIN invoice_master c ON a.invoice_master_id=c.id
-			GROUP BY a.invoice_master_id
+			GROUP BY a.invoice_master_id, b.name, c.invoice_no
 			HAVING (SUM(a.sales_amount+a.refund_amount)-SUM(a.less_amount+a.recieved_amount+a.return_amount))>0");
 
-    	return view('salesinvoice.listofdueinvoice')->with('my_sql', $sql);
+    	return view('salesinvoices.listofdueinvoice')->with('my_sql', $sql);
     }
 
     /**
@@ -45,6 +44,7 @@ class DuecollectionController extends Controller
      */
     public function store(Request $request)
     {
+        // dd("$request");
         $validator = $request->validate([
 				'collection_amount'  	=> 'required',
 				'invoice_id' 			=> 'required|exists:invoice_master,id',
@@ -73,8 +73,10 @@ class DuecollectionController extends Controller
                 $doctor_less_amount = ($lessamount);
             }
         }
-
-        $getInvoiceLedger = new InvoiceLedger;
+        if (empty($lessamount)){
+            $lessamount=0;
+        }
+        $getInvoiceLedger = new Invoiceledger;
         $getInvoiceLedger->sales_amount 			= 0;
         $getInvoiceLedger->less_amount 				= $lessamount;
         $getInvoiceLedger->recieved_amount 			= $collection_amount;
@@ -91,7 +93,7 @@ class DuecollectionController extends Controller
         $getInvoiceLedger->less_type				= $request->lesstype;
         $getInvoiceLedger->valid					= 1;
         $getInvoiceLedger->transation_from			= "Outdoor Due Collection";			
-        $getInvoiceLedger->save();
+        
 
         $invoice_ledger_id = DB::table('invoice_ledger')->max('id');
 
@@ -106,7 +108,7 @@ class DuecollectionController extends Controller
         $getDoctorsledger->valid 				= 1;
         $getDoctorsledger->doctor_payment 		= 0;
         $getDoctorsledger->return_commision		= 0;
-        $getDoctorsledger->save();
+        
 
         $duereceive 					 	= new Duecollection;
         $duereceive->collection_amount 		= $collection_amount;
@@ -114,9 +116,14 @@ class DuecollectionController extends Controller
         $duereceive->trdate 				= $transaction_date;
         $duereceive->invoice_ledger_id 		= $invoice_master_id;
         $duereceive->invoice_master_id 		= $invoice_ledger_id;
-        $duereceive->save();
+        
+        // dd("$getInvoiceLedger", "$getDoctorsledger", "$duereceive");
 
-        return redirect("duecollection");
+        $getInvoiceLedger->save();
+        $getDoctorsledger->save();
+        $duereceive->save();
+        
+        return redirect()->route("duecollections.index");
 
     }
 
@@ -137,25 +144,35 @@ class DuecollectionController extends Controller
      * @param  \App\Models\Duecollection  $duecollection
      * @return \Illuminate\Http\Response
      */
-    public function edit(Duecollection $duecollection)
+    public function edit($id)
     {
         $sql = DB::select("SELECT a.id,a.invoice_no,a.date,b.name as patient_name,a.patientregistration_id,
-						  (SUM(c.sales_amount+c.refund_amount)-SUM(c.less_amount+c.recieved_amount+c.return_amount)) As DueAmount,
-						  (SELECT (SUM(d.doctor_commision)-SUM(d.less_amount)-SUM(d.return_commision))
-						   FROM doctors_ledger d WHERE d.invoice_master_id = $id) as doctor_commision,c.doctors_id
-				FROM invoice_master a
-				JOIN patientregistration b ON a.patientregistration_id=b.id AND a.valid=1 AND a.id= $id
-				JOIN invoice_ledger c ON a.id=c.invoice_master_id
-				-- JOIN doctors_ledger d ON a.id=d.invoice_master_id
-				GROUP BY a.id
-				HAVING (SUM(c.sales_amount+c.refund_amount)-SUM(c.less_amount+c.recieved_amount+c.return_amount))>0");
+        (SUM(c.sales_amount+c.refund_amount)-SUM(c.less_amount+c.recieved_amount+c.return_amount)) As DueAmount,
+        (SELECT (SUM(d.doctor_commision)-SUM(d.less_amount)-SUM(d.return_commision))
+         FROM doctors_ledger d WHERE d.invoice_master_id = $id) as doctor_commision,c.doctors_id
+         FROM invoice_master a
+         JOIN patientregistration b ON a.patientregistration_id=b.id AND a.valid=1 AND a.id= $id
+         JOIN invoice_ledger c ON a.id=c.invoice_master_id
+		 GROUP BY a.id,a.invoice_no,a.date,b.name,a.patientregistration_id,c.doctors_id
+		 HAVING (SUM(c.sales_amount+c.refund_amount)-SUM(c.less_amount+c.recieved_amount+c.return_amount))>0");
 
+        // dd($sql);
+        // $sql = DB::raw("SELECT a.id,a.invoice_no,a.date,b.name as patient_name,a.patientregistration_id,
+		// 				  (SUM(c.sales_amount+c.refund_amount)-SUM(c.less_amount+c.recieved_amount+c.return_amount)) As DueAmount,
+		// 				  (SELECT (SUM(d.doctor_commision)-SUM(d.less_amount)-SUM(d.return_commision))
+		// // 				   FROM doctors_ledger d WHERE d.invoice_master_id = $id) as doctor_commision,
+        //                   c.doctors_id
+		// 		FROM invoice_master a
+		// 		JOIN patientregistration b ON a.patientregistration_id=b.id AND a.valid=1 AND a.id= $id
+		// 		JOIN invoice_ledger c ON a.id=c.invoice_master_id
+		// 		GROUP BY a.id,a.invoice_no,a.date,b.name,a.patientregistration_id,c.doctors_id");
 
-			if(empty($sql)) {	
-			// return Redirect::back();
-			return redirect('duecollection');
-		}
-		return view('salesinvoice.duecollection')->with('sqlduecollection', $sql);
+        if(empty($sql)) {	
+        // return Redirect::back();
+        return redirect('duecollections');
+        }
+            
+		return view('salesinvoices.duecollection')->with('sqlduecollection', $sql);
     }
 
     /**

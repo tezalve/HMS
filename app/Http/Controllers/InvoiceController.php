@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Http;
 
 use App\Models\{Invoice, Invoicelist, Invoiceledger, Invoicereturn, Doctorsledger};
 use Illuminate\Http\Request;
@@ -81,6 +82,13 @@ class InvoiceController extends Controller
         if ($lessamount>0){
             $less_of_percentage = round(($lessamount / $subtotal) * 100,2);
         }
+
+        if(empty($lessamount)){
+            $lessamount = 0;
+        }
+
+      
+
         // dd($less_of_percentage);
         // $less_of_percentage = 
 
@@ -191,16 +199,15 @@ class InvoiceController extends Controller
      * @param  \App\Models\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function show(Invoice $invoice)
+    public function show($id)
     {
-        // dd($id);
+        dd($id);
 
 		$c = new Client(
 			Config::get('configurations.jasper_url'),
 			Config::get('configurations.jasper_user'),
 			Config::get('configurations.jasper_password')
 		);
-
 
 		$controls = array(
 				'com_name' 		 => Config::get('configurations.com_name'),
@@ -235,7 +242,7 @@ class InvoiceController extends Controller
      * @param  \App\Models\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function edit(Invoice $invoice)
+    public function edit($id)
     {
         //
 		// dd($id);
@@ -253,7 +260,8 @@ class InvoiceController extends Controller
         JOIN details e ON a.id=e.invoice_master_id AND e.item_status=1
         JOIN investigation f ON e.investigation_id=f.id
         JOIN invoice_ledger g ON a.id=g.invoice_master_id
-        GROUP BY a.id,e.investigation_id");
+        GROUP BY a.id, a.invoice_no, a.date, b.name, c.name, a.patientregistration_id, d.name, a.remarks,a.doctors_id,a.reference_doctor_id,
+        e.investigation_id,e.price,e.quantity,e.refferal_amount,e.less_amount,f.name");
 
         if (empty($sqldata)){
         return redirect()->back();

@@ -9,8 +9,6 @@ $(function() {
   });
 });
 
-
-
 	$(document).ready(function() {
 		var table = $('#invoicelist').dataTable({
 			scrollCollapse: false,
@@ -34,17 +32,17 @@ $(function() {
 					{ "data": "due" },
 					{ "data": "Link",
 						  "mRender": function (data, type, full) {
-						    return '<button type="button" id="order" class="btn btn-sm button btn-primary active"> <a target="_blank" href="{{URL::to('/')}}/duecollection/'+full.id+'/edit" style="text-decoration: none; color: white;">Receive</a></button>';
+						    return '<a id="order" class="btn btn-sm button btn-primary active" target="_blank" href="{{URL::to('/')}}/duecollections/'+full.id+'/edit/" >Receive</a>';
 						  }
 					},		
 					{ "data": "Link",
 						  "mRender": function (data, type, full) {
-						    return '<button type="button" id="order" class="btn btn-sm button btn-primary active"> <a target="_blank" href="{{URL::to('/')}}/invoice/'+full.id+'" style="text-decoration: none; color: white;">Print</a></button>';
+						    return '<a id="order" class="btn btn-sm button btn-primary active" target="_blank" href="{{URL::to('/')}}/invoices/'+full.id+'/" style="text-decoration: none; color: white;">Print</a>';
 						  }
 					},
 					{ "data": "Link",
 						  "mRender": function (data, type, full) {
-						    return '<button type="button" id="order" class="btn btn-sm button btn-primary" style="background-color: maroon; border-color: maroon;"><a href="{{URL::to('/')}}/invoice/'+full.id+'/edit" style="text-decoration: none; color: white;">Return</a></button>';
+						    return '<a id="order" class="btn btn-sm button btn-primary" style="background-color: maroon; border-color: maroon;" href="{{URL::to('/')}}/invoices/'+full.id+'/edit/" style="text-decoration: none; color: white;">Return</a>';
 						  }
 					}
 					// { "data": "Link",

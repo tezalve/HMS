@@ -190,7 +190,7 @@
                                 <td>
                                     <select id="departmentlist" name="departmentlist" placeholder="" class="col-lg-12 col-md-12 col-xs-12 entry_panel_dropdown">	
                                         @foreach ($departments as $department)
-                                            <option value={{$department->id}}->{{$department->departmentname}}</option>
+                                            <option value={{$department->id}}>{{$department->departmentname}}</option>
                                         @endforeach
                                     </select>      				
                                 </td>
@@ -228,10 +228,7 @@
                 //Reload the options of dropdown list using ajax.
 
                 $.ajax({
-                    headers: {
-                            'X-CSRF-TOKEN':'{{csrf_token()}}'
-                    },
-                    // type: "POST",
+                    // type: "post",
                     url: "{{URL::to('/')}}/departments/create",
                     dataType: "json",
                     success: function(data){
@@ -267,10 +264,7 @@
 
             //Reload the options of dropdown list using ajax.
             $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                type: "POST",
+                // type: "GET",
                 url: "{{URL::to('/')}}/subdepartments/create",
                 dataType: "json",
                 success: function(data){

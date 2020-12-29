@@ -123,7 +123,7 @@ class InvestigationController extends Controller
         $investigation->sub_department 	= $request->subdepartment;
         $investigation->save();
 
-        return view("investigations.index")->with('message', 'Successfully update investigation');
+        return redirect()->route("investigations.index")->with('message', 'Successfully update investigation');
     }
 
     /**
@@ -134,7 +134,7 @@ class InvestigationController extends Controller
      */
     public function destroy(Investigation $investigation)
     {
-        // dd("maaaasttttiiii");
+        dd("are you sure? like really really sure?");
 		$investigation = Investigation::find($id);
         $investigation->delete();
 
