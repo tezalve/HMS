@@ -52,6 +52,34 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <!-- jQuery Version 1.11.0 -->
+    
+    
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+    </script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="/js/plugins/metisMenu/metisMenu.min.js"></script>
+
+    <script type="text/javascript" language="javascript" src="/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" language="javascript" src="/js/jquery.validation.tooltip.js"></script>
+    <script type="text/javascript" language="javascript" src="/js/jquery.validate.min.js"></script>
+    <script src="/js/jquery-ui.js"></script>
+
+    <script src="/js/select2.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="/js/sb-admin-2.js"></script>
+
+    @yield('scripts')
+
 </head>
 
 <body>
@@ -67,12 +95,10 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/"><i class="fa fa-h-square fa-2x"></i>MS</a>
+                <a class="navbar-brand" href="/"><i class="fa fa-h-square fa-2x"></i>HMS</a>
             </div>
-            <!-- /.navbar-header -->
 
             <ul class="nav navbar-top-links navbar-right">
-                <!-- /.dropdown -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
@@ -94,62 +120,34 @@
                             </form>
                         </li>
                     </ul>
-                    <!-- /.dropdown-user -->
                 </li>
-                <!-- /.dropdown -->
             </ul>
-            <!-- /.navbar-top-links -->
-
-<!-- ssss -->
 
             <div class="navbar-default sidebar" role="navigation">
 
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         <li class="sidebar-search">
-<!--                             <div class="input-group custom-search-form">
-                                <input type="text" class="form-control" placeholder="Search...">
-                                <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
-                            </div>
-                             //input-group --> 
                         </li>
                         <li>
                             <a href="/"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
                         <li>
                             <a href="{{ route('patients.index') }}"><i class="fa fa-dashboard fa-fw"></i> Patient</a>
-                        </li>                        
-                         <!-- <li>
-                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>Patient Registration<span class="fa arrow"></span></a>
-                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>Patient Information<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="">Create Patient</a>
-                                </li>
-                            </ul>
-                        </li> -->
-
+                        </li>
                         <li>
                             <a href=""><i class="fa fa-bar-chart-o fa-fw"></i>Diagnostic<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
                                     <a href="{{ route('invoices.index') }}">Invoice</a>
                                 </li>
-                                <li>                                
+                                <li>
                                     <a href="{{ route('invoicelists.index') }}">Invoice List</a>
                                 </li>
-<!--                                 <li>
-                                    <a href="">List Of Due Invoice</a>
-                                </li>                                 -->
                                 <li>
                                     <a href="{{ route('diagnosticreports.index') }}">Diagnostic Report</a>
-                                </li>                                 
+                                </li>
                             </ul>
-                            <!-- /.nav-second-level -->
                         </li>
 
                         <li>
@@ -163,8 +161,8 @@
                                     <a href="{{ route('labreports.index') }}">Generate Lab Report</a>
                                 </li>
                             </ul>
-                            <!-- /.nav-second-level -->
                         </li>
+
                         <li>
                             <a href="#"><i class="fa fa-wrench fa-fw"></i>Master Setup<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
@@ -184,13 +182,21 @@
                                 </li>
                                 <li>
                                     <a href="{{URL::route('clinicalcharts.index')}}">Clinical Chart Registration</a>
-                                </li>                                
-<!--                                 <li>
-                                    <a href="">Lab Report Chart</a>
-                                </li -->                               
+                                </li>                                                           
                             </ul>
-                            <!-- /.nav-second-level-->
                         </li> 
+
+                        <li>
+                            <a href="#"><i class="fa fa-dashboard fa-fw fa fa-bar-chart-o fa-fw"></i>Pharmacy<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="{{ route('medicines.index') }}">Medicine</a>
+                                </li>
+                                <li>
+                                    <a href="">Checkout</a>
+                                </li>
+                            </ul>
+                        </li>
 
 
                     </ul>
@@ -233,35 +239,6 @@
 
     </div>
     <!-- /#wrapper -->
-
-    <!-- jQuery Version 1.11.0 -->
-    
-    
-    <!-- Bootstrap Core JavaScript -->
-    <script src="/js/bootstrap.min.js"></script>
-    <script type="text/javascript">
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-    </script>
-
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="/js/plugins/metisMenu/metisMenu.min.js"></script>
-
-    <script type="text/javascript" language="javascript" src="/js/jquery.dataTables.js"></script>
-    <script type="text/javascript" language="javascript" src="/js/jquery.validation.tooltip.js"></script>
-    <script type="text/javascript" language="javascript" src="/js/jquery.validate.min.js"></script>
-    <script src="/js/jquery-ui.js"></script>
-
-    <script src="/js/select2.js"></script>
-
-    <!-- Custom Theme JavaScript -->
-    <script src="/js/sb-admin-2.js"></script>
-    @yield('scripts')
-
-
 </body>
 
 </html>

@@ -1,14 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{  DoctorController, PatientController, BedController,
-                            BedgroupController, ClinicalchartController, DepartmentController,
-                            SubdepartmentController, UnitinfoController, InvestigationController,
-                            LabreportchartController, LabreportController, BarcodeprintController,
-                            InvoiceController, InvoicelistController, DiagnosticreportController,
-                            DataController, AutocompleteController, DiagnosticreportviewController,
-                            DuecollectionController, InvoicereturnController, OccupationController,
-                            FloorController, Bedgroup };
+use App\Http\Controllers\{  DoctorController, PatientController, BedController, BedgroupController, ClinicalchartController, DepartmentController,
+                            SubdepartmentController, UnitinfoController, InvestigationController, LabreportchartController, LabreportController, BarcodeprintController,
+                            InvoiceController, InvoicelistController, DiagnosticreportController, DataController, AutocompleteController, DiagnosticreportviewController,
+                            DuecollectionController, InvoicereturnController, OccupationController, FloorController, Bedgroup, MedicineController };
 
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +40,7 @@ Route::resource('invoicereturns',                   InvoicereturnController::Cla
 Route::resource('occupations',                      OccupationController::Class);
 Route::resource('floors',                           FloorController::Class);
 Route::resource('bedgroups',                        BedgroupController::Class);
+Route::resource('medicines',                        MedicineController::Class);
 
 Route::post('investigtionnew',                      [AutocompleteController::Class, 'investigtionnew']);
 Route::post('isempty',                              [AutocompleteController::Class, 'isempty']);

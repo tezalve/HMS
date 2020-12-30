@@ -20,7 +20,6 @@ class BedController extends Controller
 		$bedgroup = Bedgroup::all();
 		return View('beds.index', compact('bed','bedgroup'));
     }
-
     /**
      * Show the form for creating a new resource.
      *

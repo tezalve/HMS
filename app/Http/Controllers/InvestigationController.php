@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Investigation;
-use App\Models\Department;
+use App\Models\{ Investigation, Department, Subdepartment };
 use Illuminate\Http\Request;
 use DB;
 
@@ -29,7 +28,8 @@ class InvestigationController extends Controller
     public function create()
     {
         $departments = Department::all();
-		return view('investigations.create', compact('departments'));
+        $subdepartment = Subdepartment::all();
+		return view('investigations.create', compact('departments','subdepartment'));
     }
 
     /**

@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('content')
 
-    <div class="row" style="padding:0 30px">
+    <div class="row" style="padding:15px 30px">
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <strong>Name: {{ $doctor->name }}</strong>
