@@ -17,7 +17,9 @@ use App\Http\Controllers\{  DoctorController, PatientController, BedController, 
 |
 */
 
-// Route::get('/', [DoctorController::Class, 'index']);
+Route::middleware(['auth:sanctum', 'verified'])->get('/', function () {
+    return view('main');
+})->name('dashboard');
 
 Route::resource('doctors',                          DoctorController::Class);
 Route::resource('patients',                         PatientController::Class);
@@ -48,12 +50,8 @@ Route::post('doctord',                              [AutocompleteController::Cla
 Route::post('investigationdata',                    [AutocompleteController::Class, 'investigationdata']);
 Route::post('patient',                              [AutocompleteController::Class, 'patient']);
 Route::post('investigtion',                         [AutocompleteController::Class, 'investigtion']);
-
 Route::post('subdeplist',                           [DataController::Class, 'subdeplist']);
-
 Route::post('invoicelistswithdate',                 [InvoicelistController::Class, 'invoicelistswithdate']);
 
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/', function () {
-    return view('main');
-})->name('dashboard');
+
