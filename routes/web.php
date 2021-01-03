@@ -6,7 +6,7 @@ use App\Http\Controllers\{  DoctorController, PatientController, BedController, 
     LabreportController, BarcodeprintController, InvoiceController, InvoicelistController, DiagnosticreportController,
     DataController, AutocompleteController, DiagnosticreportviewController, DuecollectionController,
     InvoicereturnController, OccupationController, FloorController, Bedgroup, MedicinegenericController,
-    MedicinegroupController, MedicineunitController, MedicinecompanyinfoController };
+    MedicinegroupController, MedicineunitController, MedicinecompanyinfoController, MedicineinformationController };
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +48,7 @@ Route::resource('medicinegenerics',                 MedicinegenericController::C
 Route::resource('medicinegroups',                   MedicinegroupController::Class);
 Route::resource('medicineunits',                    MedicineunitController::Class);
 Route::resource('medicinecompanyinfos',             MedicinecompanyinfoController::Class);
+Route::resource('medicineinformations',             MedicineinformationController::Class);
 
 Route::post('investigtionnew',                      [AutocompleteController::Class, 'investigtionnew']);
 Route::post('isempty',                              [AutocompleteController::Class, 'isempty']);

@@ -15,7 +15,7 @@ class MedicinegroupController extends Controller
     public function index()
     {
         $medicinegroup = Medicinegroup::all();
-        return view('medicinegroups.index', compact('medicinegroup', $medicinegroup));
+        return view('medicinegroups.index', compact('medicinegroup'));
     }
 
     /**
@@ -71,7 +71,7 @@ class MedicinegroupController extends Controller
      */
     public function edit(Medicinegroup $medicinegroup)
     {
-        return view('medicinegroups.edit', compact('medicinegroup', $medicinegroup));
+        return view('medicinegroups.edit', compact('medicinegroup'));
     }
 
     /**

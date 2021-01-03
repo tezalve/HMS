@@ -15,7 +15,7 @@ class MedicinegenericController extends Controller
     public function index()
     {
         $medicinegeneric = Medicinegeneric::all();
-        return view('medicinegenerics.index', compact('medicinegeneric', $medicinegeneric));
+        return view('medicinegenerics.index', compact('medicinegeneric'));
     }
 
     /**
@@ -72,7 +72,7 @@ class MedicinegenericController extends Controller
      */
     public function edit(Medicinegeneric $medicinegeneric)
     {
-        return view('medicinegenerics.edit', compact('medicinegeneric',$medicinegeneric));
+        return view('medicinegenerics.edit', compact('medicinegeneric'));
     }
 
     /**

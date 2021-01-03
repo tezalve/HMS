@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Medicineinformation;
+use App\Models\{ Medicineinformation, Medicinegeneric, Medicinegroup, Medicinecompanyinfo, Medicineunit };
 use Illuminate\Http\Request;
 
 class MedicineinformationController extends Controller
@@ -15,7 +15,7 @@ class MedicineinformationController extends Controller
     public function index()
     {
         $medicineinformation = Medicineinformation::all();
-        return view('medicineinformations.index', compact('medicineinformation', $medicineinformation));
+        return view('medicineinformations.index', compact('medicineinformation'));
     }
 
     /**
@@ -25,7 +25,11 @@ class MedicineinformationController extends Controller
      */
     public function create()
     {
-        return view('medicineinformations.create');
+        $medicine_generic_names_id = Medicinegeneric::all();
+        $medicine_groups_id = Medicinegroup::all();
+        $medicine_company_infos_id = Medicinecompanyinfo::all();
+        $medicine_units_id = Medicineunit::all();
+        return view('medicineinformations.create',compact('medicine_generic_names_id', 'medicine_groups_id', 'medicine_company_infos_id', 'medicine_units_id'));
     }
 
     /**
@@ -37,23 +41,27 @@ class MedicineinformationController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'company_name' => 'required',
-            'address' => 'required',
-            'contact_number' => 'required',
-            'contact_person' => 'required',
+            'medicine_name' => 'required',
+            'mrp' => 'required',
+            'tp' => 'required',
             'default_discount' => 'required',
             'default_vat' => 'required',
-            'users_id' => 'required',
+            'medicine_generic_names_id' => 'required',
+            'medicine_groups_id' => 'required',
+            'medicine_company_infos_id' => 'required',
+            'medicine_units_id' => 'required'
         ]);
 
         $medicineinformation = new medicineinformation;
-        $medicineinformation->company_name = $request->company_name;
-        $medicineinformation->address = $request->address;
-        $medicineinformation->contact_number = $request->contact_number;
-        $medicineinformation->contact_person = $request->contact_person;
+        $medicineinformation->medicine_name = $request->medicine_name;
+        $medicineinformation->mrp = $request->mrp;
+        $medicineinformation->tp = $request->tp;
         $medicineinformation->default_discount = $request->default_discount;
         $medicineinformation->default_vat = $request->default_vat;
-        $medicineinformation->users_id = $request->users_id;
+        $medicineinformation->medicine_generic_names_id = $request->medicine_generic_names_id;
+        $medicineinformation->medicine_groups_id = $request->medicine_groups_id;
+        $medicineinformation->medicine_company_infos_id = $request->medicine_company_infos_id;
+        $medicineinformation->medicine_units_id = $request->medicine_units_id;
 
         // dd($medicine_generic_name);
 
@@ -82,7 +90,11 @@ class MedicineinformationController extends Controller
      */
     public function edit(Medicineinformation $medicineinformation)
     {
-        return view('medicineinformations.edit', compact('medicineinformation',$medicineinformation));
+        $medicine_generic_names_id = Medicinegeneric::all();
+        $medicine_groups_id = Medicinegroup::all();
+        $medicine_company_infos_id = Medicinecompanyinfo::all();
+        $medicine_units_id = Medicineunit::all();
+        return view('medicineinformations.create',compact('medicineinformation', 'medicine_generic_names_id', 'medicine_groups_id', 'medicine_company_infos_id', 'medicine_units_id'));
     }
 
     /**
@@ -95,23 +107,27 @@ class MedicineinformationController extends Controller
     public function update(Request $request, Medicineinformation $medicineinformation)
     {
         $validated = $request->validate([
-            'company_name' => 'required',
-            'address' => 'required',
-            'contact_number' => 'required',
-            'contact_person' => 'required',
+            'medicine_name' => 'required',
+            'mrp' => 'required',
+            'tp' => 'required',
             'default_discount' => 'required',
             'default_vat' => 'required',
-            'users_id' => 'required',
+            'medicine_generic_names_id' => 'required',
+            'medicine_groups_id' => 'required',
+            'medicine_company_infos_id' => 'required',
+            'medicine_units_id' => 'required'
         ]);
 
         $medicineinformation = medicineinformation::find($medicineinformation->id);
-        $medicineinformation->company_name = $request->company_name;
-        $medicineinformation->address = $request->address;
-        $medicineinformation->contact_number = $request->contact_number;
-        $medicineinformation->contact_person = $request->contact_person;
+        $medicineinformation->medicine_name = $request->medicine_name;
+        $medicineinformation->mrp = $request->mrp;
+        $medicineinformation->tp = $request->tp;
         $medicineinformation->default_discount = $request->default_discount;
         $medicineinformation->default_vat = $request->default_vat;
-        $medicineinformation->users_id = $request->users_id;
+        $medicineinformation->medicine_generic_names_id = $request->medicine_generic_names_id;
+        $medicineinformation->medicine_groups_id = $request->medicine_groups_id;
+        $medicineinformation->medicine_company_infos_id = $request->medicine_company_infos_id;
+        $medicineinformation->medicine_units_id = $request->medicine_units_id;
 
         // dd($medicineinformation);
 

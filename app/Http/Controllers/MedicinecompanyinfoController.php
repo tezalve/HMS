@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Medicinecompanyinfo;
+use App\Models\{ Medicinecompanyinfo, User };
 use Illuminate\Http\Request;
 
 class MedicinecompanyinfoController extends Controller
@@ -15,7 +15,7 @@ class MedicinecompanyinfoController extends Controller
     public function index()
     {
         $medicinecompanyinfo = Medicinecompanyinfo::all();
-        return view('medicinecompanyinfos.index', compact('medicinecompanyinfo', $medicinecompanyinfo));
+        return view('medicinecompanyinfos.index', compact('medicinecompanyinfo'));
     }
 
     /**
@@ -25,7 +25,8 @@ class MedicinecompanyinfoController extends Controller
      */
     public function create()
     {
-        return view('medicinecompanyinfos.create');
+        $users_id = User::all();
+        return view('medicinecompanyinfos.create', compact('users_id'));
     }
 
     /**
@@ -82,7 +83,7 @@ class MedicinecompanyinfoController extends Controller
      */
     public function edit(Medicinecompanyinfo $medicinecompanyinfo)
     {
-        return view('medicinecompanyinfos.edit', compact('medicinecompanyinfo',$medicinecompanyinfo));
+        return view('medicinecompanyinfos.edit', compact('medicinecompanyinfo'));
     }
 
     /**

@@ -198,6 +198,9 @@
                                         <li>
                                             <a href="{{ route('medicinecompanyinfos.index') }}">Medicine Companies</a>
                                         </li>
+                                        <li>
+                                            <a href="{{ route('medicineinformations.index') }}">Medicines</a>
+                                        </li>
                                     </ul>
                                 </li>                                                          
                             </ul>
