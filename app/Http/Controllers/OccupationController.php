@@ -26,7 +26,7 @@ class OccupationController extends Controller
     public function create()
     {
         $occupationsdata = DB::table('occupations')->get();
-		echo json_encode($occupationsdata);	
+		echo json_encode($occupationsdata);
     }
 
     /**
@@ -43,12 +43,8 @@ class OccupationController extends Controller
 
 			$occupation = new Occupation;
             $occupation->description 		= $request->new_occupationsdescription;
-
             $occupation->save();
-            
 			return redirect()->route('patients.create');
-		
-		
     }
 
     /**

@@ -15,8 +15,8 @@
 				<th>Contact Number</th>
 				<th>Contact Person</th>
 				<!-- <th>Default Discount</th>
-				<th>Default Vat</th>
-				<th>Users ID</th> -->
+				<th>Default Vat</th> -->
+				<th>Users ID</th> 
 				<th>Actions</th>
 			</tr>
 		</thead>
@@ -30,8 +30,8 @@
 					<td>{{$medicinecompanyinfo->contact_number}}</td>
 					<td>{{$medicinecompanyinfo->contact_person}}</td>
 					<!-- <td>{{$medicinecompanyinfo->default_discount}}</td>
-					<td>{{$medicinecompanyinfo->default_vat}}</td>
-					<td>{{$medicinecompanyinfo->users_id}}</td> -->
+					<td>{{$medicinecompanyinfo->default_vat}}</td> -->
+					<td>{{$medicinecompanyinfo->users_id}}</td> 
                     <td>
                         <form action="{{ route('medicinecompanyinfos.destroy', $medicinecompanyinfo->id) }}", method="post">
                             <a class="btn btn-primary" href="{{ route('medicinecompanyinfos.edit', $medicinecompanyinfo->id) }}">Edit</a>

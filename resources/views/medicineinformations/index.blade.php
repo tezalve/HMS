@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('content')
 
-	<h3><a href="{{ route('medicineinformations.create') }}">Add Company</a></h3>
+	<h3><a href="{{ route('medicineinformations.create') }}">Add Medicine</a></h3>
 
 	<br>
 
@@ -16,8 +16,8 @@
 				<th>Default Discount</th>
 				<th>Default Vat</th>
 				<!-- <th>Default Discount</th>
-				<th>Default Vat</th>
-				<th>Users ID</th> -->
+				<th>Default Vat</th> -->
+				<th>Users ID</th> 
 				<th>Actions</th>
 			</tr>
 		</thead>
@@ -29,11 +29,11 @@
                     <td>{{$medicineinformation->medicine_name}}</td>
 					<td>{{$medicineinformation->mrp}}</td>
 					<td>{{$medicineinformation->tp}}</td>
-					<td>{{$medicineinformation->default_discount}}</td>
-					<td>{{$medicineinformation->default_vat}}</td>
+					<td>{{$medicineinformation->default_discount}}%</td>
+					<td>{{$medicineinformation->default_vat}}%</td>
 					<!-- <td>{{$medicineinformation->default_discount}}</td>
-					<td>{{$medicineinformation->default_vat}}</td>
-					<td>{{$medicineinformation->users_id}}</td> -->
+					<td>{{$medicineinformation->default_vat}}</td> -->
+					<td>{{$medicineinformation->users_id}}</td> 
                     <td>
                         <form action="{{ route('medicineinformations.destroy', $medicineinformation->id) }}", method="post">
                             <a class="btn btn-primary" href="{{ route('medicineinformations.edit', $medicineinformation->id) }}">Edit</a>

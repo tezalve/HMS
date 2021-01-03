@@ -185,6 +185,7 @@
                                 </li> 
                                 <li>
                                     <a href="#"><i class="fa-fw fa-fw"></i>Pharmacy<span class="fa arrow"></span></a>
+
                                     <ul class="nav nav-second-level">
                                         <li>
                                             <a href="{{ route('medicinegenerics.index') }}">Generic Names</a>
@@ -200,6 +201,18 @@
                                         </li>
                                         <li>
                                             <a href="{{ route('medicineinformations.index') }}">Medicines</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('customers.index') }}">Customers</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('vendors.index') }}">Vendors</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('customertypes.index') }}">Customer Types</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('vendortypes.index') }}">Vendor Types</a>
                                         </li>
                                     </ul>
                                 </li>                                                          

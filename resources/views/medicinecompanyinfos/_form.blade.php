@@ -41,19 +41,10 @@
         </div>
     </div>
 
-    <div class="col-lg-6 col-md-6 col-xs-12">
+    <div class="col-lg-6 col-md-6 col-xs-12 hidden">
         <div class="col-lg-12 entry_panel_body ">
-            <label for="Medicine Name" class="col-lg-5 col-md-5 col-xs-5 entry_panel_label">User's ID</label>				
-            <select id="users_id" name="users_id" placeholder="" class="col-lg-7 entry_panel_dropdown">
-            <option value="">Select Value</option>	
-                @foreach ($users_id as $users_id)
-                        @if (old('users_id')==$users_id->id)
-                            <option value={{$users_id->id}} selected>{{ $users_id->name }}</option>
-                        @else
-                            <option value={{$users_id->id}} >{{ $users_id->name }}</option>
-                        @endif
-                @endforeach
-            </select>
+            <label for="Medicine Name" class="col-lg-5 col-md-5 col-xs-5 entry_panel_label">User's ID</label>
+            <input name="users_id" type="number" id="users_id" value="{{ $users }}" placeholder="Default Vat" class="col-lg-7 col-md-7 col-xs-7 entry_panel_input">
         </div>
     </div>
 

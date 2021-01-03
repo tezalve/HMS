@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{ Medicineinformation, Medicinegeneric, Medicinegroup, Medicinecompanyinfo, Medicineunit };
+use App\Models\{ Medicineinformation, Medicinegeneric, Medicinegroup, Medicinecompanyinfo, Medicineunit, User };
 use Illuminate\Http\Request;
 
 class MedicineinformationController extends Controller
@@ -29,7 +29,10 @@ class MedicineinformationController extends Controller
         $medicine_groups_id = Medicinegroup::all();
         $medicine_company_infos_id = Medicinecompanyinfo::all();
         $medicine_units_id = Medicineunit::all();
-        return view('medicineinformations.create',compact('medicine_generic_names_id', 'medicine_groups_id', 'medicine_company_infos_id', 'medicine_units_id'));
+        $users_id = User::all();
+        $user = auth()->user();
+        return view('medicineinformations.create',compact('medicine_generic_names_id', 'medicine_groups_id', 
+        'medicine_company_infos_id', 'medicine_units_id'))->with('users', $user->id);
     }
 
     /**
@@ -62,6 +65,7 @@ class MedicineinformationController extends Controller
         $medicineinformation->medicine_groups_id = $request->medicine_groups_id;
         $medicineinformation->medicine_company_infos_id = $request->medicine_company_infos_id;
         $medicineinformation->medicine_units_id = $request->medicine_units_id;
+        $medicineinformation->users_id = $request->users_id;
 
         // dd($medicine_generic_name);
 
@@ -115,7 +119,8 @@ class MedicineinformationController extends Controller
             'medicine_generic_names_id' => 'required',
             'medicine_groups_id' => 'required',
             'medicine_company_infos_id' => 'required',
-            'medicine_units_id' => 'required'
+            'medicine_units_id' => 'required',
+            'users_id' => 'required'
         ]);
 
         $medicineinformation = medicineinformation::find($medicineinformation->id);
@@ -128,6 +133,7 @@ class MedicineinformationController extends Controller
         $medicineinformation->medicine_groups_id = $request->medicine_groups_id;
         $medicineinformation->medicine_company_infos_id = $request->medicine_company_infos_id;
         $medicineinformation->medicine_units_id = $request->medicine_units_id;
+        $medicineinformation->users_id = $request->users_id;
 
         // dd($medicineinformation);
 

@@ -26,7 +26,8 @@ class MedicinecompanyinfoController extends Controller
     public function create()
     {
         $users_id = User::all();
-        return view('medicinecompanyinfos.create', compact('users_id'));
+        $user = auth()->user();
+        return view('medicinecompanyinfos.create', compact('users_id'))->with('users', $user->id);
     }
 
     /**
