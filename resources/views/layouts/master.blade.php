@@ -182,21 +182,27 @@
                                 </li>
                                 <li>
                                     <a href="{{URL::route('clinicalcharts.index')}}">Clinical Chart Registration</a>
-                                </li>                                                           
+                                </li> 
+                                <li>
+                                    <a href="#"><i class="fa-fw fa-fw"></i>Pharmacy<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-second-level">
+                                        <li>
+                                            <a href="{{ route('medicinegenerics.index') }}">Generic Names</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('medicinegroups.index') }}">Medicine Groups</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('medicineunits.index') }}">Medicine Units</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('medicinecompanyinfos.index') }}">Medicine Companies</a>
+                                        </li>
+                                    </ul>
+                                </li>                                                          
                             </ul>
                         </li> 
-
-                        <li>
-                            <a href="#"><i class="fa fa-dashboard fa-fw fa fa-bar-chart-o fa-fw"></i>Pharmacy<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="{{ route('medicines.index') }}">Medicine</a>
-                                </li>
-                                <li>
-                                    <a href="">Checkout</a>
-                                </li>
-                            </ul>
-                        </li>
+                        
 
 
                     </ul>

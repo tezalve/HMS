@@ -6,9 +6,9 @@
 
     <br><br>
 
-    <form action="{{ route('medicines.update', $medicine->id) }}" method="post">
+    <form action="{{ route('medicinecompanyinfos.update', $medicinecompanyinfo->id) }}" method="post">
         @method('PUT')
         @php $form_type ='edit' @endphp
-		@include('medicines/_form')
+		@include('medicinecompanyinfos/_form')
     </form>
 @stop

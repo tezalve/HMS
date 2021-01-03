@@ -1,8 +1,8 @@
 @extends('layouts.master')
 
 @section('content')
-    <form action="{{ route('medicines.store') }}" method="post">
+    <form action="{{ route('medicinegroups.store') }}" method="post">
         @php $form_type ='create' @endphp
-		@include('medicines/_form')
+		@include('medicinegroups/_form')
     </form>
 @stop

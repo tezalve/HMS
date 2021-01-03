@@ -1,10 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{  DoctorController, PatientController, BedController, BedgroupController, ClinicalchartController, DepartmentController,
-                            SubdepartmentController, UnitinfoController, InvestigationController, LabreportchartController, LabreportController, BarcodeprintController,
-                            InvoiceController, InvoicelistController, DiagnosticreportController, DataController, AutocompleteController, DiagnosticreportviewController,
-                            DuecollectionController, InvoicereturnController, OccupationController, FloorController, Bedgroup, MedicineController };
+use App\Http\Controllers\{  DoctorController, PatientController, BedController, BedgroupController, ClinicalchartController,
+    DepartmentController,SubdepartmentController, UnitinfoController, InvestigationController, LabreportchartController, 
+    LabreportController, BarcodeprintController, InvoiceController, InvoicelistController, DiagnosticreportController,
+    DataController, AutocompleteController, DiagnosticreportviewController, DuecollectionController,
+    InvoicereturnController, OccupationController, FloorController, Bedgroup, MedicinegenericController,
+    MedicinegroupController, MedicineunitController, MedicinecompanyinfoController };
 
 /*
 |--------------------------------------------------------------------------
@@ -42,7 +44,10 @@ Route::resource('invoicereturns',                   InvoicereturnController::Cla
 Route::resource('occupations',                      OccupationController::Class);
 Route::resource('floors',                           FloorController::Class);
 Route::resource('bedgroups',                        BedgroupController::Class);
-Route::resource('medicines',                        MedicineController::Class);
+Route::resource('medicinegenerics',                 MedicinegenericController::Class);
+Route::resource('medicinegroups',                   MedicinegroupController::Class);
+Route::resource('medicineunits',                    MedicineunitController::Class);
+Route::resource('medicinecompanyinfos',             MedicinecompanyinfoController::Class);
 
 Route::post('investigtionnew',                      [AutocompleteController::Class, 'investigtionnew']);
 Route::post('isempty',                              [AutocompleteController::Class, 'isempty']);

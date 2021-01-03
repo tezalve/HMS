@@ -5,13 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Medicine extends Model
+class Medicinegeneric extends Model
 {
     use HasFactory;
 
-    protected $table = 'medicines';
-
-    protected $guarded = [''];
-
+    protected $table = "medicine_generic_names";
     public $timestamps = false;
+    protected $guarded = [];
+
 }
