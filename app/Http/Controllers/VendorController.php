@@ -86,7 +86,7 @@ class VendorController extends Controller
     public function edit(Vendor $vendor)
     {
         $vendor_type_id = vendortype::all();
-        return view('vendors.create',compact('vendor','vendor_type_id'));
+        return view('vendors.edit',compact('vendor','vendor_type_id'));
     }
 
     /**

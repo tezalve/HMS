@@ -26,7 +26,6 @@ class CustomerController extends Controller
     public function create()
     {
         $customer_type_id = Customertype::all();
-        $users_id = User::all();
         $user = auth()->user();
         return view('customers.create',compact('customer_type_id'))->with('users', $user->id);
     }
@@ -86,7 +85,7 @@ class CustomerController extends Controller
     public function edit(Customer $customer)
     {
         $customer_type_id = Customertype::all();
-        return view('customers.create',compact('customer','customer_type_id'));
+        return view('customers.edit',compact('customer','customer_type_id'));
     }
 
     /**

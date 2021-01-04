@@ -7,7 +7,7 @@ use App\Http\Controllers\{  DoctorController, PatientController, BedController, 
     DataController, AutocompleteController, DiagnosticreportviewController, DuecollectionController,
     InvoicereturnController, OccupationController, FloorController, Bedgroup, MedicinegenericController,
     MedicinegroupController, MedicineunitController, MedicinecompanyinfoController, MedicineinformationController,
-    CustomertypeController, VendortypeController, CustomerController, VendorController };
+    CustomertypeController, VendortypeController, CustomerController, VendorController, UserController };
 
 /*
 |--------------------------------------------------------------------------
@@ -54,6 +54,7 @@ Route::resource('customertypes',                    CustomertypeController::Clas
 Route::resource('vendortypes',                      VendortypeController::Class);
 Route::resource('customers',                        CustomerController::Class);
 Route::resource('vendors',                          VendorController::Class);
+Route::resource('users',                            UserController::Class);
 
 Route::post('investigtionnew',                      [AutocompleteController::Class, 'investigtionnew']);
 Route::post('isempty',                              [AutocompleteController::Class, 'isempty']);
