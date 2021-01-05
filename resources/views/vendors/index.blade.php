@@ -15,6 +15,7 @@
 					<th>Address</th>
 					<th>Users ID</th> 
 					<th width="100px">Action</th>
+					<th width="100px"></th>
 				</tr>
 			</thead>
 		</table>
@@ -33,7 +34,8 @@
 					{data: 'email', name: 'email'},
 					{data: 'address', name: 'address'},
 					{data: 'users_id', name: 'users_id'},
-					{data: 'action', name: 'action', orderable: false, searchable: false}
+					{data: 'edit', name: 'edit', orderable: false, searchable: false},
+					{data: 'delete', name: 'delete', orderable: false, searchable: false},
 				]
 			});
 		});

@@ -33,7 +33,8 @@
 					{data: 'default_discount', name: 'default_discount'},
 					{data: 'default_vat', name: 'default_vat'},
 					{data: 'users_id', name: 'users_id'},
-					{data: 'action', name: 'action', orderable: false, searchable: false}
+					{data: 'edit', name: 'edit', orderable: false, searchable: false},
+					{data: 'delete', name: 'delete', orderable: false, searchable: false},
 				]
 			});
 		});

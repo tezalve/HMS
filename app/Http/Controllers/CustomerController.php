@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\{ Customer, Customertype, User };
 use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\Crypt;
 use DataTables;
 
 class CustomerController extends Controller
@@ -17,15 +19,23 @@ class CustomerController extends Controller
     {
         if ($request->ajax()) {
             $data = Customer::select('*');
+
             return Datatables::of($data)
-                    ->addIndexColumn()
-                    ->addColumn('action', function($row){
+                    ->addColumn('edit', function($row){
      
-                           $btn = '<a href="" class="edit btn btn-primary btn-sm">View</a>';
-    
-                            return $btn;
+                        $btn1 = '<a href="'.route('customers.edit', Crypt::EncryptString($row->id)).'" class="edit btn btn-primary btn-sm">Edit</a>';
+                        return $btn1;
                     })
-                    ->rawColumns(['action'])
+                    ->addColumn('delete', function($row){
+     
+                        $btn2 = '<form action="'.route('customers.destroy', Crypt::EncryptString($row->id)).'" method="POST">
+                        '.csrf_field().'
+                        '.method_field("DELETE").'
+                        <button type="submit" class="edit btn btn-primary btn-sm">Delete
+                        </form>';
+                        return $btn2;
+                    })
+                    ->rawColumns(['edit', 'delete'])
                     ->make(true);
         }
         
@@ -96,8 +106,16 @@ class CustomerController extends Controller
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function edit(Customer $customer)
+    public function edit($customer)
     {
+        try {
+            $decrypted = Crypt::decryptString($customer);
+        } catch (DecryptException $e) {
+            dd("decryption failed");
+        }
+        // dd("$decrypted");
+        $customer = Customer::where('id',$decrypted)->first();
+        // dd("$customer");
         $customer_type_id = Customertype::all();
         return view('customers.edit',compact('customer','customer_type_id'));
     }
@@ -148,8 +166,16 @@ class CustomerController extends Controller
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Customer $customer)
+    public function destroy($customer)
     {
+        try {
+            $decrypted = Crypt::decryptString($customer);
+        } catch (DecryptException $e) {
+            dd("decryption failed");
+        }
+        // dd("$decrypted");
+        $customer = Customer::where('id',$decrypted)->first();
+        // dd("$customer");
         $customer->delete();
         return redirect()->route('customers.index')
         ->with('success', 'Customer deleted successfully'); 

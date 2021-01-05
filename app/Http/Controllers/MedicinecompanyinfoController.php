@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\{ Medicinecompanyinfo, User };
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use DataTables;
 
 class MedicinecompanyinfoController extends Controller
@@ -17,16 +18,24 @@ class MedicinecompanyinfoController extends Controller
     {
         if ($request->ajax()) {
             $data = Medicinecompanyinfo::select('*');
+
             return Datatables::of($data)
-                    ->addIndexColumn()
-                    ->addColumn('action', function($row){
-     
-                           $btn = '<a href="" class="edit btn btn-primary btn-sm">View</a>';
-    
-                            return $btn;
-                    })
-                    ->rawColumns(['action'])
-                    ->make(true);
+            ->addColumn('edit', function($row){
+
+                $btn1 = '<a href="'.route('medicinecompanyinfos.edit', Crypt::EncryptString($row->id)).'" class="edit btn btn-primary btn-sm">Edit</a>';
+                return $btn1;
+            })
+            ->addColumn('delete', function($row){
+
+                $btn2 = '<form action="'.route('medicinecompanyinfos.destroy', Crypt::EncryptString($row->id)).'" method="POST">
+                '.csrf_field().'
+                '.method_field("DELETE").'
+                <button type="submit" class="edit btn btn-primary btn-sm">Delete
+                </form>';
+                return $btn2;
+            })
+            ->rawColumns(['edit', 'delete'])
+            ->make(true);
         } 
         
         return view('medicinecompanyinfos.index');
@@ -96,8 +105,16 @@ class MedicinecompanyinfoController extends Controller
      * @param  \App\Models\Medicinecompanyinfo  $medicinecompanyinfo
      * @return \Illuminate\Http\Response
      */
-    public function edit(Medicinecompanyinfo $medicinecompanyinfo)
+    public function edit($medicinecompanyinfo)
     {
+        try {
+            $decrypted = Crypt::decryptString($medicinecompanyinfo);
+        } catch (DecryptException $e) {
+            dd("decryption failed");
+        }
+        // dd("$decrypted");
+        $medicinecompanyinfo = Medicinecompanyinfo::where('id',$decrypted)->first();
+
         return view('medicinecompanyinfos.edit', compact('medicinecompanyinfo'));
     }
 
@@ -143,8 +160,16 @@ class MedicinecompanyinfoController extends Controller
      * @param  \App\Models\Medicinecompanyinfo  $medicinecompanyinfo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Medicinecompanyinfo $medicinecompanyinfo)
+    public function destroy( $medicinecompanyinfo)
     {
+        try {
+            $decrypted = Crypt::decryptString($medicinecompanyinfo);
+        } catch (DecryptException $e) {
+            dd("decryption failed");
+        }
+        // dd("$decrypted");
+        $medicinecompanyinfo = Medicinecompanyinfo::where('id',$decrypted)->first();
+
         $medicinecompanyinfo->delete();
         return redirect()->route('medicinecompanyinfos.index')
         ->with('success', 'Company deleted successfully'); 

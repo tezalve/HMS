@@ -31,7 +31,8 @@
 					{data: 'email', name: 'email'},
 					{data: 'created_at', name: 'created_at'},
 					{data: 'updated_at', name: 'updated_at'},
-					{data: 'action', name: 'action', orderable: false, searchable: false}
+					{data: 'edit', name: 'edit', orderable: false, searchable: false},
+					{data: 'delete', name: 'delete', orderable: false, searchable: false},
 				]
 			});
 		});

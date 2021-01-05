@@ -6,6 +6,7 @@ use App\Models\Bed;
 use App\Models\Bedgroup;
 use App\Models\Floor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use DataTables;
 
 class BedController extends Controller
@@ -19,15 +20,23 @@ class BedController extends Controller
     {
         if (request()->ajax()) {
             $data = Bed::select('*');
+           
             return Datatables::of($data)
-                    ->addIndexColumn()
-                    ->addColumn('action', function($row){
+                    ->addColumn('edit', function($row){
      
-                           $btn = '<a href="" class="edit btn btn-primary btn-sm">View</a>';
-    
-                            return $btn;
+                        $btn1 = '<a href="'.route('beds.edit', Crypt::EncryptString($row->id)).'" class="edit btn btn-primary btn-sm">Edit</a>';
+                        return $btn1;
                     })
-                    ->rawColumns(['action'])
+                    ->addColumn('delete', function($row){
+     
+                        $btn2 = '<form action="'.route('beds.destroy', Crypt::EncryptString($row->id)).'" method="POST">
+                        '.csrf_field().'
+                        '.method_field("DELETE").'
+                        <button type="submit" class="edit btn btn-primary btn-sm">Delete
+                        </form>';
+                        return $btn2;
+                    })
+                    ->rawColumns(['edit', 'delete'])
                     ->make(true);
         }
 
@@ -96,8 +105,17 @@ class BedController extends Controller
      * @param  \App\Models\Bed  $bed
      * @return \Illuminate\Http\Response
      */
-    public function edit(Bed $bed)
+    public function edit($bed)
     {
+        // dd($bed);
+        try {
+            $decrypted = Crypt::decryptString($bed);
+        } catch (DecryptException $e) {
+            dd("decryption failed");
+        }
+        // dd("$decrypted");
+        $bed = Bed::where('id',$decrypted)->first();
+        // dd("$bed");
         $bedgroup = Bedgroup::all();
         $floor = Floor::all();
         return View('beds.edit', compact('bed', 'floor', 'bedgroup'));
@@ -142,8 +160,17 @@ class BedController extends Controller
      * @param  \App\Models\Bed  $bed
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Bed $bed)
+    public function destroy($bed)
     {
+        try {
+            $decrypted = Crypt::decryptString($bed);
+        } catch (DecryptException $e) {
+            dd("decryption failed");
+        }
+        // dd("$decrypted");
+        $bed = Bed::where('id',$decrypted)->first();
+        // dd("$bed");
+
         $bed->delete();
 
         return redirect()->route('beds.index')

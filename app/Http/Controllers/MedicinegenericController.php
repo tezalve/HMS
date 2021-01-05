@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Medicinegeneric;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use DataTables;
 use DB;
 
@@ -18,15 +19,23 @@ class MedicinegenericController extends Controller
     {
         if (request()->ajax()) {
             $data = Medicinegeneric::select('*');
+
             return Datatables::of($data)
-                    ->addIndexColumn()
-                    ->addColumn('action', function($row){
+                    ->addColumn('edit', function($row){
      
-                            $btn = '<a href="" class="edit btn btn-primary btn-sm">View</a>';
-    
-                            return $btn;
+                        $btn1 = '<a href="'.route('medicinegenerics.edit', Crypt::EncryptString($row->id)).'" class="edit btn btn-primary btn-sm">Edit</a>';
+                        return $btn1;
                     })
-                    ->rawColumns(['action'])
+                    ->addColumn('delete', function($row){
+     
+                        $btn2 = '<form action="'.route('medicinegenerics.destroy', Crypt::EncryptString($row->id)).'" method="POST">
+                        '.csrf_field().'
+                        '.method_field("DELETE").'
+                        <button type="submit" class="edit btn btn-primary btn-sm">Delete
+                        </form>';
+                        return $btn2;
+                    })
+                    ->rawColumns(['edit', 'delete'])
                     ->make(true);
         } 
         
@@ -97,8 +106,16 @@ class MedicinegenericController extends Controller
      * @param  \App\Models\Medicinegeneric  $medicinegeneric
      * @return \Illuminate\Http\Response
      */
-    public function edit(Medicinegeneric $medicinegeneric)
+    public function edit($medicinegeneric)
     {
+        try {
+            $decrypted = Crypt::decryptString($medicinegeneric);
+        } catch (DecryptException $e) {
+            dd("decryption failed");
+        }
+        // dd("$decrypted");
+        $medicinegeneric = Medicinegeneric::where('id',$decrypted)->first();
+
         return view('medicinegenerics.edit', compact('medicinegeneric'));
     }
 
@@ -133,8 +150,16 @@ class MedicinegenericController extends Controller
      * @param  \App\Models\Medicinegeneric  $medicinegeneric
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Medicinegeneric $medicinegeneric)
+    public function destroy($medicinegeneric)
     {
+        try {
+            $decrypted = Crypt::decryptString($medicinegeneric);
+        } catch (DecryptException $e) {
+            dd("decryption failed");
+        }
+        // dd("$decrypted");
+        $medicinegeneric = Medicinegeneric::where('id',$decrypted)->first();
+        
         $medicinegeneric->delete();
         return redirect()->route('medicinegenerics.index')
         ->with('success', 'Generic name deleted successfully'); 

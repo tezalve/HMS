@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\{ Vendor, Vendortype, User };
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use DataTables;
 
 class VendorController extends Controller
@@ -17,15 +18,23 @@ class VendorController extends Controller
     {
         if ($request->ajax()) {
             $data = Vendor::select('*');
+
             return Datatables::of($data)
-                    ->addIndexColumn()
-                    ->addColumn('action', function($row){
+                    ->addColumn('edit', function($row){
      
-                           $btn = '<a href="" class="edit btn btn-primary btn-sm">View</a>';
-    
-                            return $btn;
+                        $btn1 = '<a href="'.route('vendors.edit', Crypt::EncryptString($row->id)).'" class="edit btn btn-primary btn-sm">Edit</a>';
+                        return $btn1;
                     })
-                    ->rawColumns(['action'])
+                    ->addColumn('delete', function($row){
+     
+                        $btn2 = '<form action="'.route('vendors.destroy', Crypt::EncryptString($row->id)).'" method="POST">
+                        '.csrf_field().'
+                        '.method_field("DELETE").'
+                        <button type="submit" class="edit btn btn-primary btn-sm">Delete
+                        </form>';
+                        return $btn2;
+                    })
+                    ->rawColumns(['edit', 'delete'])
                     ->make(true);
         } 
         return view('vendors.index');
@@ -96,9 +105,17 @@ class VendorController extends Controller
      * @param  \App\Models\Vendor  $vendor
      * @return \Illuminate\Http\Response
      */
-    public function edit(Vendor $vendor)
+    public function edit($vendor)
     {
-        $vendor_type_id = vendortype::all();
+        try {
+            $decrypted = Crypt::decryptString($vendor);
+        } catch (DecryptException $e) {
+            dd("decryption failed");
+        }
+        // dd("$decrypted");
+        $vendor = Vendor::where('id',$decrypted)->first();
+
+        $vendor_type_id = Vendortype::all();
         return view('vendors.edit',compact('vendor','vendor_type_id'));
     }
 
@@ -123,7 +140,7 @@ class VendorController extends Controller
             'users_id' => 'required'
         ]);
 
-        $vendor = vendor::find($vendor->id);
+        $vendor = Vendor::find($vendor->id);
         $vendor->vendor_name = $request->vendor_name;
         $vendor->contact_number = $request->contact_number;
         $vendor->email = $request->email;
@@ -148,8 +165,16 @@ class VendorController extends Controller
      * @param  \App\Models\Vendor  $vendor
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Vendor $vendor)
+    public function destroy($vendor)
     {
+        try {
+            $decrypted = Crypt::decryptString($vendor);
+        } catch (DecryptException $e) {
+            dd("decryption failed");
+        }
+        // dd("$decrypted");
+        $vendor = Vendor::where('id',$decrypted)->first();
+
         $vendor->delete();
         return redirect()->route('vendors.index')
         ->with('success', 'vendor deleted successfully'); 

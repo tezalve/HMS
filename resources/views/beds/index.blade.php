@@ -18,6 +18,7 @@
                     <th>Room Type</th>
                     <th>Charge</th>
 					<th width="100px">Action</th>
+					<th width="100px"></th>
 				</tr>
 			</thead>
 		</table>
@@ -35,7 +36,8 @@
 					{data: 'description', name: 'description'},
                     {data: 'bed_group_id', name: 'bed_group_id'},
                     {data: 'charge', name: 'charge'},
-					{data: 'action', name: 'action', orderable: false, searchable: false}
+					{data: 'edit', name: 'edit', orderable: false, searchable: false},
+					{data: 'delete', name: 'delete', orderable: false, searchable: false},
 				]
 			});
 		});

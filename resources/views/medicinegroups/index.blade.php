@@ -25,7 +25,8 @@
 				columns: [
 					{data: 'id', name: 'id'},
 					{data: 'group_name', name: 'group_name'},
-					{data: 'action', name: 'action', orderable: false, searchable: false}
+					{data: 'edit', name: 'edit', orderable: false, searchable: false},
+					{data: 'delete', name: 'delete', orderable: false, searchable: false},
 				]
 			});
 		});

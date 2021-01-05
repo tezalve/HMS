@@ -11,6 +11,7 @@
 					<th>ID</th>
 					<th>Customer Type Name</th>
 					<th width="100px">Action</th>
+					<th width="100px"></th>
 				</tr>
 			</thead>
 		</table>
@@ -25,7 +26,8 @@
 				columns: [
 					{data: 'id', name: 'id'},
 					{data: 'customer_type_name', name: 'customer_type_name'},
-					{data: 'action', name: 'action', orderable: false, searchable: false}
+					{data: 'edit', name: 'edit', orderable: false, searchable: false},
+					{data: 'delete', name: 'delete', orderable: false, searchable: false},
 				]
 			});
 		});
