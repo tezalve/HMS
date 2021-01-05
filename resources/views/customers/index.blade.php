@@ -1,49 +1,52 @@
 @extends('layouts.master')
 @section('content')
+	<div class="">
+		<div class="row">
+			<div class="col-lg-12 margin-tb">
+				<div class="pull-left">
+					<h1>Customers</h1>
+				</div>
+				<br><br><br>
+				<div class="col-lg-4 col-md-4 col-xs-12">
+					<div class="col-lg-12 entry_panel_body ">
+						<a href="{{ route('customers.create') }}"><input type="button" id="submit" name="submit" value="Add New Customer" class="col-lg-7 col-md-7 col-xs-7 btn btn-save btn-sm button button-save pull-left" style="background: rgb(5, 142, 27); color: aliceblue;">	</a>
+					</div>
+				</div>
+			</div>
+		</div>
 
-	<h3><a href="{{ route('customers.create') }}">Add Customers</a></h3>
-
-	<br>
-
-    <div class="col-lg-12 datatablescope ">
-		<table id="example" class="display" cellspacing="0" width="100%">
-		<thead>
-			<tr>
-				<th>ID</th>
-				<th>Customer Name</th>
-				<th>Contact Number</th>
-				<th>Email</th>
-				<th>Address</th>
-				<!-- <th>Default Discount</th>
-				<th>Default Vat</th> -->
-				<th>Users ID</th> 
-				<th>Actions</th>
-			</tr>
-		</thead>
-
-		<tbody>
-			@foreach ($customer as $customer)
+		<table class="table table-bordered data-table">
+			<thead>
 				<tr>
-                    <td>{{$customer->id}}</td>
-                    <td>{{$customer->customer_name}}</td>
-					<td>{{$customer->contact_number}}</td>
-					<td>{{$customer->email}}</td>
-					<td>{{$customer->address}}</td>
-					<!-- <td>{{$customer->default_discount}}</td>
-					<td>{{$customer->default_vat}}</td> -->
-					<td>{{$customer->users_id}}</td> 
-                    <td>
-                        <form action="{{ route('customers.destroy', $customer->id) }}", method="post">
-                            <a class="btn btn-primary" href="{{ route('customers.edit', $customer->id) }}">Edit</a>
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-primary" title="delete">Delete</button>
-                        </form>
-                    </td>
+					<th>ID</th>
+					<th>Customer Name</th>
+					<th>Contact Number</th>
+					<th>Email</th>
+					<th>Address</th>
+					<th>Users ID</th> 
+					<th width="100px">Action</th>
 				</tr>
-			@endforeach
-		</tbody>
+			</thead>
 		</table>
-	</div>	
+	</div>
+        
+	<script type="text/javascript">
+		$(function () {
+			var table = $('.data-table').DataTable({
+				processing: true,
+				serverSide: true,
+				ajax: "{{ route('customers.index') }}",
+				columns: [
+					{data: 'id', name: 'id'},
+					{data: 'customer_name', name: 'customer_name'},
+					{data: 'contact_number', name: 'contact_number'},
+					{data: 'email', name: 'email'},
+					{data: 'address', name: 'address'},
+					{data: 'users_id', name: 'users_id'},
+					{data: 'action', name: 'action', orderable: false, searchable: false}
+				]
+			});
+		});
+	</script>
 @stop
 

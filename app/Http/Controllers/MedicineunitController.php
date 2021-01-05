@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Medicineunit;
 use Illuminate\Http\Request;
+use DataTables;
+use DB;
 
 class MedicineunitController extends Controller
 {
@@ -12,10 +14,23 @@ class MedicineunitController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $medicineunit = Medicineunit::all();
-        return view('medicineunits.index', compact('medicineunit', $medicineunit));
+        if ($request->ajax()) {
+            $data = Medicineunit::select('*');
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('action', function($row){
+     
+                            $btn = '<a href="" class="edit btn btn-primary btn-sm">View</a>';
+    
+                            return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        } 
+        
+        return view('medicineunits.index');
     }
 
     /**
@@ -25,6 +40,10 @@ class MedicineunitController extends Controller
      */
     public function create()
     {
+        if (request()->ajax()){
+            $medicine_units_id = DB::table('medicine_units')->get();
+            echo json_encode($medicine_units_id);
+        }
         return view('medicineunits.create');
     }
 
@@ -48,8 +67,15 @@ class MedicineunitController extends Controller
 
         $medicineunit->save();
 
-        return redirect()->route('medicineunits.index')
-        ->with('success', 'Unit Name added successfully');
+        $page = (explode('/', url()->previous()));
+        
+        if ($page[3]=='medicinegenerics'){
+            return redirect()->route('medicineunits.index')
+            ->with('success', 'Unit Name added successfully');
+        }
+
+        return redirect()->back()->with('success', 'Generic name added successfully'); 
+        
     }
 
     /**

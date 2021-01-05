@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Vendortype;
 use Illuminate\Http\Request;
+use DataTables;
 
 class VendortypeController extends Controller
 {
@@ -12,10 +13,22 @@ class VendortypeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $vendortype = Vendortype::all();
-        return view('vendortypes.index', compact('vendortype'));
+        if ($request->ajax()) {
+            $data = Vendortype::select('*');
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('action', function($row){
+     
+                            $btn = '<a href="" class="edit btn btn-primary btn-sm">View</a>';
+    
+                            return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        } 
+        return view('vendortypes.index');
     }
 
     /**
@@ -25,6 +38,10 @@ class VendortypeController extends Controller
      */
     public function create()
     {
+        if (request()->ajax()){
+            $vendor_type_id = DB::table('vendor_type')->get();
+            echo json_encode($vendor_type_id);
+        }
         return view('vendortypes.create');
     }
 
@@ -48,8 +65,14 @@ class VendortypeController extends Controller
 
         $vendortype->save();
 
+        $page = (explode('/', url()->previous()));
+
+        if ($page[3]=='vendortypes'){
         return redirect()->route('vendortypes.index')
-        ->with('success', 'Vendor type name added successfully');  
+        ->with('success', 'Vendor type name added successfully');
+        }
+
+        return redirect()->back()->with('success', 'Vendor type name added successfully');
     }
 
     /**

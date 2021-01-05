@@ -6,6 +6,7 @@ use App\Models\Bed;
 use App\Models\Bedgroup;
 use App\Models\Floor;
 use Illuminate\Http\Request;
+use DataTables;
 
 class BedController extends Controller
 {
@@ -16,6 +17,20 @@ class BedController extends Controller
      */
     public function index()
     {
+        if (request()->ajax()) {
+            $data = Bed::select('*');
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('action', function($row){
+     
+                           $btn = '<a href="" class="edit btn btn-primary btn-sm">View</a>';
+    
+                            return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        }
+
         $bed = Bed::all();
 		$bedgroup = Bedgroup::all();
 		return View('beds.index', compact('bed','bedgroup'));

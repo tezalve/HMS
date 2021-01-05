@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\{ Customer, Customertype, User };
 use Illuminate\Http\Request;
+use DataTables;
 
 class CustomerController extends Controller
 {
@@ -12,10 +13,23 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $customer = Customer::all();
-        return view('customers.index', compact('customer'));
+        if ($request->ajax()) {
+            $data = Customer::select('*');
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('action', function($row){
+     
+                           $btn = '<a href="" class="edit btn btn-primary btn-sm">View</a>';
+    
+                            return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        }
+        
+        return view('customers.index');
     }
 
     /**

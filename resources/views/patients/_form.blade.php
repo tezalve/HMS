@@ -1,4 +1,4 @@
-        @csrf
+    @csrf
         <div class="col-lg-12 col-md-12 col-xs-12">
             <div class="col-lg-12 entry_panel_body ">
                 <label for="invoice num" class="col-lg-2 col-md-2 col-xs-2 entry_panel_label">Patient's Name</label>
@@ -140,7 +140,7 @@
 
 		<div class="col-lg-6 col-md-6 col-xs-12">
 			<div class="col-lg-12 entry_panel_body">
-				<input type="submit" id="submit" name="submit" value="Submit" class="col-lg-3 col-md-3 col-xs-3 btn btn-save btn-sm button button-save pull-right">
+				<input type="submit" id="submit" name="submit" value="SAVE" class="col-lg-3 col-md-3 col-xs-3 btn btn-save btn-sm button button-save pull-right">
 			</div>
 		</div>
 	</form>
@@ -149,6 +149,7 @@
 		<div class="modal-dialog" style="width: 500px;">
 			<div class="modal-content">
 				<form action="{{ route('occupations.store') }}" method="POST" id="OccupationsForm">
+				@csrf
 					<div class="modal-header" style="background: coral; padding: 10px;">
 						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 						<h4 class="modal-title" id="catAddLabel">Add New Occupations</h4>

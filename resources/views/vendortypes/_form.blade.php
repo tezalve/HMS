@@ -2,7 +2,7 @@
     <div class="col-lg-6 col-md-6 col-xs-12">
         <div class="col-lg-12 entry_panel_body ">
             <label for="Medicine Name" class="col-lg-5 col-md-5 col-xs-5 entry_panel_label">Vendor Name</label>
-            <input name="vendor_type_name" type="text" id="vendor_type_name" value="{{ old('vendor_type_name',$vendortype->vendor_type_name??null) }}" placeholder="Customer Type Name" class="col-lg-7 col-md-7 col-xs-7 entry_panel_input">				
+            <input name="vendor_type_name" type="text" id="vendor_type_name" value="{{ old('vendor_type_name',$vendortype->vendor_type_name??null) }}" placeholder="Vendor Type Name" class="col-lg-7 col-md-7 col-xs-7 entry_panel_input">				
         </div>
     </div>
 

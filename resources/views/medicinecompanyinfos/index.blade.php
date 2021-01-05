@@ -1,49 +1,44 @@
 @extends('layouts.master')
 @section('content')
+	<div class="">
+		<h1>Companies</h1>
 
-	<h3><a href="{{ route('medicinecompanyinfos.create') }}">Add Company</a></h3>
+		<h1><a href="{{ route('medicinecompanyinfos.create') }}">Add Company</a></h1>
 
-	<br>
-
-    <div class="col-lg-12 datatablescope ">
-		<table id="example" class="display" cellspacing="0" width="100%">
-		<thead>
-			<tr>
-				<th>ID</th>
-				<th>Company Name</th>
-				<th>Address</th>
-				<th>Contact Number</th>
-				<th>Contact Person</th>
-				<!-- <th>Default Discount</th>
-				<th>Default Vat</th> -->
-				<th>Users ID</th> 
-				<th>Actions</th>
-			</tr>
-		</thead>
-
-		<tbody>
-			@foreach ($medicinecompanyinfo as $medicinecompanyinfo)
+		<table class="table table-bordered data-table">
+			<thead>
 				<tr>
-                    <td>{{$medicinecompanyinfo->id}}</td>
-                    <td>{{$medicinecompanyinfo->company_name}}</td>
-					<td>{{$medicinecompanyinfo->address}}</td>
-					<td>{{$medicinecompanyinfo->contact_number}}</td>
-					<td>{{$medicinecompanyinfo->contact_person}}</td>
-					<!-- <td>{{$medicinecompanyinfo->default_discount}}</td>
-					<td>{{$medicinecompanyinfo->default_vat}}</td> -->
-					<td>{{$medicinecompanyinfo->users_id}}</td> 
-                    <td>
-                        <form action="{{ route('medicinecompanyinfos.destroy', $medicinecompanyinfo->id) }}", method="post">
-                            <a class="btn btn-primary" href="{{ route('medicinecompanyinfos.edit', $medicinecompanyinfo->id) }}">Edit</a>
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-primary" title="delete">Delete</button>
-                        </form>
-                    </td>
+					<th>ID</th>
+					<th>Company Name</th>
+					<th>Address</th>
+					<th>Contact Number</th>
+					<th>Contact Person</th>
+					<th>Users ID</th>
+					<th width="100px">Action</th>
 				</tr>
-			@endforeach
-		</tbody>
+			</thead>
 		</table>
-	</div>	
+	</div>
+        
+	<script type="text/javascript">
+		$(function () {
+			var table = $('.data-table').DataTable({
+				processing: true,
+				serverSide: true,
+				ajax: "{{ route('medicinecompanyinfos.index') }}",
+				columns: [
+					{data: 'id', name: 'id'},
+					{data: 'company_name', name: 'company_name'},
+					{data: 'address', name: 'address'},
+					{data: 'contact_number', name: 'contact_number'},
+					{data: 'contact_person', name: 'contact_person'},
+					{data: 'users_id', name: 'users_id'},
+					{data: 'action', name: 'action', orderable: false, searchable: false}
+				]
+			});
+		});
+	</script>
 @stop
+
+
 

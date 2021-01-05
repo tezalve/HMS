@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\{ Vendor, Vendortype, User };
 use Illuminate\Http\Request;
+use DataTables;
 
 class VendorController extends Controller
 {
@@ -12,10 +13,22 @@ class VendorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $vendor = Vendor::all();
-        return view('vendors.index', compact('vendor'));
+        if ($request->ajax()) {
+            $data = Vendor::select('*');
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('action', function($row){
+     
+                           $btn = '<a href="" class="edit btn btn-primary btn-sm">View</a>';
+    
+                            return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        } 
+        return view('vendors.index');
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\{ Medicineinformation, Medicinegeneric, Medicinegroup, Medicinecompanyinfo, Medicineunit, User };
 use Illuminate\Http\Request;
+use DataTables;
 
 class MedicineinformationController extends Controller
 {
@@ -12,10 +13,23 @@ class MedicineinformationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $medicineinformation = Medicineinformation::all();
-        return view('medicineinformations.index', compact('medicineinformation'));
+        if ($request->ajax()) {
+            $data = Medicineinformation::select('*');
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('action', function($row){
+     
+                           $btn = '<a href="" class="edit btn btn-primary btn-sm">View</a>';
+    
+                            return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        } 
+        
+        return view('medicineinformations.index');
     }
 
     /**

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Medicinegeneric;
 use Illuminate\Http\Request;
+use DataTables;
+use DB;
 
 class MedicinegenericController extends Controller
 {
@@ -14,17 +16,37 @@ class MedicinegenericController extends Controller
      */
     public function index()
     {
-        $medicinegeneric = Medicinegeneric::all();
-        return view('medicinegenerics.index', compact('medicinegeneric'));
+        if (request()->ajax()) {
+            $data = Medicinegeneric::select('*');
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('action', function($row){
+     
+                            $btn = '<a href="" class="edit btn btn-primary btn-sm">View</a>';
+    
+                            return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        } 
+        
+        return view('medicinegenerics.index');
     }
 
     /**
      * Show the form for creating a new resource.
      *
+     * @param  Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
+    
     public function create()
     {
+        if(request()->ajax()){
+            $medicine_generic_names_id = DB::table('medicine_generic_names')->get();
+            echo json_encode($medicine_generic_names_id);
+        }
+        
         return view('medicinegenerics.create');
     }
 
@@ -46,11 +68,16 @@ class MedicinegenericController extends Controller
 
         // dd($medicine_generic_name);
 
-        $medicinegeneric->save();
+        // $medicinegeneric->save();
 
-        return redirect()->route('medicinegenerics.index')
-        ->with('success', 'Generic name added successfully');  
+        $page = (explode('/', url()->previous()));
 
+        if ($page[3]=='medicinegenerics'){
+            return redirect()->route('medicinegenerics.index')
+            ->with('success', 'Generic name added successfully');
+        }
+
+        return redirect()->back()->with('success', 'Generic name added successfully'); 
     }
 
     /**

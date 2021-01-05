@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Doctor;
 use App\Models\Department;
 use Illuminate\Http\Request;
+use DataTables;
 
 class DoctorController extends Controller {
 	
@@ -15,8 +16,21 @@ class DoctorController extends Controller {
 	 */
 	public function index()
 	{
+		if (request()->ajax()) {
+            $data = Doctor::select('*');
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('action', function($row){
+     
+                           $btn = '<a href="" class="edit btn btn-primary btn-sm">View</a>';
+    
+                            return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        }
+
 		$doctor = Doctor::all();
-		
 		return View('doctors.index', compact('doctor'));
 	}
 

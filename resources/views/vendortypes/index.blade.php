@@ -1,37 +1,40 @@
 @extends('layouts.master')
 @section('content')
+	<div class="">
+		<h1>Vendor Types</h1>
 
-	<h3><a href="{{ route('vendortypes.create') }}">Add Vendor Type</a></h3>
+		<h1><a href="{{ route('vendortypes.create') }}">Add Vendor Type</a></h1>
 
-	<br>
-
-    <div class="col-lg-12 datatablescope ">
-		<table id="example" class="display" cellspacing="0" width="100%">
-		<thead>
-			<tr>
-				<th>ID</th>
-				<th>Vendor Type Name</th>
-				<th>Actions</th>
-			</tr>
-		</thead>
-
-		<tbody>
-			@foreach ($vendortype as $vendortype)
+		<table class="table table-bordered data-table">
+			<thead>
 				<tr>
-                    <td>{{$vendortype->id}}</td>
-                    <td>{{$vendortype->vendor_type_name}}</td>
-                    <td>
-                        <form action="{{ route('vendortypes.destroy', $vendortype->id) }}", method="post">
-                            <a class="btn btn-primary" href="{{ route('vendortypes.edit', $vendortype->id) }}">Edit</a>
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-primary" title="delete">Delete</button>
-                        </form>
-                    </td>
+					<th>ID</th>
+					<th>Vendor Type Name</th>
+					<th width="100px">Action</th>
 				</tr>
-			@endforeach
-		</tbody>
+			</thead>
 		</table>
-	</div>	
+	</div>
+        
+	<script type="text/javascript">
+		$(function () {
+			var table = $('.data-table').DataTable({
+				processing: true,
+				serverSide: true,
+				ajax: "{{ route('vendortypes.index') }}",
+				columns: [
+					{data: 'id', name: 'id'},
+					{data: 'vendor_type_name', name: 'vendor_type_name'},
+					{data: 'action', name: 'action', orderable: false, searchable: false}
+				]
+			});
+		});
+	</script>
 @stop
+
+
+
+
+
+
 

@@ -1,36 +1,40 @@
 @extends('layouts.master')
 @section('content')
-	<h3><a href="{{ route('medicineunits.create') }}">Add Unit Name</a></h3>
+	<div class="">
+		<h1>Medicine Units</h1>
 
-	<br>
+		<h1><a href="{{ route('medicineunits.create') }}">Add Medicine Unit</a></h1>
 
-    <div class="col-lg-12 datatablescope ">
-		<table id="example" class="display" cellspacing="0" width="100%">
-		<thead>
-			<tr>
-				<th>ID</th>
-				<th>Medicine Unit Name</th>
-				<th>Actions</th>
-			</tr>
-		</thead>
-
-		<tbody>
-			@foreach ($medicineunit as $medicineunit)
+		<table class="table table-bordered data-table">
+			<thead>
 				<tr>
-                    <td>{{$medicineunit->id}}</td>
-                    <td>{{$medicineunit->unit_name}}</td>
-                    <td>
-                        <form action="{{ route('medicineunits.destroy', $medicineunit->id) }}", method="post">
-                            <a class="btn btn-primary" href="{{ route('medicineunits.edit', $medicineunit->id) }}">Edit</a>
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-primary" title="delete">Delete</button>
-                        </form>
-                    </td>
+					<th>ID</th>
+					<th>Medicine Unit Name</th>
+					<th width="100px">Action</th>
 				</tr>
-			@endforeach
-		</tbody>
+			</thead>
 		</table>
-	</div>	
+	</div>
+        
+	<script type="text/javascript">
+		$(function () {
+			var table = $('.data-table').DataTable({
+				processing: true,
+				serverSide: true,
+				ajax: "{{ route('medicineunits.index') }}",
+				columns: [
+					{data: 'id', name: 'id'},
+					{data: 'unit_name', name: 'unit_name'},
+					{data: 'action', name: 'action', orderable: false, searchable: false}
+				]
+			});
+		});
+	</script>
 @stop
+
+
+
+
+
+
 

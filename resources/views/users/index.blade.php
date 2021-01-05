@@ -1,47 +1,45 @@
 @extends('layouts.master')
 @section('content')
+	<div class="">
+		<h1>User</h1>
 
-	<h3><a href="{{ route('users.create') }}">Add User</a></h3>
+		<h1><a href="{{ route('users.create') }}">Add User</a></h1>
 
-	<br>
-
-    <div class="col-lg-12 datatablescope ">
-		<table id="example" class="display" cellspacing="0" width="100%">
+		<table class="table table-bordered data-table">
 			<thead>
 				<tr>
 					<th>ID</th>
 					<th>Name</th>
 					<th>Email</th>
 					<th>Created At</th>
-					<!-- <th>Default Discount</th>
-					<th>Default Vat</th> -->
 					<th>Updated At</th> 
-					<th>Actions</th>
+					<th width="100px">Action</th>
 				</tr>
 			</thead>
-
-			<tbody>
-				@foreach ($user as $user)
-					<tr>
-						<td>{{$user->id}}</td>
-						<td>{{$user->name}}</td>
-						<td>{{$user->email}}</td>
-						<td>{{$user->created_at}}</td>
-						<!-- <td>{{$user->default_discount}}</td>
-						<td>{{$user->default_vat}}</td> -->
-						<td>{{$user->updated_at}}</td> 
-						<td>
-							<form action="{{ route('users.destroy', $user->id) }}", method="post">
-								<a class="btn btn-primary" href="{{ route('users.edit', $user->id) }}">Edit</a>
-								@csrf
-								@method('DELETE')
-								<button type="submit" class="btn btn-primary" title="delete">Delete</button>
-							</form>
-						</td>
-					</tr>
-				@endforeach
-			</tbody>
 		</table>
-	</div>	
+	</div>
+        
+	<script type="text/javascript">
+		$(function () {
+			var table = $('.data-table').DataTable({
+				processing: true,
+				serverSide: true,
+				ajax: "{{ route('users.index') }}",
+				columns: [
+					{data: 'id', name: 'id'},
+					{data: 'name', name: 'name'},
+					{data: 'email', name: 'email'},
+					{data: 'created_at', name: 'created_at'},
+					{data: 'updated_at', name: 'updated_at'},
+					{data: 'action', name: 'action', orderable: false, searchable: false}
+				]
+			});
+		});
+	</script>
 @stop
+
+
+
+
+
 

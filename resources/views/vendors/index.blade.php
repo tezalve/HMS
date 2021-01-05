@@ -1,12 +1,11 @@
 @extends('layouts.master')
 @section('content')
+	<div class="">
+		<h1>Vendors</h1>
 
-	<h3><a href="{{ route('vendors.create') }}">Add Vendor</a></h3>
+		<h1><a href="{{ route('vendors.create') }}">Add Vendor</a></h1>
 
-	<br>
-
-    <div class="col-lg-12 datatablescope ">
-		<table id="example" class="display" cellspacing="0" width="100%">
+		<table class="table table-bordered data-table">
 			<thead>
 				<tr>
 					<th>ID</th>
@@ -14,36 +13,33 @@
 					<th>Contact Number</th>
 					<th>Email</th>
 					<th>Address</th>
-					<!-- <th>Default Discount</th>
-					<th>Default Vat</th> -->
 					<th>Users ID</th> 
-					<th>Actions</th>
+					<th width="100px">Action</th>
 				</tr>
 			</thead>
-
-			<tbody>
-				@foreach ($vendor as $vendor)
-					<tr>
-						<td>{{$vendor->id}}</td>
-						<td>{{$vendor->vendor_name}}</td>
-						<td>{{$vendor->contact_number}}</td>
-						<td>{{$vendor->email}}</td>
-						<td>{{$vendor->address}}</td>
-						<!-- <td>{{$vendor->default_discount}}</td>
-						<td>{{$vendor->default_vat}}</td> -->
-						<td>{{$vendor->users_id}}</td> 
-						<td>
-							<form action="{{ route('vendors.destroy', $vendor->id) }}", method="post">
-								<a class="btn btn-primary" href="{{ route('vendors.edit', $vendor->id) }}">Edit</a>
-								@csrf
-								@method('DELETE')
-								<button type="submit" class="btn btn-primary" title="delete">Delete</button>
-							</form>
-						</td>
-					</tr>
-				@endforeach
-			</tbody>
 		</table>
-	</div>	
+	</div>
+        
+	<script type="text/javascript">
+		$(function () {
+			var table = $('.data-table').DataTable({
+				processing: true,
+				serverSide: true,
+				ajax: "{{ route('vendors.index') }}",
+				columns: [
+					{data: 'id', name: 'id'},
+					{data: 'vendor_name', name: 'vendor_name'},
+					{data: 'contact_number', name: 'contact_number'},
+					{data: 'email', name: 'email'},
+					{data: 'address', name: 'address'},
+					{data: 'users_id', name: 'users_id'},
+					{data: 'action', name: 'action', orderable: false, searchable: false}
+				]
+			});
+		});
+	</script>
 @stop
+
+
+
 

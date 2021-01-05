@@ -105,7 +105,7 @@
                     </a>
                     
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a></li>
+                        <li><a href="{{ url('shownoid') }}"><i class="fa fa-user fa-fw"></i> User Profile</a></li>
 
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a></li>
 

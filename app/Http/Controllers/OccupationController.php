@@ -37,12 +37,14 @@ class OccupationController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
         $validated = $request->validate([
-				'new_occupationsdescription'  	=> 'required'
+				'occupationsdescription'  	=> 'required'
         ]);
 
 			$occupation = new Occupation;
-            $occupation->description 		= $request->new_occupationsdescription;
+            $occupation->description		= $request->occupationsdescription;
+            
             $occupation->save();
 			return redirect()->route('patients.create');
     }

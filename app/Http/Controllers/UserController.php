@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use DataTables;
 
 class UserController extends Controller
 {
@@ -12,10 +13,23 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $user = user::all();
-        return view('users.index', compact('user'));
+        if ($request->ajax()) {
+            $data = User::select('*');
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('action', function($row){
+     
+                            $btn = '<a href="" class="edit btn btn-primary btn-sm">View</a>';
+    
+                            return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        } 
+        
+        return view('users.index');
     }
 
     /**
@@ -131,7 +145,11 @@ class UserController extends Controller
             return redirect()->route('users.index')
             ->with('success', "Can't Delete Logged In User");
         }
-        
-         
+    }
+
+    public function shownoid()
+    {
+        $user = auth()->user();
+        return view('users.show', compact('user'));
     }
 }

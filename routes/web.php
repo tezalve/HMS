@@ -7,7 +7,8 @@ use App\Http\Controllers\{  DoctorController, PatientController, BedController, 
     DataController, AutocompleteController, DiagnosticreportviewController, DuecollectionController,
     InvoicereturnController, OccupationController, FloorController, Bedgroup, MedicinegenericController,
     MedicinegroupController, MedicineunitController, MedicinecompanyinfoController, MedicineinformationController,
-    CustomertypeController, VendortypeController, CustomerController, VendorController, UserController };
+    CustomertypeController, VendortypeController, CustomerController, VendorController, UserController, 
+    CustomerinformationController };
 
 /*
 |--------------------------------------------------------------------------
@@ -64,6 +65,9 @@ Route::post('patient',                              [AutocompleteController::Cla
 Route::post('investigtion',                         [AutocompleteController::Class, 'investigtion']);
 Route::post('subdeplist',                           [DataController::Class, 'subdeplist']);
 Route::post('invoicelistswithdate',                 [InvoicelistController::Class, 'invoicelistswithdate']);
+
+Route::get('shownoid',                              [UserController::Class, 'shownoid']);
+
 
 
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Customertype;
 use Illuminate\Http\Request;
+use DataTables;
 
 class CustomertypeController extends Controller
 {
@@ -12,10 +13,23 @@ class CustomertypeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $customertype = Customertype::all();
-        return view('customertypes.index', compact('customertype'));
+        if ($request->ajax()) {
+            $data = Customertype::select('*');
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('action', function($row){
+     
+                            $btn = '<a href="" class="edit btn btn-primary btn-sm">View</a>';
+    
+                            return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        } 
+        
+        return view('customertypes.index');
     }
 
     /**
@@ -25,6 +39,10 @@ class CustomertypeController extends Controller
      */
     public function create()
     {
+        if (request()->ajax()){
+            $customer_type_id = DB::table('customer_type')->get();
+            echo json_encode($customer_type_id);
+        }
         return view('customertypes.create');
     }
 
@@ -44,12 +62,18 @@ class CustomertypeController extends Controller
 
         $customertype->customer_type_name = $request->customer_type_name;
 
-        // dd($medicine_generic_name);
+        // dd($page[3]);
 
         $customertype->save();
 
+        $page = (explode('/', url()->previous()));
+
+        if ($page[3]=='customertypes'){
         return redirect()->route('customertypes.index')
-        ->with('success', 'Customer type name added successfully');  
+        ->with('success', 'Customer type name added successfully');
+        }  
+
+        return redirect()->back()->with('success', 'Customer type name added successfully');
     }
 
     /**

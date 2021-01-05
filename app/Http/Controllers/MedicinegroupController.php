@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Medicinegroup;
 use Illuminate\Http\Request;
+use DataTables;
+use DB;
 
 class MedicinegroupController extends Controller
 {
@@ -14,8 +16,21 @@ class MedicinegroupController extends Controller
      */
     public function index()
     {
-        $medicinegroup = Medicinegroup::all();
-        return view('medicinegroups.index', compact('medicinegroup'));
+        if (request()->ajax()) {
+            $data = Medicinegroup::select('*');
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('action', function($row){
+     
+                            $btn = '<a href="" class="edit btn btn-primary btn-sm">View</a>';
+    
+                            return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        } 
+        
+        return view('medicinegroups.index');
     }
 
     /**
@@ -25,6 +40,10 @@ class MedicinegroupController extends Controller
      */
     public function create()
     {
+        if (request()->ajax()){
+            $medicine_groups_id = DB::table('medicine_groups')->get();
+            echo json_encode($medicine_groups_id);
+        }
         return view('medicinegroups.create');
     }
 
@@ -48,8 +67,14 @@ class MedicinegroupController extends Controller
 
         $medicinegroup->save();
 
-        return redirect()->route('medicinegroups.index')
-        ->with('success', 'Group name added successfully');  
+        $page = (explode('/', url()->previous()));
+        
+        if ($page[3]=='medicinegenerics'){
+            return redirect()->route('medicinegroups.index')
+            ->with('success', 'Group name added successfully');  
+        }
+
+        return redirect()->back()->with('success', 'Group name added successfully');
     }
 
     /**

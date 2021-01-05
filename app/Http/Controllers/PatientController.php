@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Patient;
 use App\Models\Occupation;
 use Illuminate\Http\Request;
-use Validator;
+use DataTables;
+use DB;
 
 class PatientController extends Controller
 {
@@ -16,6 +17,20 @@ class PatientController extends Controller
      */
     public function index()
     {
+        if (request()->ajax()) {
+            $data = Patient::select('*');
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('action', function($row){
+     
+                           $btn = '<a href="" class="edit btn btn-primary btn-sm">View</a>';
+    
+                            return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        }
+
         $patient = Patient::all();
 		return View('patients.index', compact('patient'));
     }
