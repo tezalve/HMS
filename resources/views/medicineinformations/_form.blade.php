@@ -135,11 +135,11 @@
                             </tr>
                         </table>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-xs-12">
-                        <div class="col-lg-12 entry_panel_body">
-                            <input type="submit" id="submit" name="submit" value="Submit" class="col-lg-3 col-md-3 col-xs-3 btn btn-save btn-sm button button-save pull-right">
-                        </div>
-                    </div>  
+                    <div class="modal-footer">
+                        
+                        <button type="button" class="btn" style="width: 140px; background: rgb(9, 173, 61); height:30px;" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn" style="width: 140px; background: rgb(9, 173, 61); height:30px;" name="category_save">Save</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -165,11 +165,11 @@
                             </tr>
                         </table>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-xs-12">
-                        <div class="col-lg-12 entry_panel_body">
-                            <input type="submit" id="submit" name="submit" value="Submit" class="col-lg-3 col-md-3 col-xs-3 btn btn-save btn-sm button button-save pull-right">
-                        </div>
-                    </div>  
+                    <div class="modal-footer">
+                        
+                        <button type="button" class="btn" style="width: 140px; background: rgb(9, 173, 61); height:30px;" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn" style="width: 140px; background: rgb(9, 173, 61); height:30px;" name="category_save">Save</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -195,11 +195,11 @@
                             </tr>
                         </table>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-xs-12">
-                        <div class="col-lg-12 entry_panel_body">
-                            <input type="submit" id="submit" name="submit" value="Submit" class="col-lg-3 col-md-3 col-xs-3 btn btn-save btn-sm button button-save pull-right">
-                        </div>
-                    </div>  
+                    <div class="modal-footer">
+                        
+                        <button type="button" class="btn" style="width: 140px; background: rgb(9, 173, 61); height:30px;" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn" style="width: 140px; background: rgb(9, 173, 61); height:30px;" name="category_save">Save</button>
+                    </div>
                 </form>
             </div>
         </div>
