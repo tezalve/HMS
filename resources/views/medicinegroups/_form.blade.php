@@ -8,6 +8,6 @@
 
     <div class="col-lg-6 col-md-6 col-sm-6">
         <div class="col-lg-12 entry_panel_body">
-            <input type="submit" id="submit" name="submit" value="SAVE" class="col-lg-3 col-md-3 col-xs-3 btn btn-save btn-sm button button-save pull-right">
+            <input type="submit" id="submit" name="submit" value="SAVE" class="col-lg-3 col-md-3 col-xs-3 btn btn-save btn-sm button button-save">
         </div>
     </div>
