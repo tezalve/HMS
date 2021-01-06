@@ -41,11 +41,17 @@
             background-color: #CBF1F3;
             border: 1px solid #ccc;
         }
-        thead *{
+        thead tr{
             background: #DBDCDD;
         }
         div legend {
             background: coral !important;
+        }
+        tr td {
+            border : 0px !important;
+        }
+        tbody tr.odd {
+            background-color: #f9f9f9 !important;
         }
     </style>
 
