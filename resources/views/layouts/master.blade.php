@@ -51,7 +51,7 @@
             border : 0px !important;
         }
         tbody tr.odd {
-            background-color: #f9f9f9 !important;
+            background-color: #f1f1f1 !important;
         }
     </style>
 
