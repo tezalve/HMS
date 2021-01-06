@@ -44,7 +44,7 @@
         thead *{
             background: #DBDCDD;
         }
-        div h1 {
+        div legend {
             background: coral !important;
         }
     </style>

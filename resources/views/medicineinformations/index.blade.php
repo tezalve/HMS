@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('content')
 	<div class="">
-		<h1>Medicines</h1>
+		<legend>Medicines</legend>
 		<div class="col-lg-4 col-md-4 col-xs-12">
             <div class="col-lg-12 entry_panel_body ">
                 <a href="{{ route('medicineinformations.create') }}"><input type="button" id="submit" name="submit" value="+Add New Medicine" class="col-lg-7 col-md-7 col-xs-7 btn btn-save btn-sm button button-save pull-left" style="background: rgb(5, 142, 27); color: aliceblue;">	</a>

@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('content')
 	<div class="">
-		<h1>Customer Type</h1>
+		<legend>Customer Type</legend>
 
 		<div class="col-lg-4 col-md-4 col-xs-12">
             <div class="col-lg-12 entry_panel_body ">
