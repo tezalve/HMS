@@ -77,7 +77,7 @@ class MedicinegenericController extends Controller
 
         // dd($medicine_generic_name);
 
-        // $medicinegeneric->save();
+        $medicinegeneric->save();
 
         $page = (explode('/', url()->previous()));
 

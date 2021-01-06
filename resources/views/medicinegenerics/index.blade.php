@@ -3,7 +3,7 @@
 	<div class="">
 		<h1>Medicine Generic Names</h1>
 
-		<h1><a href="{{ route('medicinegenerics.create') }}">Add Medicine Generic</a></h1>
+		<h2><a href="{{ route('medicinegenerics.create') }}">Add Medicine Generic</a></h2>
 
 		<table class="table table-bordered data-table">
 			<thead>

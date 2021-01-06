@@ -43,7 +43,7 @@
 
 table thead{
   background-color: #525A6E;
-  color:#FFFFFF;
+  /* color:#FFFFFF; */
 }
 input {
 	/*border: none;*/
@@ -87,35 +87,35 @@ input {
 
 	<div class="col-lg-12 datatablescope ">
 		<table id="example" class="display" cellspacing="0" width="100%">
-		<thead>
-			<tr>
-				<th>Investigation name</th>
-				<th>Price</th>
-				<th>Refferal Fee</th>
-				<th>Refferal_type</th>
-				<th>Actions</th>
-			</tr>
-		</thead>
-
-		<tbody>
-			@foreach ($investigation as $investigation)
+			<thead>
 				<tr>
-				<td>{{$investigation->name}}</td>
-				<td>{{$investigation->price}}</td>
-				<td>{{$investigation->refferal_fee}}</td>
-				<td>@if ($investigation->refferal_type = 1) % @else Tk @endif</td>
-				<td>
-					<form action="{{ route('investigations.destroy', $investigation->id) }}", method="post">
-						<a class="btn btn-primary" href="{{ route('investigations.edit', $investigation->id) }}">Edit</a>
-						@csrf
-                        @method('DELETE')
-
-                        <button type="submit" class="btn btn-primary" title="delete">Delete</button>
-                    </form>
-				</td>
+					<th>Investigation name</th>
+					<th>Price</th>
+					<th>Refferal Fee</th>
+					<th>Refferal_type</th>
+					<th>Actions</th>
 				</tr>
-			@endforeach
-		</tbody>
+			</thead>
+
+			<tbody>
+				@foreach ($investigation as $investigation)
+					<tr>
+					<td>{{$investigation->name}}</td>
+					<td>{{$investigation->price}}</td>
+					<td>{{$investigation->refferal_fee}}</td>
+					<td>@if ($investigation->refferal_type = 1) % @else Tk @endif</td>
+					<td>
+						<form action="{{ route('investigations.destroy', $investigation->id) }}", method="post">
+							<a class="btn btn-primary" href="{{ route('investigations.edit', $investigation->id) }}">Edit</a>
+							@csrf
+							@method('DELETE')
+
+							<button type="submit" class="btn btn-primary" title="delete">Delete</button>
+						</form>
+					</td>
+					</tr>
+				@endforeach
+			</tbody>
 		</table>
 	</div>	
 

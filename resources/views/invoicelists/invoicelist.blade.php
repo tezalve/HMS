@@ -2,6 +2,7 @@
 @section ('includes')
 
 <script type="text/javascript">
+
 $(function() {
   $( "#invoicedate" ).datepicker({
     changeMonth: true,

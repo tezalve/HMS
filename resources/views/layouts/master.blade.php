@@ -41,6 +41,12 @@
             background-color: #CBF1F3;
             border: 1px solid #ccc;
         }
+        thead *{
+            background: #DBDCDD;
+        }
+        div h1 {
+            background: coral !important;
+        }
     </style>
 
     @yield('includes')

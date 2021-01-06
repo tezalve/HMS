@@ -4,7 +4,7 @@
 	<style>
 	table thead{
 	background-color: #525A6E;
-	color:#FFFFFF;
+	/* color:#FFFFFF; */
 	}
 	input {
 		border: none;

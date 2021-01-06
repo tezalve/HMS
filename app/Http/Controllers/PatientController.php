@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Patient;
 use App\Models\Occupation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use DataTables;
 use DB;
 
@@ -19,15 +20,23 @@ class PatientController extends Controller
     {
         if (request()->ajax()) {
             $data = Patient::select('*');
+
             return Datatables::of($data)
-                    ->addIndexColumn()
-                    ->addColumn('action', function($row){
+                    ->addColumn('edit', function($row){
      
-                           $btn = '<a href="" class="edit btn btn-primary btn-sm">View</a>';
-    
-                            return $btn;
+                        $btn1 = '<a href="'.route('patients.edit', Crypt::EncryptString($row->id)).'" class="edit btn btn-primary btn-sm">Edit</a>';
+                        return $btn1;
                     })
-                    ->rawColumns(['action'])
+                    ->addColumn('delete', function($row){
+     
+                        $btn2 = '<form action="'.route('patients.destroy', Crypt::EncryptString($row->id)).'" method="POST">
+                        '.csrf_field().'
+                        '.method_field("DELETE").'
+                        <button type="submit" class="edit btn btn-primary btn-sm">Delete
+                        </form>';
+                        return $btn2;
+                    })
+                    ->rawColumns(['edit', 'delete'])
                     ->make(true);
         }
 
@@ -112,8 +121,16 @@ class PatientController extends Controller
      * @param  \App\Models\Patient  $patient
      * @return \Illuminate\Http\Response
      */
-    public function edit(Patient $patient)
+    public function edit($patient)
     {
+        try {
+            $decrypted = Crypt::decryptString($patient);
+        } catch (DecryptException $e) {
+            dd("decryption failed");
+        }
+        // dd("$decrypted");
+        $patient = patient::where('id',$decrypted)->first();
+
         $occupation = Occupation::all();
         return view('patients.edit', compact('patient','occupation'));
     }
@@ -176,8 +193,16 @@ class PatientController extends Controller
      * @param  \App\Models\Patient  $patient
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Patient $patient)
+    public function destroy($patient)
     {
+        try {
+            $decrypted = Crypt::decryptString($patient);
+        } catch (DecryptException $e) {
+            dd("decryption failed");
+        }
+        // dd("$decrypted");
+        $patient = patient::where('id',$decrypted)->first();
+
         $patient->delete();
 
         return redirect()->route('patients.index')

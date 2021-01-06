@@ -18,6 +18,7 @@
                     <th>email</th>
                     <th>gender</th>
 					<th width="100px">Action</th>
+					<th width="100px"></th>
 				</tr>
 			</thead>
 		</table>
@@ -35,7 +36,8 @@
 					{data: 'address', name: 'address'},
                     {data: 'email', name: 'email'},
 					{data: 'gender', name: 'gender'},
-					{data: 'action', name: 'action', orderable: false, searchable: false}
+					{data: 'edit', name: 'edit', orderable: false, searchable: false},
+					{data: 'delete', name: 'delete', orderable: false, searchable: false}
 				]
 			});
 		});

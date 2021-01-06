@@ -42,7 +42,7 @@
 
 table thead{
   background-color: #525A6E;
-  color:#FFFFFF;
+  color: black !important;
 }
 input {
 	/*border: none;*/

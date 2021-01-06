@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Doctor;
-use App\Models\Department;
+use App\Models\{ Doctor, Department };
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use DataTables;
 
 class DoctorController extends Controller {
@@ -17,16 +17,24 @@ class DoctorController extends Controller {
 	public function index()
 	{
 		if (request()->ajax()) {
-            $data = Doctor::select('*');
+			$data = Doctor::select('*');
+			
             return Datatables::of($data)
-                    ->addIndexColumn()
-                    ->addColumn('action', function($row){
+                    ->addColumn('edit', function($row){
      
-                           $btn = '<a href="" class="edit btn btn-primary btn-sm">View</a>';
-    
-                            return $btn;
+                        $btn1 = '<a href="'.route('doctors.edit', Crypt::EncryptString($row->id)).'" class="edit btn btn-primary btn-sm">Edit</a>';
+                        return $btn1;
                     })
-                    ->rawColumns(['action'])
+                    ->addColumn('delete', function($row){
+     
+                        $btn2 = '<form action="'.route('doctors.destroy', Crypt::EncryptString($row->id)).'" method="POST">
+                        '.csrf_field().'
+                        '.method_field("DELETE").'
+                        <button type="submit" class="edit btn btn-primary btn-sm">Delete
+                        </form>';
+                        return $btn2;
+                    })
+                    ->rawColumns(['edit', 'delete'])
                     ->make(true);
         }
 
@@ -95,8 +103,16 @@ class DoctorController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit(Doctor $doctor)
+	public function edit($doctor)
 	{
+		try {
+            $decrypted = Crypt::decryptString($doctor);
+        } catch (DecryptException $e) {
+            dd("decryption failed");
+        }
+        // dd("$decrypted");
+		$doctor = doctor::where('id',$decrypted)->first();
+		
 		$department = Department::all();
 		return view('doctors.edit', compact('doctor', 'department'));
 	}
@@ -139,8 +155,16 @@ class DoctorController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy(Doctor $doctor)
+	public function destroy($doctor)
     {
+		try {
+            $decrypted = Crypt::decryptString($doctor);
+        } catch (DecryptException $e) {
+            dd("decryption failed");
+        }
+        // dd("$decrypted");
+		$doctor = doctor::where('id',$decrypted)->first();
+		
         $doctor->delete();
 
         return redirect()->route('doctors.index')
