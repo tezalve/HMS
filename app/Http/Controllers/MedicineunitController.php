@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Medicineunit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use DataTables;
 use DB;
 
@@ -18,16 +19,20 @@ class MedicineunitController extends Controller
     {
         if ($request->ajax()) {
             $data = Medicineunit::select('*');
+
             return Datatables::of($data)
-                    ->addIndexColumn()
                     ->addColumn('edit', function($row){
      
-                        $btn1 = '<a href="" class="edit btn btn-primary btn-sm">Edit</a>';
+                        $btn1 = '<a href="'.route('medicineunits.edit', Crypt::EncryptString($row->id)).'" class="edit btn btn-primary btn-sm">Edit</a>';
                         return $btn1;
                     })
                     ->addColumn('delete', function($row){
      
-                        $btn2 = '<a href="" class="delete btn btn-primary btn-sm">delete</a>';
+                        $btn2 = '<form action="'.route('medicineunits.destroy', Crypt::EncryptString($row->id)).'" method="POST">
+                        '.csrf_field().'
+                        '.method_field("DELETE").'
+                        <button type="submit" class="edit btn btn-primary btn-sm">Delete
+                        </form>';
                         return $btn2;
                     })
                     ->rawColumns(['edit', 'delete'])
@@ -99,8 +104,16 @@ class MedicineunitController extends Controller
      * @param  \App\Models\Medicineunit  $medicineunit
      * @return \Illuminate\Http\Response
      */
-    public function edit(Medicineunit $medicineunit)
+    public function edit($medicineunit)
     {
+        try {
+            $decrypted = Crypt::decryptString($medicineunit);
+        } catch (DecryptException $e) {
+            dd("decryption failed");
+        }
+        // dd("$decrypted");
+        $medicineunit = medicineunit::where('id',$decrypted)->first();
+        
         return view('medicineunits.edit', compact('medicineunit',$medicineunit));
     }
 
@@ -135,8 +148,16 @@ class MedicineunitController extends Controller
      * @param  \App\Models\Medicineunit  $medicineunit
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Medicineunit $medicineunit)
+    public function destroy($medicineunit)
     {
+        try {
+            $decrypted = Crypt::decryptString($medicineunit);
+        } catch (DecryptException $e) {
+            dd("decryption failed");
+        }
+        // dd("$decrypted");
+        $medicineunit = medicineunit::where('id',$decrypted)->first();
+
         $medicineunit->delete();
         return redirect()->route('medicineunits.index')
         ->with('success', 'Unit Name Deleted successfully'); 

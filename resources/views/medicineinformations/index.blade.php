@@ -14,6 +14,7 @@
 					<th>Default Vat</th>
 					<th>Users ID</th>
 					<th width="100px">Action</th>
+					<th width="100px"></th>
 				</tr>
 			</thead>
 		</table>

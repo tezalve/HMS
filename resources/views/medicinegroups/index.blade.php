@@ -11,6 +11,7 @@
 					<th>ID</th>
 					<th>Medicine Group Name</th>
 					<th width="100px">Action</th>
+					<th width="100px"></th>
 				</tr>
 			</thead>
 		</table>

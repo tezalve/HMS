@@ -168,7 +168,7 @@ class BedController extends Controller
             dd("decryption failed");
         }
         // dd("$decrypted");
-        $bed = Bed::where('id',$decrypted)->first();
+        $bed = Bed::where('id', $decrypted)->first();
         // dd("$bed");
 
         $bed->delete();

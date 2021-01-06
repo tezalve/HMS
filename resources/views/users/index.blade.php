@@ -14,6 +14,7 @@
 					<th>Created At</th>
 					<th>Updated At</th> 
 					<th width="100px">Action</th>
+					<th width="100px"></th>
 				</tr>
 			</thead>
 		</table>

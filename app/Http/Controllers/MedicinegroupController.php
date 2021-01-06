@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Medicinegroup;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use DataTables;
 use DB;
 
@@ -18,16 +19,20 @@ class MedicinegroupController extends Controller
     {
         if (request()->ajax()) {
             $data = Medicinegroup::select('*');
+
             return Datatables::of($data)
-                    ->addIndexColumn()
                     ->addColumn('edit', function($row){
      
-                        $btn1 = '<a href="" class="edit btn btn-primary btn-sm">Edit</a>';
+                        $btn1 = '<a href="'.route('medicinegroups.edit', Crypt::EncryptString($row->id)).'" class="edit btn btn-primary btn-sm">Edit</a>';
                         return $btn1;
                     })
                     ->addColumn('delete', function($row){
      
-                        $btn2 = '<a href="" class="delete btn btn-primary btn-sm">delete</a>';
+                        $btn2 = '<form action="'.route('medicinegroups.destroy', Crypt::EncryptString($row->id)).'" method="POST">
+                        '.csrf_field().'
+                        '.method_field("DELETE").'
+                        <button type="submit" class="edit btn btn-primary btn-sm">Delete
+                        </form>';
                         return $btn2;
                     })
                     ->rawColumns(['edit', 'delete'])
@@ -98,8 +103,16 @@ class MedicinegroupController extends Controller
      * @param  \App\Models\Medicinegroup  $medicinegroup
      * @return \Illuminate\Http\Response
      */
-    public function edit(Medicinegroup $medicinegroup)
+    public function edit($medicinegroup)
     {
+        try {
+            $decrypted = Crypt::decryptString($medicinegroup);
+        } catch (DecryptException $e) {
+            dd("decryption failed");
+        }
+        // dd("$decrypted");
+        $medicinegroup = Medicinegroup::where('id',$decrypted)->first();
+
         return view('medicinegroups.edit', compact('medicinegroup'));
     }
 
@@ -134,9 +147,17 @@ class MedicinegroupController extends Controller
      * @param  \App\Models\Medicinegroup  $medicinegroup
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Medicinegroup $medicinegroup)
+    public function destroy($medicinegroup)
     {
+        try {
+            $decrypted = Crypt::decryptString($medicinegroup);
+        } catch (DecryptException $e) {
+            dd("decryption failed");
+        }
+        // dd("$decrypted");
+        $medicinegroup = Medicinegroup::where('id',$decrypted)->first();
         $medicinegroup->delete();
+
 
         return redirect()->route('medicinegroups.index')
         ->with('success', 'Group name Deleted successfully');  

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use DataTables;
 
 class UserController extends Controller
@@ -17,15 +18,23 @@ class UserController extends Controller
     {
         if ($request->ajax()) {
             $data = User::select('*');
+
             return Datatables::of($data)
-                    ->addIndexColumn()
-                    ->addColumn('action', function($row){
+                    ->addColumn('edit', function($row){
      
-                            $btn = '<a href="" class="edit btn btn-primary btn-sm">View</a>';
-    
-                            return $btn;
+                        $btn1 = '<a href="'.route('users.edit', Crypt::EncryptString($row->id)).'" class="edit btn btn-primary btn-sm">Edit</a>';
+                        return $btn1;
                     })
-                    ->rawColumns(['action'])
+                    ->addColumn('delete', function($row){
+     
+                        $btn2 = '<form action="'.route('users.destroy', Crypt::EncryptString($row->id)).'" method="POST">
+                        '.csrf_field().'
+                        '.method_field("DELETE").'
+                        <button type="submit" class="edit btn btn-primary btn-sm">Delete
+                        </form>';
+                        return $btn2;
+                    })
+                    ->rawColumns(['edit', 'delete'])
                     ->make(true);
         } 
         
@@ -95,8 +104,15 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit($user)
     {
+        try {
+            $decrypted = Crypt::decryptString($user);
+        } catch (DecryptException $e) {
+            dd("decryption failed");
+        }
+        // dd("$decrypted");
+        $user = User::where('id',$decrypted)->first();
         // return redirect()->route('users.index')
         // ->with('success', 'User Edit Not Implemented'); 
         return view('users.edit',compact('user'));
@@ -116,7 +132,7 @@ class UserController extends Controller
             'email' => 'required'
         ]);
 
-        $user = user::find($user->id);
+        $user = User::find($user->id);
         $user->name = $request->name;
         $user->email = $request->email;
 
@@ -134,8 +150,16 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy($user)
     {
+        try {
+            $decrypted = Crypt::decryptString($user);
+        } catch (DecryptException $e) {
+            dd("decryption failed");
+        }
+        // dd("$decrypted");
+        $user = user::where('id',$decrypted)->first();
+
         $usernow = auth()->user();
         if ($usernow->id != $user->id){
             $user->delete();
