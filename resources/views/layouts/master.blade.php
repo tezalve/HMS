@@ -124,10 +124,6 @@
                         <li class="divider"></li>
 
                         <li>
-                            <a href="{{ route('users.index') }}">{{ __('Users Panel') }}</a>
-                        </li>
-                        
-                        <li>
                             <a href="{{ route('register') }}">{{ __('Register') }}</a>
                         </li>
 
@@ -197,14 +193,35 @@
 
                                 <li>
                                     <a href="{{ route('labreportcharts.index') }}">Lab Report Chart</a>
-                                </li>
-                                                                
+                                </li>                       
                                 <li>
                                     <a href="{{URL::route('beds.index')}}">Bed Information</a>
                                 </li>
                                 <li>
                                     <a href="{{URL::route('clinicalcharts.index')}}">Clinical Chart Registration</a>
-                                </li> 
+                                </li>
+                                
+                                <li >
+                                    <a href="#"><i class="fa-fw fa-fw"></i>User Management<span class="fa arrow"></span></a>
+
+                                    <ul class="nav nav-second-level">
+                                        <li>
+                                            <a href="{{ route('users.index') }}">{{ __('Users Panel') }}</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('roles.index') }}">{{ __('Roles') }}</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('permissions.index') }}">{{ __('Permissions') }}</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ url('role_permission') }}">{{ __('Role Permissions') }}</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ url('user_role_display') }}">{{ __('Assigned Roles') }}</a>
+                                        </li>
+                                    </ul>
+                                </li>
                                 <li>
                                     <a href="#"><i class="fa-fw fa-fw"></i>Pharmacy<span class="fa arrow"></span></a>
 
@@ -237,7 +254,8 @@
                                             <a href="{{ route('vendortypes.index') }}">Vendor Types</a>
                                         </li>
                                     </ul>
-                                </li>                                                          
+                                </li>
+                                                                                          
                             </ul>
                         </li> 
                         
@@ -270,6 +288,12 @@
 
                 @if ($message = Session::get('success'))
                     <div class="alert alert-success">
+                        <p>{{ $message }}</p>
+                    </div>
+                @endif
+
+                @if ($message = Session::get('failure'))
+                    <div class="alert alert-danger">
                         <p>{{ $message }}</p>
                     </div>
                 @endif

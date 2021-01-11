@@ -1,0 +1,303 @@
+$(document).ready(function($) {
+   
+
+    //initialize datatable
+    recieve_voucher_table = $("#recieve-voucher-table").DataTable({
+      "searching": false,
+      "paging": false,
+      "ordering": false,
+      "autoWidth": false,
+      "bInfo": false,
+        "footerCallback": function ( row, data, start, end, display ) {
+            api = this.api(), data;
+        },  
+      drawCallback: function() {
+          var $item_info_name = $('.item_info_name').select2({
+            placeholder: 'Enter a Item Name',
+            allowClear: true,
+            ajax: {
+              dataType: 'json',
+              url: "/getItemInfo_data",
+              delay: 100,
+              data: function(params) {
+                return {
+                  term: params.term
+                }
+              },
+              processResults: function (data, params) {
+                params.page = params.page || 1;
+                return {
+                  results: data
+                };
+              },
+            }
+          });
+      }           
+    });
+
+
+
+
+    qty_info   = 0;
+    price_info = 0;
+
+    totalcalculat = function(){
+      qty_info  = 0;
+      price_info = 0;
+
+      $(".qty_info").each(function () {
+
+      
+            //add only if the value is number
+            if (!isNaN(this.value) && this.value.length != 0) {
+             
+                qty_info += parseFloat(this.value);
+
+            }
+        });
+
+      
+      $(".price_info").each(function () {
+      
+            //add only if the value is number
+            if (!isNaN(this.value) && this.value.length != 0) {
+                price_info += parseFloat(this.value);
+            }
+        });   
+
+      $( api.column( 1 ).footer() ).html(qty_info.toFixed(2));
+      $( api.column( 3 ).footer() ).html(price_info.toFixed(2));
+
+
+      $('#total-qty').val(qty_info.toFixed(2));
+      $('#total-price').val(price_info.toFixed(2));           
+    };  
+
+    totalcalculat();
+    $("#recieve-voucher-table tbody tr").on('keyup', function() {
+      totalcalculat();
+    });
+    var cheque_info_ststus = false;
+    //When add button clicked
+    $('#add').click(function(event){
+
+
+      event.preventDefault();
+      //add array to data
+      var item_info_name = $("#item_info_name option:selected").text();
+       var serial_name = $("#serial option:selected").text();
+       if(serial_name == 'Yes'){
+          serial_name2='No';
+       }else{
+          serial_name2='Yes';
+       }
+
+      item_id     = $("#item_info_name").val();
+      serial     = $("#serial").val();
+       if(serial == ''){
+          serial='None';
+       }
+      item_id     = $("#item_info_name").val();
+
+      remarks    = $("#remarks").val();
+      qty        = $("#qty").val();
+      price      = $('#price').val();
+      qty        = intVal($("#qty").val());
+      price      = intVal($('#price').val());
+ 
+
+
+      // need to add tally condition
+
+      if(isBlank(item_id)){
+        alert("You can't add without Item");
+        return;
+      }
+
+      if (isBlank(qty) && isBlank(price)){
+        alert("qty or price can't be blank");
+        return;       
+      }
+
+      if (qty<0 && price<0){
+        alert("can't be add same row in qty and price value");
+        return;
+      }
+
+      var tableSize   = $('#recieve-voucher-table tbody tr').length;
+      qty_row     = 0;
+      price_row    = 0;
+
+      for (i = 0; i < tableSize; i++) { 
+
+        // var qty_val  = recieve_voucher_table.cell(i,2).nodes().to$().find('input').val()
+        // var credit_val = recieve_voucher_table.cell(i,3).nodes().to$().find('input').val()
+        
+        if(recieve_voucher_table.cell(i,2).nodes().to$().find('input').val()>0){
+          qty_row = qty_row+1;
+        }
+
+        if(recieve_voucher_table.cell(i,3).nodes().to$().find('input').val()>0){
+          price_row = price_row+1;
+        }
+      }
+
+
+      var dropdown = '<input  type="text"  name="serial[]" class="form-control serial"  style="width: 100%;text-align:center;"  value="'+serial+'"   onclick="this.select();">'
+
+      console.log(dropdown);
+      var entry = [
+        '<select class="form-control select2 item_info_name" name="item_info_name[]" style="width: 100%;"><option value="'+item_id+'">'+item_info_name+'</option></select>',
+        '<input  type="number"  name="qty_info[]"     class="form-control qty_info" placeholder="Quantity"  style="width: 100%;text-align:center; "  value="'+qty+'"    onclick="this.select();">',
+        '<input  type="number"  name="price_info[]"    class="form-control " placeholder="Price" style="width: 100%;text-align:center;"  value="'+price+'"   onclick="this.select();">',
+        '<input  type="text"  name="amount[]" readonly class="form-control price_info"  style="width: 100%;text-align:center;"  value="'+amount+'"   onclick="this.select();">',
+        dropdown,
+        // ' <select class="form-control serial " name="serial[]" style="width: 100%;" ><option value="'+serial+'" selected>'+serial_name+'</option></select>',
+            '<button class="btn btn-danger btn-block delete-button btn-flat" id="' + '" style="padding: 3px 10px;">Delete</button>',
+      ];
+      $("#qty").val('');
+      $('#price').val('');   
+      $('#amount').val('');   
+      $('#serial').val('');   
+
+
+      recieve_voucher_table.row.add(entry).draw(false);
+      dataLoad();
+      totalcalculat();
+    });
+
+
+        var intVal = function ( i ) {
+            return typeof i === 'string' ?
+                i.replace(/[\$,]/g, '')*1 :
+                typeof i === 'number' ?
+                    i : 0;
+        };
+      
+  $('#recieve-voucher-table tbody').on( 'keyup', 'tr', function () {
+
+      quantity = $(this).find('td:eq(1)').find('input').val();
+      unitprice = $(this).find('td:eq(2)').find('input').val();
+      $(this).find('td:eq(3)').find('input').val((parseFloat(unitprice)*parseFloat(quantity)).toFixed(2));
+      totalcalculat();
+      // recieve_voucher_table.cell($(this),3).data( (parseFloat(unitprice)*parseFloat(quantity)).toFixed(2) );
+  });
+
+// $('#sales_order_table tbody').on( 'focusout', 'tr', function () {
+// $('#sales_order_table').dataTable().api().rows().invalidate().draw()
+})
+
+
+
+    //delete row on button click
+$('#recieve-voucher-table tbody').on( 'click', '.delete-button', function () {
+      recieve_voucher_table.row( $(this).parents('tr') ).remove().draw();
+      totalcalculat();
+});
+
+
+      dataLoad = function(){
+      $("#remarks").val(''),
+      $('#item_info_name').val(null).trigger("change");
+      $('#item_info_name').select2('open');
+      $('#item_info_name').select2('close');      
+      }
+
+    stringtohtml = function(html) {
+        var el = document.createElement('div');
+        el.innerHTML = html;
+        return el.childNodes[0];
+    }  
+
+
+
+      var $item_info_name = $('.item_info_name').select2({
+        placeholder: 'Enter Item Info Name',
+        allowClear: true,
+        ajax: {
+          dataType: 'json',
+          url: "/getItemInfo_data",
+          delay: 100,
+          data: function(params) {
+            return {
+              term: params.term
+            }
+          },
+          processResults: function (data, params) {
+            params.page = params.page || 1;
+            return {
+              results: data
+            };
+          },
+        }
+      });
+
+  
+    $item_info_name.on("select2:select", function (e) {
+       $("#price").val($(this).select2('data')['0']['cost_price']);
+    })
+
+    $item_info_name.on("select2:unselect", function (e) { 
+      $("#price").val('');
+    });
+
+
+
+
+    
+
+    $('#qty').on('input', function() {
+     qty    = $("#qty").val();
+     price        = $("#price").val();
+     amount=qty*price;
+     
+       
+      $("#amount").val(amount);
+    });
+
+    $('#price').on('input', function() {
+     qty        = $("#qty").val();
+     price        = $("#price").val();
+     amount=qty*price;
+
+      $("#amount").val(amount);
+    });
+
+
+  
+      $('#frm_opening_inventory').on('submit',(function(e) {
+           e.preventDefault();
+
+        $("#btnSubmit").attr("disabled", true);
+        $("#btnSubmit").val('Please wait..');
+
+
+           var formData = new FormData(this);
+
+           $.ajax({
+               type:'POST',
+               url: $(this).attr('action'),
+               data:formData,
+               cache:false,
+               contentType: false,
+               processData: false,
+               success:function(data){
+
+
+            if(data.success == true) {
+                  $('#btnSubmit').attr("disabled", false);
+                  $("#btnSubmit").val('Submit');
+                  window.location.replace('/opening_inventory');
+
+            }else{
+                  toastr.error(data.messages);
+                  $('#btnSubmit').attr("disabled", false);
+                  $("#btnSubmit").val('Submit');
+            }
+               },
+            
+           });
+
+    }));
+
+

@@ -78,7 +78,7 @@ class MedicinegroupController extends Controller
 
         $page = (explode('/', url()->previous()));
         
-        if ($page[3]=='medicinegenerics'){
+        if ($page[3]=='medicinegroups'){
             return redirect()->route('medicinegroups.index')
             ->with('success', 'Group name added successfully');  
         }

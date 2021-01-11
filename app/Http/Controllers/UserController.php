@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\{ User, Role, AssignedRoles, ModelHasRole, ModelHasPermission};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use DataTables;
+use DB;
 
 class UserController extends Controller
 {
@@ -17,7 +18,9 @@ class UserController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = User::select('*');
+            $data = User::join('roles as r','r.id','=','users.roles_id')
+            ->select('users.id','users.name', 'users.email', 'users.created_at', 'r.name as role_name' )
+            ->get();
 
             return Datatables::of($data)
                     ->addColumn('edit', function($row){
@@ -34,6 +37,7 @@ class UserController extends Controller
                         </form>';
                         return $btn2;
                     })
+                    
                     ->rawColumns(['edit', 'delete'])
                     ->make(true);
         } 
@@ -48,8 +52,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        return redirect()->route('register')
-        ->with('success', 'Rerouted to Register'); 
+        $roles = Role::all();
+        return view('users.create', compact('roles'));
     }
 
     /**
@@ -60,31 +64,58 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        // $validated = $request->validate([
-        //     'user_name' => 'required',
-        //     'contact_number' => 'required',
-        //     'email' => 'required',
-        //     'address' => 'required',
-        //     'contact_person' => 'required',
-        //     'user_type_id' => 'required',
-        //     'users_id' => 'required'
-        // ]);
+        $validated = $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'phone_no' => 'required',
+            'address' => 'required',
+            'role' => 'required',
+            'password' => 'required'
+        ]);
 
-        // $user = new user;
-        // $user->user_name = $request->user_name;
-        // $user->contact_number = $request->contact_number;
+        // $user = new User;
+        // $user->name = $request->name;
         // $user->email = $request->email;
+        // $user->phone_no = $request->phone_no;
         // $user->address = $request->address;
-        // $user->contact_person = $request->contact_person;
-        // $user->user_type_id = $request->user_type_id;
-        // $user->users_id = $request->users_id;
+        // $user->roles_id = $request->role;
 
-        // // dd($medicine_generic_name);
+        $userdata = User::create([
+            'name'              => $request->name,
+            'phone_no'          => $request->phone_no,
+            'address'           => $request->address,
+            'email'             => $request->email,
+            'roles_id'          => $request->role,
+            'password'          => bcrypt($request->password)
+        ]);
 
-        // $user->save();
+        $insert = new AssignedRoles;
+        $insert->role_id = $request->role;
+        $insert->users_id = $userdata->id;
+        $insert->save();
 
-        return redirect()->route('users.index')
-        ->with('success', 'Please register instead'); 
+        $insert_role = new ModelHasRole;
+        $insert_role->role_id    = $request->role;
+        $insert_role->model_type = 'App\Models\User';
+        $insert_role->model_id   = $userdata->id;
+        $insert_role->save();
+
+
+        $role_permissions=  DB::SELECT ("SELECT * FROM role_has_permissions WHERE role_id=$request->role");
+
+        if ($role_permissions!=null) {
+            foreach ($role_permissions as $permission) {
+            $insert_role = new ModelHasPermission;
+            $insert_role->permission_id  = $permission->permission_id;
+            $insert_role->model_type     = 'App\Models\User';
+            $insert_role->model_id       = $userdata->id;
+            $insert_role->save();
+            }
+        }
+
+        \Artisan::call('optimize:clear');
+
+        return redirect()->route('users.index')->with('success', 'Success');
     }
 
     /**
@@ -113,9 +144,10 @@ class UserController extends Controller
         }
         // dd("$decrypted");
         $user = User::where('id',$decrypted)->first();
+        $roles = Role::all();
         // return redirect()->route('users.index')
         // ->with('success', 'User Edit Not Implemented'); 
-        return view('users.edit',compact('user'));
+        return view('users.edit',compact('user','roles'));
     }
 
     /**
@@ -129,12 +161,18 @@ class UserController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required',
-            'email' => 'required'
+            'email' => 'required',
+            'phone_no' => 'required',
+            'address' => 'required',
+            'role' => 'required'
         ]);
 
         $user = User::find($user->id);
         $user->name = $request->name;
         $user->email = $request->email;
+        $user->phone_no = $request->phone_no;
+        $user->address = $request->address;
+        $user->roles_id = $request->role;
 
         // dd($user);
 
