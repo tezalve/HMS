@@ -252,6 +252,9 @@
                                             <a href="{{ route('medicineinformations.index') }}">Medicines</a>
                                         </li>
                                         <li>
+                                            <a href="{{ route('medicinepurchaseorders.index') }}">Medicine Purchase Orders</a>
+                                        </li>
+                                        <li>
                                             <a href="{{ route('customers.index') }}">Customers</a>
                                         </li>
                                         <li>
