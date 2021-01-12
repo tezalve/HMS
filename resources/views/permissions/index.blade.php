@@ -8,6 +8,7 @@
                 <a href="{{ route('permissions.create') }}"><input type="button" id="submit" name="submit" value="+Add New Permission" class="col-lg-7 col-md-7 col-xs-7 btn btn-save btn-sm button button-save pull-left" style="background: rgb(5, 142, 27); color: aliceblue;">	</a>
             </div>
         </div>
+    <!-- emo -->
 
 		<table class="table table-bordered data-table">
 			<thead>

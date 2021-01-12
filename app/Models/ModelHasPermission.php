@@ -8,5 +8,4 @@ class ModelHasPermission extends Model
 {
 	public $timestamps 		= false;
 	protected $table 		= 'model_has_permissions';
-	// protected $primaryKey	= 'id';
 }

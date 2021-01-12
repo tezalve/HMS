@@ -4,7 +4,7 @@
      <link rel="stylesheet" href="{{asset('plugins/datatables/dataTables.bootstrap.css')}}">
     @stop        
     @section('content')
-      <!-- SELECT2 EXAMPLE -->
+    <!-- emo -->
           <legend>Roles Assign List</legend>
         <!-- /.box-header -->
         

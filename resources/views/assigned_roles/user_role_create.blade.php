@@ -75,7 +75,8 @@
                   			</ul>
                 		</div>
               
-                    	<!-- ./col -->
+                    	
+    <!-- emo -->
                 		<input type="submit" class="btn btn-success btn-flat pull-right" value="Submit" id="btnSubmit">
       	</form>
 

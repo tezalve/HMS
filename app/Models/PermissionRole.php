@@ -9,4 +9,5 @@ class PermissionRole extends Model
 	public $timestamps 		= false;
 	protected $table 		= 'role_has_permissions';
 	protected $primaryKey	= 'id';
+	// emo
 }

@@ -12,7 +12,8 @@
           <div class="box-tools pull-right">
               <a type="button" href="{{ URL::previous() }}" class="btn btn-box-tool"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
             </div>
-         </div>  
+         </div>
+        <!-- emo -->
 
         <form action="{{ url('submit_role_permission') }}" method="POST" onkeypress="return event.keyCode != 13;" id="role_permission_form">
         @csrf

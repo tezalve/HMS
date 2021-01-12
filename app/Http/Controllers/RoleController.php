@@ -9,7 +9,7 @@ use DataTables;
 
 class RoleController extends Controller
 {
-    /**
+    /** emo
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

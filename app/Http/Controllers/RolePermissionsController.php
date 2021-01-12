@@ -26,7 +26,7 @@ use App\Models\AssignedRoles;
 
 class RolePermissionsController extends Controller
 {
-    /**
+    /** emo
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

@@ -10,7 +10,7 @@ use DB;
 
 class UserController extends Controller
 {
-    /**
+    /**emo
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
