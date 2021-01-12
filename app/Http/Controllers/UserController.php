@@ -103,18 +103,17 @@ class UserController extends Controller
 
         $role_permissions=  DB::SELECT ("SELECT * FROM role_has_permissions WHERE role_id=$request->role");
 
-        if ($role_permissions!=null) {
-            foreach ($role_permissions as $permission) {
-            $insert_role = new ModelHasPermission;
-            $insert_role->permission_id  = $permission->permission_id;
-            $insert_role->model_type     = 'App\Models\User';
-            $insert_role->model_id       = $userdata->id;
-            $insert_role->save();
-            }
+        dd($role_permissions);
+
+        foreach ($role_permissions as $permission) {
+        $insert_role = new ModelHasPermission;
+        $insert_role->permission_id  = $permission->permission_id;
+        $insert_role->model_type     = 'App\Models\User';
+        $insert_role->model_id       = $userdata->id;
+        $insert_role->save();
         }
 
         \Artisan::call('optimize:clear');
-
         return redirect()->route('users.index')->with('success', 'Success');
     }
 
@@ -163,8 +162,7 @@ class UserController extends Controller
             'name' => 'required',
             'email' => 'required',
             'phone_no' => 'required',
-            'address' => 'required',
-            'role' => 'required'
+            'address' => 'required'
         ]);
 
         $user = User::find($user->id);

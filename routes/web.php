@@ -71,7 +71,7 @@ Route::post('invoicelistswithdate',                 [InvoicelistController::Clas
 Route::post('add_user_role',                        [AssignedRoleController::Class, 'add_user_role']);
 Route::post('submit_role_permission',               [RolePermissionsController::CLass, 'submit_role_permission']);
 
-Route::get('shownoid',                              [UserController::Class, 'shownoisd']);
+Route::get('shownoid',                              [UserController::Class, 'shownoid']);
 Route::get('permission/{id}/user_role',             [AssignedRoleController::Class, 'submit_user_role']);
 Route::get('role_permission',                       [RolePermissionsController::Class, 'role_permission_display']);
 Route::get('user_role_display',                     [AssignedRoleController::Class, 'user_role_display']);

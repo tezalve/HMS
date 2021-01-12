@@ -43,6 +43,7 @@
         </div>
     </div>
 
+    @if ($form_type != 'edit')
     <div class="col-lg-6 col-md-6 col-xs-12">
         <div class="col-lg-12 entry_panel_body ">
             <label for="Medicine Name" class="col-lg-5 col-md-5 col-xs-5 entry_panel_label">Select Role</label>			
@@ -59,6 +60,7 @@
             <td><button type="button" class="col-lg-1 entry_panel_label" data-toggle="modal" data-target="#rolesModal">... </button></td>
         </div>
     </div>
+    @endif
 
     <div class="col-lg-6 col-md-6 col-sm-6">
         <div class="col-lg-12 entry_panel_body">

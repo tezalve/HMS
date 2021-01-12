@@ -66,23 +66,20 @@ class RolePermissionsController extends Controller
         $permissions = $request->permission;
         // dd($permissions);
         DB::table('role_has_permissions')->truncate();
+
+        foreach ($permissions as $permission ) {
+        $temp           = explode(":", $permission);
+        $role_id        = $temp[1];
+        $permission_id  = $temp[0];
         
-        if($permissions!=null){
+        $role_query     = Role::where('id', '=', $role_id)->first();
 
-            foreach ($permissions as $permission ) {
-            $temp           = explode(":", $permission);
-            $role_id        = $temp[1];
-            $permission_id  = $temp[0];
-            
-            $role_query     = Role::where('id', '=', $role_id)->first();
+        $permission_query = Permission::where('id','=',$permission_id)->first();
 
-            $permission_query = Permission::where('id','=',$permission_id)->first();
-
-            $insert = new PermissionRole;
-            $insert->permission_id = $permission_id;
-            $insert->role_id       = $role_id;
-            $insert->save();
-            }
+        $insert = new PermissionRole;
+        $insert->permission_id = $permission_id;
+        $insert->role_id       = $role_id;
+        $insert->save();
         }
         
         DB::table('model_has_permissions')->truncate();
@@ -103,8 +100,8 @@ class RolePermissionsController extends Controller
 
 
         // $query = DB::SELECT ("");
-     
-                  Session::flash('message','Successfully Insert!');
+
+                  Session::flash('message','Successfully Inserted!');
                   return redirect()->back();
                 //   Session::flash('alert-type','success');
                 //   return response::json(array(
