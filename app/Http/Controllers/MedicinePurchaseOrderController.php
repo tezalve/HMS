@@ -27,8 +27,7 @@ class MedicinePurchaseOrderController extends Controller
 
             return Datatables::of($data)
                 ->make(true);
-        } 
-        
+        }
         return view('medicinepurchaseorders.index');
     }
 
@@ -53,7 +52,6 @@ class MedicinePurchaseOrderController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'po_number' => 'required',
             'po_date' => 'required',
             'delivery_date' => 'required',
             'note' => 'required',
@@ -61,9 +59,12 @@ class MedicinePurchaseOrderController extends Controller
             'valid' => 'required',
             'medicine_company_infos_id' => 'required',
         ]);
+        
+        $data = new DataController();
+        $po_number = $data->geneart_gistration("medicine_purchase_orders", "po_number");
 
         $medicinepurchaseorder = new medicinepurchaseorder;
-        $medicinepurchaseorder->po_number = $request->po_number;
+        $medicinepurchaseorder->po_number = $po_number;
         $medicinepurchaseorder->po_date = $request->po_date;
         $medicinepurchaseorder->delivery_date = $request->delivery_date;
         $medicinepurchaseorder->note = $request->note;
@@ -124,36 +125,28 @@ class MedicinePurchaseOrderController extends Controller
     public function update(Request $request, MedicinePurchaseOrder $medicinePurchaseOrder)
     {
         $validated = $request->validate([
-            'medicine_name' => 'required',
-            'mrp' => 'required',
-            'tp' => 'required',
-            'default_discount' => 'required',
-            'default_vat' => 'required',
-            'medicine_generic_names_id' => 'required',
-            'medicine_groups_id' => 'required',
+            'po_date' => 'required',
+            'delivery_date' => 'required',
+            'note' => 'required',
+            'users_id' => 'required',
+            'valid' => 'required',
             'medicine_company_infos_id' => 'required',
-            'medicine_units_id' => 'required',
-            'users_id' => 'required'
         ]);
 
         $medicinepurchaseorder = medicinepurchaseorder::find($medicinepurchaseorder->id);
-        $medicinepurchaseorder->medicine_name = $request->medicine_name;
-        $medicinepurchaseorder->mrp = $request->mrp;
-        $medicinepurchaseorder->tp = $request->tp;
-        $medicinepurchaseorder->default_discount = $request->default_discount;
-        $medicinepurchaseorder->default_vat = $request->default_vat;
-        $medicinepurchaseorder->medicine_generic_names_id = $request->medicine_generic_names_id;
-        $medicinepurchaseorder->medicine_groups_id = $request->medicine_groups_id;
-        $medicinepurchaseorder->medicine_company_infos_id = $request->medicine_company_infos_id;
-        $medicinepurchaseorder->medicine_units_id = $request->medicine_units_id;
+        $medicinepurchaseorder->po_date = $request->po_date;
+        $medicinepurchaseorder->delivery_date = $request->delivery_date;
+        $medicinepurchaseorder->note = $request->note;
         $medicinepurchaseorder->users_id = $request->users_id;
+        $medicinepurchaseorder->valid = $request->valid;
+        $medicinepurchaseorder->medicine_company_infos_id = $request->medicine_company_infos_id;
 
         // dd($medicinepurchaseorder);
 
         $medicinepurchaseorder->save();
 
         return redirect()->route('medicinepurchaseorders.index')
-        ->with('success', 'Company updated successfully'); 
+        ->with('success', 'Company updated successfully');
     }
 
     /**

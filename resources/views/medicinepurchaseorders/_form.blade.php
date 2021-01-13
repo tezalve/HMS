@@ -1,5 +1,5 @@
     @csrf
-        <div class="col-lg-6 col-md-6 col-xs-12">
+        <div class="col-lg-6 col-md-6 col-xs-12 hidden">
             <div class="col-lg-12 entry_panel_body ">
                 <label for="Medicine Name" class="col-lg-5 col-md-5 col-xs-5 entry_panel_label">PO Number</label>
                 <input name="po_number" type="text" id="po_number" value="{{ old('po_number',$medicinepurchaseorder->po_number??null) }}" placeholder="po_number" class="col-lg-7 col-md-7 col-xs-7 entry_panel_input">				
