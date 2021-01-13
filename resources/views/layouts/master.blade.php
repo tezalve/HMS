@@ -150,11 +150,6 @@
                         <li>
                             <a href="/"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
-                        @can('Patient Settings')
-                        <li>
-                            <a href="{{ route('patients.index') }}"><i class="fa fa-dashboard fa-fw"></i> Patient</a>
-                        </li>
-                        @endcan
                         <li>
                             <a href=""><i class="fa fa-bar-chart-o fa-fw"></i>Diagnostic<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
@@ -186,26 +181,6 @@
                         <li>
                             <a href="#"><i class="fa fa-wrench fa-fw"></i>Master Setup<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-                                @can('Doctor Settings')
-                                <li>
-                                    <a href="{{URL::route('doctors.index')}}">Doctor Registration </a>
-                                </li>
-                                @endcan
-                                <li>
-                                    <a href="{{ URL::route('investigations.index') }}">Investigation Registration</a>
-                                </li>
-
-                                <li>
-                                    <a href="{{ route('labreportcharts.index') }}">Lab Report Chart</a>
-                                </li>
-                                @can('Bed Settings')                       
-                                <li>
-                                    <a href="{{URL::route('beds.index')}}">Bed Information</a>
-                                </li>
-                                @endcan
-                                <li>
-                                    <a href="{{URL::route('clinicalcharts.index')}}">Clinical Chart Registration</a>
-                                </li>
                                 @can('Admin Settings')
                                 <li >
                                     <a href="#"><i class="fa-fw fa-fw"></i>User Management<span class="fa arrow"></span></a>
@@ -237,6 +212,14 @@
 
                                     <ul class="nav nav-second-level">
                                         <li>
+                                            <a href="#"><i class="fa-fw fa-fw"></i>Purchase<span class="fa arrow"></span></a>
+                                            <ul class="nav nav-second-level">
+                                                <li>
+                                                    <a href="{{ route('medicinepurchaseorders.index') }}">Medicine Purchase Orders</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
                                             <a href="{{ route('medicinegenerics.index') }}">Generic Names</a>
                                         </li>
                                         <li>
@@ -251,9 +234,9 @@
                                         <li>
                                             <a href="{{ route('medicineinformations.index') }}">Medicines</a>
                                         </li>
-                                        <li>
-                                            <a href="{{ route('medicinepurchaseorders.index') }}">Medicine Purchase Orders</a>
-                                        </li>
+                                        
+                                        
+                                        
                                         <li>
                                             <a href="{{ route('customers.index') }}">Customers</a>
                                         </li>
@@ -268,12 +251,34 @@
                                         </li>
                                     </ul>
                                 </li>
-                                @endcan                                                          
+                                @endcan      
+                                @can('Doctor Settings')
+                                <li>
+                                    <a href="{{URL::route('doctors.index')}}">Doctor Registration </a>
+                                </li>
+                                @endcan
+                                <li>
+                                    <a href="{{ URL::route('investigations.index') }}">Investigation Registration</a>
+                                </li>
+
+                                <li>
+                                    <a href="{{ route('labreportcharts.index') }}">Lab Report Chart</a>
+                                </li>
+                                @can('Bed Settings')                       
+                                <li>
+                                    <a href="{{URL::route('beds.index')}}">Bed Information</a>
+                                </li>
+                                @endcan
+                                <li>
+                                    <a href="{{URL::route('clinicalcharts.index')}}">Clinical Chart Registration</a>
+                                </li>                                              
                             </ul>
                         </li> 
-                        
-
-
+                        @can('Patient Settings')
+                        <li>
+                            <a href="{{ route('patients.index') }}"><i class="fa fa-dashboard fa-fw"></i> Patient</a>
+                        </li>
+                        @endcan
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\MedicinePurchaseOrder;
+use App\Models\{ MedicinePurchaseOrder, Medicinecompanyinfo };
 use Illuminate\Http\Request;
 use DataTables;
+use DB;
 
 class MedicinePurchaseOrderController extends Controller
 {
@@ -16,13 +17,19 @@ class MedicinePurchaseOrderController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $data = MedicinePurchaseOrder::select('*');
+            $data = MedicinePurchaseOrder::join('medicine_company_infos as c', 'c.id','=', 'medicine_purchase_orders.medicine_company_infos_id')->join('users as u', 'u.id','=', 'medicine_purchase_orders.users_id')
+            ->select('medicine_purchase_orders.id', 'medicine_purchase_orders.po_number', 'medicine_purchase_orders.po_date', 'medicine_purchase_orders.delivery_date', 'medicine_purchase_orders.note', 'u.name as user_name', 'medicine_purchase_orders.valid', 'c.company_name as company_name')
+            ->get();
+
+            // $data = DB::select("
+                
+            // ")
 
             return Datatables::of($data)
                 ->make(true);
         } 
         
-        return view('medicinepurchases.index');
+        return view('medicinepurchaseorders.index');
     }
 
     /**
@@ -32,14 +39,9 @@ class MedicinePurchaseOrderController extends Controller
      */
     public function create()
     {
-        $medicine_generic_names_id = Medicinegeneric::all();
-        $medicine_groups_id = Medicinegroup::all();
         $medicine_company_infos_id = Medicinecompanyinfo::all();
-        $medicine_units_id = Medicineunit::all();
-        $users_id = User::all();
         $user = auth()->user();
-        return view('medicinepurchases.create',compact('medicine_generic_names_id', 'medicine_groups_id', 
-        'medicine_company_infos_id', 'medicine_units_id'))->with('users', $user->id);
+        return view('medicinepurchaseorders.create', compact('medicine_company_infos_id','user'));
     }
 
     /**
@@ -51,35 +53,31 @@ class MedicinePurchaseOrderController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'medicine_name' => 'required',
-            'mrp' => 'required',
-            'tp' => 'required',
-            'default_discount' => 'required',
-            'default_vat' => 'required',
-            'medicine_generic_names_id' => 'required',
-            'medicine_groups_id' => 'required',
+            'po_number' => 'required',
+            'po_date' => 'required',
+            'delivery_date' => 'required',
+            'note' => 'required',
+            'users_id' => 'required',
+            'valid' => 'required',
             'medicine_company_infos_id' => 'required',
-            'medicine_units_id' => 'required'
         ]);
 
         $medicinepurchaseorder = new medicinepurchaseorder;
-        $medicinepurchaseorder->medicine_name = $request->medicine_name;
-        $medicinepurchaseorder->mrp = $request->mrp;
-        $medicinepurchaseorder->tp = $request->tp;
-        $medicinepurchaseorder->default_discount = $request->default_discount;
-        $medicinepurchaseorder->default_vat = $request->default_vat;
-        $medicinepurchaseorder->medicine_generic_names_id = $request->medicine_generic_names_id;
-        $medicinepurchaseorder->medicine_groups_id = $request->medicine_groups_id;
-        $medicinepurchaseorder->medicine_company_infos_id = $request->medicine_company_infos_id;
-        $medicinepurchaseorder->medicine_units_id = $request->medicine_units_id;
+        $medicinepurchaseorder->po_number = $request->po_number;
+        $medicinepurchaseorder->po_date = $request->po_date;
+        $medicinepurchaseorder->delivery_date = $request->delivery_date;
+        $medicinepurchaseorder->note = $request->note;
         $medicinepurchaseorder->users_id = $request->users_id;
+        $medicinepurchaseorder->valid = $request->valid;
+        $medicinepurchaseorder->medicine_company_infos_id = $request->medicine_company_infos_id;
+        
 
         // dd($medicine_generic_name);
 
         $medicinepurchaseorder->save();
 
-        return redirect()->route('medicinepurchases.index')
-        ->with('success', 'Company added successfully');
+        return redirect()->route('medicinepurchaseorders.index')
+        ->with('success', 'medicinepurchases added successfully');
     }
 
     /**
@@ -113,7 +111,7 @@ class MedicinePurchaseOrderController extends Controller
         $medicine_groups_id = Medicinegroup::all();
         $medicine_company_infos_id = Medicinecompanyinfo::all();
         $medicine_units_id = Medicineunit::all();
-        return view('medicinepurchases.edit',compact('medicinepurchaseorder', 'medicine_generic_names_id', 'medicine_groups_id', 'medicine_company_infos_id', 'medicine_units_id'));
+        return view('medicinepurchaseorders.edit',compact('medicinepurchaseorder', 'medicine_generic_names_id', 'medicine_groups_id', 'medicine_company_infos_id', 'medicine_units_id'));
     }
 
     /**
@@ -154,7 +152,7 @@ class MedicinePurchaseOrderController extends Controller
 
         $medicinepurchaseorder->save();
 
-        return redirect()->route('medicinepurchases.index')
+        return redirect()->route('medicinepurchaseorders.index')
         ->with('success', 'Company updated successfully'); 
     }
 
@@ -175,7 +173,7 @@ class MedicinePurchaseOrderController extends Controller
         $medicinepurchaseorder = medicinepurchaseorder::where('id',$decrypted)->first();
 
         $medicinepurchaseorder->delete();
-        return redirect()->route('medicinepurchases.index')
+        return redirect()->route('medicinepurchaseorders.index')
         ->with('success', 'Company deleted successfully'); 
     }
 }
