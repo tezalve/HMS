@@ -10,14 +10,14 @@
 		<table class="table table-bordered data-table">
 			<thead>
 				<tr>
-					<th>ID</th>
 					<th>PO Number</th>
 					<th>PO Date</th>
 					<th>Delivery Date</th>
 					<th>Note</th>
 					<th>User</th>
-					<th>Valid</th>
 					<th>Medicine Company</th>
+					<th>Requisition</th>
+					<th>Rate</th>
 				</tr>
 			</thead>
 		</table>
@@ -31,14 +31,14 @@
 				ordering: false,
 				ajax: "{{ route('medicinepurchaseorders.index') }}",
 				columns: [
-					{data: 'id', name: 'id'},
 					{data: 'po_number', name: 'po_number'},
 					{data: 'po_date', name: 'po_date'},
 					{data: 'delivery_date', name: 'delivery_date'},
 					{data: 'note', name: 'note'},
 					{data: 'user_name', name: 'user_name'},
-					{data: 'valid', name: 'valid'},
-					{data: 'company_name', name: 'company_name'}
+					{data: 'company_name', name: 'company_name'},
+					{data: 'requisition', name: 'requisition'},
+					{data: 'rate', name: 'rate'}
 				]
 			});
 		});

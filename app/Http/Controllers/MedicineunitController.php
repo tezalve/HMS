@@ -78,12 +78,12 @@ class MedicineunitController extends Controller
 
         $page = (explode('/', url()->previous()));
         
-        if ($page[3]=='medicinegenerics'){
+        if ($page[3]=='medicineunits'){
             return redirect()->route('medicineunits.index')
             ->with('success', 'Unit Name added successfully');
         }
 
-        return redirect()->back()->with('success', 'Generic name added successfully'); 
+        return redirect()->back()->with('success', 'Unit added successfully'); 
         
     }
 

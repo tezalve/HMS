@@ -16,7 +16,7 @@
 					<th>TP</th>
 					<th>Default Discount</th>
 					<th>Default Vat</th>
-					<th>Users ID</th>
+					<th>User</th>
 					<th width="100px">Action</th>
 					<th width="100px"></th>
 				</tr>
@@ -38,7 +38,7 @@
 					{data: 'tp', name: 'tp'},
 					{data: 'default_discount', name: 'default_discount'},
 					{data: 'default_vat', name: 'default_vat'},
-					{data: 'users_id', name: 'users_id'},
+					{data: 'user_name', name: 'user_name'},
 					{data: 'edit', name: 'edit', orderable: false, searchable: false},
 					{data: 'delete', name: 'delete', orderable: false, searchable: false},
 				]

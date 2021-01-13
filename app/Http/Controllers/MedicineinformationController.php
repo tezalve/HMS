@@ -17,7 +17,9 @@ class MedicineinformationController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Medicineinformation::select('*');
+            $data = Medicineinformation::join('users as u', 'u.id','=', 'medicine_informations.users_id')
+            ->select('medicine_informations.id', 'medicine_informations.medicine_name', 'medicine_informations.mrp', 'medicine_informations.tp', 'medicine_informations.default_discount', 'u.name as user_name', 'medicine_informations.default_vat')
+            ->get();
 
             return Datatables::of($data)
                     ->addColumn('edit', function($row){
