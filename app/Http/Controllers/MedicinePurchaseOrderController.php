@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\{ MedicinePurchaseOrder, Medicinecompanyinfo, Medicineunit, Medicineinformation, MedicinePurchaseOrderDetail };
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use DataTables;
 use DB;
 
@@ -20,11 +21,17 @@ class MedicinePurchaseOrderController extends Controller
             $data = MedicinePurchaseOrder::join('medicine_company_infos as c', 'c.id','=', 'medicine_purchase_orders.medicine_company_infos_id')
             ->join('users as u', 'u.id','=', 'medicine_purchase_orders.users_id')
             ->join('medicine_purchase_order_details as m', 'm.medicine_purchase_orders_id', '=', 'medicine_purchase_orders.id')
-            ->select('medicine_purchase_orders.id', 'medicine_purchase_orders.po_number', 'medicine_purchase_orders.po_date', 'medicine_purchase_orders.delivery_date', 'medicine_purchase_orders.note', 'u.name as user_name', 'medicine_purchase_orders.valid', 'c.company_name as company_name', 'm.requisition_quantity as requisition', 'm.rate as rate')
+            ->select('medicine_purchase_orders.id as id', 'medicine_purchase_orders.po_number', 'medicine_purchase_orders.po_date', 'medicine_purchase_orders.delivery_date', 'medicine_purchase_orders.note', 'u.name as user_name', 'medicine_purchase_orders.valid', 'c.company_name as company_name', 'm.requisition_quantity as requisition', 'm.rate as rate')
             ->where('medicine_purchase_orders.valid', '=', '1')
             ->get();
 
             return Datatables::of($data)
+                ->addColumn('delete', function($row){
+
+                    $btn2 = '<a style="color: red" href="'.route('medicinepurchaseorders.destroy', Crypt::EncryptString($row->id)).'" method="POST">Take In Order</a>';
+                    return $btn2;
+                })
+                ->rawColumns(['delete'])
                 ->make(true);
         }
         return view('medicinepurchaseorders.index');
@@ -170,18 +177,17 @@ class MedicinePurchaseOrderController extends Controller
      * @param  \App\Models\MedicinePurchaseOrder  $medicinePurchaseOrder
      * @return \Illuminate\Http\Response
      */
-    public function destroy(MedicinePurchaseOrder $medicinePurchaseOrder)
+    public function destroy($medicinePurchaseOrder)
     {
+        dd($medicinePurchaseOrder);
         try {
-            $decrypted = Crypt::decryptString($medicinepurchaseorder);
+            $decrypted = Crypt::decryptString($medicinePurchaseOrder);
         } catch (DecryptException $e) {
             dd("decryption failed");
         }
         // dd("$decrypted");
-        $medicinepurchaseorder = medicinepurchaseorder::where('id',$decrypted)->first();
+        $medicinePurchaseOrder = medicinepurchase::where('id',$decrypted)->first();
 
-        $medicinepurchaseorder->delete();
-        return redirect()->route('medicinepurchaseorders.index')
-        ->with('success', 'Company deleted successfully'); 
+        return redirect()->route('medicinepurchases.create', compact('medicinePurchaseOrder'));
     }
 }

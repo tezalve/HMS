@@ -9,7 +9,8 @@ use App\Http\Controllers\{  DoctorController, PatientController, BedController, 
     FloorController, Bedgroup, MedicinegenericController, MedicinegroupController, MedicineunitController, 
     MedicinecompanyinfoController, MedicineinformationController, CustomertypeController, VendortypeController, 
     CustomerController, VendorController, UserController, CustomerinformationController, RoleController, 
-    PermissionController, AssignedRoleController, RolePermissionsController, MedicinePurchaseOrderController };
+    PermissionController, AssignedRoleController, RolePermissionsController, MedicinePurchaseOrderController,
+    MedicinePurchaseController };
 
 /*
 |--------------------------------------------------------------------------
@@ -60,6 +61,7 @@ Route::resource('users',                            UserController::Class);
 Route::resource('roles',                            RoleController::Class);
 Route::resource('permissions',                      PermissionController::Class);
 Route::resource('medicinepurchaseorders',           MedicinePurchaseOrderController::Class);
+Route::resource('medicinepurchases',                MedicinePurchaseController::Class);
 
 Route::post('investigtionnew',                      [AutocompleteController::Class, 'investigtionnew']);
 Route::post('isempty',                              [AutocompleteController::Class, 'isempty']);

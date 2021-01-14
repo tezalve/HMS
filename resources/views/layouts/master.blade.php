@@ -164,7 +164,6 @@
                                 </li>
                             </ul>
                         </li>
-
                         <li>
                             <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>Lab Management<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
@@ -216,6 +215,9 @@
                                             <ul class="nav nav-second-level">
                                                 <li>
                                                     <a href="{{ route('medicinepurchaseorders.index') }}">Medicine Purchase Orders</a>
+                                                </li>
+                                                <li>
+                                                    <a href="{{ route('medicinepurchases.index') }}">Medicine Purchase</a>
                                                 </li>
                                             </ul>
                                         </li>
