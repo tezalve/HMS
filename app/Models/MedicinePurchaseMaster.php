@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class MedicinePurchaseMaster extends Model
 {
     use HasFactory;
-    protected $table = "medicine_purchse_master";
+    protected $table = "medicine_purchase_master";
     public $timestamps = false;
     protected $guarded = [];
 }

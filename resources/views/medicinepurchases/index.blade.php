@@ -1,12 +1,12 @@
 @extends('layouts.master')
 @section('content')
 	<div class="">
-		<legend>Purchase Medicines</legend>
-		<div class="col-lg-4 col-md-4 col-xs-12">
+		<legend>Completed Purchases</legend>
+		<!-- <div class="col-lg-4 col-md-4 col-xs-12">
             <div class="col-lg-12 entry_panel_body ">
                 <a href="{{ route('medicinepurchases.create') }}"><input type="button" id="submit" name="submit" value="+Purchase" class="col-lg-7 col-md-7 col-xs-7 btn btn-save btn-sm button button-save pull-left" style="background: rgb(5, 142, 27); color: aliceblue;">	</a>
             </div>
-        </div>
+        </div> -->
 		<table class="table table-bordered data-table">
 			<thead>
 				<tr>
@@ -15,9 +15,11 @@
 					<th>Delivery Date</th>
 					<th>Note</th>
 					<th>Transaction Type</th>
+					<th>Medicine Name</th>
 					<th>Medicine Company</th>
 					<th>Transaction Master ID</th>
-					<th>Purchase</th>
+					<th>MRP</th>
+					<th>Total Price</th>
 				</tr>
 			</thead>
 		</table>
@@ -32,13 +34,15 @@
 				ajax: "{{ route('medicinepurchases.index') }}",
 				columns: [
 					{data: 'po_number', name: 'po_number'},
-					{data: 'delivery_name', name: 'delivery_name'},
+					{data: 'delivery_number', name: 'delivery_number'},
 					{data: 'delivery_date', name: 'delivery_date'},
 					{data: 'note', name: 'note'},
 					{data: 'transaction_type', name: 'transaction_type'},
 					{data: 'company_name', name: 'company_name'},
-					{data: 'transaction_master_id', name: 'transaction_master_id'},
-					{data: 'edit', name: 'edit', orderable: false, searchable: false},
+					{data: 'medicine_name', name: 'medicine_name'},
+					{data: 'transaction_masters_id', name: 'transaction_masters_id'},
+					{data: 'mrp', name: 'mrp'},
+					{data: 'total_price', name: 'total_price'},
 				]
 			});
 		});

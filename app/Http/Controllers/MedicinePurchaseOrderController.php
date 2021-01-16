@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{ MedicinePurchaseOrder, Medicinecompanyinfo, Medicineunit, Medicineinformation, MedicinePurchaseOrderDetail };
+use App\Models\{ MedicinePurchase, MedicinePurchaseOrder, Medicinecompanyinfo, Medicineunit, Medicineinformation, MedicinePurchaseOrderDetail };
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use DataTables;
@@ -26,12 +26,12 @@ class MedicinePurchaseOrderController extends Controller
             ->get();
 
             return Datatables::of($data)
-                ->addColumn('delete', function($row){
-
-                    $btn2 = '<a style="color: red" href="'.route('medicinepurchaseorders.destroy', Crypt::EncryptString($row->id)).'" method="POST">Take In Order</a>';
-                    return $btn2;
+                ->addColumn('edit', function($row){
+                    
+                    $btn1 = '<a style="color: red" href="'.route('medicinepurchaseorders.edit', Crypt::EncryptString($row->id)).'" class="edit">Complete Order</a>';
+                        return $btn1;
                 })
-                ->rawColumns(['delete'])
+                ->rawColumns(['edit'])
                 ->make(true);
         }
         return view('medicinepurchaseorders.index');
@@ -120,21 +120,28 @@ class MedicinePurchaseOrderController extends Controller
      * @param  \App\Models\MedicinePurchaseOrder  $medicinePurchaseOrder
      * @return \Illuminate\Http\Response
      */
-    public function edit(MedicinePurchaseOrder $medicinePurchaseOrder)
+    public function edit($medicinePurchaseOrder)
     {
         try {
-            $decrypted = Crypt::decryptString($medicinepurchaseorder);
+            $decrypted = Crypt::decryptString($medicinePurchaseOrder);
         } catch (DecryptException $e) {
             dd("decryption failed");
         }
         // dd("$decrypted");
-        $medicinepurchaseorder = medicinepurchaseorder::where('id',$decrypted)->first();
-
-        $medicine_generic_names_id = Medicinegeneric::all();
-        $medicine_groups_id = Medicinegroup::all();
-        $medicine_company_infos_id = Medicinecompanyinfo::all();
-        $medicine_units_id = Medicineunit::all();
-        return view('medicinepurchaseorders.edit',compact('medicinepurchaseorder', 'medicine_generic_names_id', 'medicine_groups_id', 'medicine_company_infos_id', 'medicine_units_id'));
+        $medicinePurchaseOrder = MedicinePurchaseOrder::where('id', '=', $decrypted)->first();
+        // dd($medicinePurchaseOrder->id);
+        $medicine_company_infos_id      = Medicinecompanyinfo::where('id', '=', $medicinePurchaseOrder->medicine_company_infos_id)->first();
+        $medicine_purchase_order_detail = MedicinePurchaseOrderDetail::where('medicine_purchase_orders_id', '=', $medicinePurchaseOrder->id)->first();
+        $medicine_informations_id       = Medicineinformation::where('id', '=', $medicine_purchase_order_detail->medicine_informations_id)->first();
+        
+        // $medicine_purchase_orders_id    = MedicinePurchaseOrder::select('medicine_purchase_orders.id', 'medicine_purchase_orders.po_number')
+        //                                     ->where('medicine_purchase_orders.valid', '=', '1')
+        //                                     ->get();
+        $medicine_units_id              = Medicineunit::where('id', '=', $medicine_purchase_order_detail->medicine_units_id)->first();
+        $bonus_units_id        = Medicineunit::all();
+        $total_price = $medicine_purchase_order_detail->requisition_quantity*$medicine_purchase_order_detail->rate;
+        // dd($medicinePurchaseOrder);
+        return view('medicinepurchases.create', compact('medicine_purchase_order_detail', 'medicinePurchaseOrder', 'medicine_company_infos_id', 'medicine_informations_id', 'medicine_units_id', 'bonus_units_id', 'total_price'));
     }
 
     /**
@@ -179,15 +186,6 @@ class MedicinePurchaseOrderController extends Controller
      */
     public function destroy($medicinePurchaseOrder)
     {
-        dd($medicinePurchaseOrder);
-        try {
-            $decrypted = Crypt::decryptString($medicinePurchaseOrder);
-        } catch (DecryptException $e) {
-            dd("decryption failed");
-        }
-        // dd("$decrypted");
-        $medicinePurchaseOrder = medicinepurchase::where('id',$decrypted)->first();
-
-        return redirect()->route('medicinepurchases.create', compact('medicinePurchaseOrder'));
+        //
     }
 }

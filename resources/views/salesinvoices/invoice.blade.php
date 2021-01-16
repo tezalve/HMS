@@ -711,7 +711,7 @@ function findinvestigation(id){
               patentname: {trigger:'focus'},
           },
       messages: {
-        patentname: "Please enter paten tname",
+        patentname: "Please enter patient tname",
         consultantby: {
           required: "Please enter a consultant by",
         },

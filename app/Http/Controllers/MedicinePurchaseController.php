@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{ MedicinePurchase, Medicinecompanyinfo, Medicineinformation, Medicineunit, MedicinePurchaseOrder };
+use App\Models\{ MedicinePurchase, Medicinecompanyinfo, Medicineinformation, Medicineunit, MedicinePurchaseOrder,
+                 MedicinePurchaseMaster };
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Validation\Rule;
 use DataTables;
 
 class MedicinePurchaseController extends Controller
@@ -17,24 +19,15 @@ class MedicinePurchaseController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $data = medicinepurchase::select('*');
+            $data = medicinepurchasemaster::join('medicine_purchase_details as m', 'm.medicine_purchse_master_id', '=', 'medicine_purchase_master.id')
+                ->join('medicine_purchase_orders as med', 'med.id', '=', 'medicine_purchase_master.medicine_purchase_orders_id')
+                ->join('medicine_company_infos as c', 'c.id','=', 'medicine_purchase_master.medicine_company_infos_id')
+                ->join('medicine_informations as mi', 'mi.id', '=', 'm.medicine_informations_id')
+                ->select('med.po_number', 'medicine_purchase_master.delivery_number', 'medicine_purchase_master.delivery_date', 'medicine_purchase_master.note', 'c.company_name as company_name', 'medicine_purchase_master.transaction_type', 'medicine_purchase_master.transaction_masters_id', 'm.mrp', 'mi.medicine_name as medicine_name', 'm.total_price as total_price')
+                ->where('m.valid', '=', '1')
+                ->get();
 
             return Datatables::of($data)
-                    ->addColumn('edit', function($row){
-     
-                        $btn1 = '<a href="'.route('medicinepurchases.edit', Crypt::EncryptString($row->id)).'" class="edit btn btn-primary btn-sm">Edit</a>';
-                        return $btn1;
-                    })
-                    ->addColumn('delete', function($row){
-     
-                        $btn2 = '<form action="'.route('medicinepurchases.destroy', Crypt::EncryptString($row->id)).'" method="POST">
-                        '.csrf_field().'
-                        '.method_field("DELETE").'
-                        <button type="submit" class="edit btn btn-primary btn-sm">Delete
-                        </form>';
-                        return $btn2;
-                    })
-                    ->rawColumns(['edit', 'delete'])
                     ->make(true);
         } 
         
@@ -48,14 +41,14 @@ class MedicinePurchaseController extends Controller
      */
     public function create()
     {   
-        $medicine_company_infos_id      = Medicinecompanyinfo::all();
-        $medicine_informations_id       = Medicineinformation::all();
-        $medicine_purchase_orders_id    = MedicinePurchaseOrder::select('medicine_purchase_orders.id', 'medicine_purchase_orders.po_number')
-                                            ->where('medicine_purchase_orders.valid', '=', '1')
-                                            ->get();
-        $medicine_units_id              = Medicineunit::all();
-        $medicine_units_id_bonus        = Medicineunit::all();
-        return view('medicinepurchases.create', compact('medicine_company_infos_id', 'medicine_informations_id', 'medicine_units_id', 'medicine_units_id_bonus', 'medicine_purchase_orders_id'));
+        // $medicine_company_infos_id      = Medicinecompanyinfo::all();
+        // $medicine_informations_id       = Medicineinformation::all();
+        // $medicine_purchase_orders_id    = MedicinePurchaseOrder::select('medicine_purchase_orders.id', 'medicine_purchase_orders.po_number')
+        //                                     ->where('medicine_purchase_orders.valid', '=', '1')
+        //                                     ->get();
+        // $medicine_units_id              = Medicineunit::all();
+        // $medicine_units_id_bonus        = Medicineunit::all();
+        // return view('medicinepurchases.create', compact('medicine_company_infos_id', 'medicine_informations_id', 'medicine_units_id', 'medicine_units_id_bonus', 'medicine_purchase_orders_id'));
     }
 
     /**
@@ -65,7 +58,7 @@ class MedicinePurchaseController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {   $zero = 0;
         $validated = $request->validate([
             'delivery_date' => 'required',
             'note' => 'required',
@@ -81,19 +74,55 @@ class MedicinePurchaseController extends Controller
             'discount' => 'required',
             'discount_type' => 'required',
             'bonus_quantity' => 'required',
-            'medicine_units_id_bonus' => 'required'
+            'bonus_units_id' => 'required',
+            'pay' => 'required|same:payable',
+            'total_price' => 'required',
+            'dues' => [
+                'required',
+                Rule::in([$zero]),
+            ],
         ]);
 
-        $medicinepurchase = new medicinepurchase;
+        $data = new DataController();
+        $delivery_number = $data->geneart_gistration("medicine_purchase_master", "delivery_number");
 
-        $medicinepurchase->group_name = $request->group_name;
-        $medicinepurchase->group_name = $request->group_name;
-        $medicinepurchase->group_name = $request->group_name;
-        $medicinepurchase->group_name = $request->group_name;
-        $medicinepurchase->group_name = $request->group_name;
-        $medicinepurchase->group_name = $request->group_name;
+        $medicinepurchasemaster = new MedicinePurchaseMaster;
 
-        return redirect()->back()->with('success', 'Purchased Successfully');
+        $medicinepurchasemaster->medicine_purchase_orders_id = $request->medicine_purchase_orders_id;
+        $medicinepurchasemaster->delivery_number = $delivery_number;
+        $medicinepurchasemaster->delivery_date = $request->delivery_date;
+        $medicinepurchasemaster->note = $request->note;
+        $medicinepurchasemaster->transaction_type = $request->transaction_type;
+        $medicinepurchasemaster->medicine_company_infos_id = $request->medicine_company_infos_id;
+        $medicinepurchasemaster->transaction_masters_id = $request->transaction_masters_id;
+
+        // dd("$medicinepurchasemaster");
+        $medicinepurchasemaster->save();
+
+        $medicinepurchase = new Medicinepurchase;
+
+        $medicinepurchase->medicine_purchse_master_id = $medicinepurchasemaster->id;
+        $medicinepurchase->medicine_informations_id = $request->medicine_informations_id;
+        $medicinepurchase->medicine_units_id = $request->medicine_units_id;
+        $medicinepurchase->mrp = $request->mrp;
+        $medicinepurchase->tp = $request->tp;
+        $medicinepurchase->vat = $request->vat;
+        $medicinepurchase->discount = $request->discount;
+        $medicinepurchase->discount_type = $request->discount_type;
+        $medicinepurchase->quantity = $request->quantity;
+        $medicinepurchase->bonus_quantity = $request->bonus_quantity;
+        $medicinepurchase->bonus_units_id = $request->bonus_units_id;
+        $medicinepurchase->total_price = $request->total_price;
+        $medicinepurchase->valid = 1;
+
+        $medicinepurchase->save();
+
+        $medicinepurchaseorder = medicinepurchaseorder::find($request->medicine_purchase_orders_id);
+        $medicinepurchaseorder->valid = 0;
+
+        $medicinepurchaseorder->save();
+
+        return redirect()->route('medicinepurchases.index')->with('success', 'Purchased Successfully');
     }
 
     /**
