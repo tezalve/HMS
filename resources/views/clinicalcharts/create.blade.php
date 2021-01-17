@@ -16,7 +16,6 @@
                     data :  senddata,
                     dataType: "json",
                     success: function(data){
-                        
                         $('#subdepartment').empty();
                         var opts = data;
                         // Use jQuery's each to iterate over the opts value

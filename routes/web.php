@@ -73,6 +73,7 @@ Route::post('subdeplist',                           [DataController::Class, 'sub
 Route::post('invoicelistswithdate',                 [InvoicelistController::Class, 'invoicelistswithdate']);
 Route::post('add_user_role',                        [AssignedRoleController::Class, 'add_user_role']);
 Route::post('submit_role_permission',               [RolePermissionsController::CLass, 'submit_role_permission']);
+Route::post('medlist',                              [DataController::Class, 'medlist']);
 
 Route::get('shownoid',                              [UserController::Class, 'shownoid']);
 Route::get('permission/{id}/user_role',             [AssignedRoleController::Class, 'submit_user_role']);

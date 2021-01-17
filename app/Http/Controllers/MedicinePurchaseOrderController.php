@@ -44,12 +44,11 @@ class MedicinePurchaseOrderController extends Controller
      */
     public function create()
     {
-        $medicine_units_id = Medicineunit::all();
         $medicine_company_infos_id = Medicinecompanyinfo::all();
         $medicine_informations_id = Medicineinformation::all();
         
         $user = auth()->user();
-        return view('medicinepurchaseorders.create', compact('medicine_company_infos_id', 'user', 'medicine_units_id', 'medicine_informations_id'));
+        return view('medicinepurchaseorders.create', compact('medicine_company_infos_id', 'user', 'medicine_informations_id'));
     }
 
     /**

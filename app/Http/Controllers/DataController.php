@@ -42,4 +42,14 @@ class DataController extends Controller {
 		$subdepartmentdata = DB::table('sub_department')->where('department_id','=',$departmentid)->get();
 		echo json_encode($subdepartmentdata);		
 	}
+
+	public function medlist(Request $request) {
+		
+		// dd($request);
+		$data = $request->all();
+		$companyid  = $data['medicine_company_infos_id'];
+
+		$meddata = DB::table('medicine_informations')->where('medicine_company_infos_id','=',$companyid)->get();
+		echo json_encode($meddata);
+	}
 }	
