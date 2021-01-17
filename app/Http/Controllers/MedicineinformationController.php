@@ -54,10 +54,9 @@ class MedicineinformationController extends Controller
         $medicine_groups_id = Medicinegroup::all();
         $medicine_company_infos_id = Medicinecompanyinfo::all();
         $medicine_units_id = Medicineunit::all();
-        $users_id = User::all();
-        $user = auth()->user();
+        $users = auth()->user();
         return view('medicineinformations.create',compact('medicine_generic_names_id', 'medicine_groups_id', 
-        'medicine_company_infos_id', 'medicine_units_id'))->with('users', $user->id);
+        'medicine_company_infos_id', 'medicine_units_id', 'users'));
     }
 
     /**
@@ -131,7 +130,8 @@ class MedicineinformationController extends Controller
         $medicine_groups_id = Medicinegroup::all();
         $medicine_company_infos_id = Medicinecompanyinfo::all();
         $medicine_units_id = Medicineunit::all();
-        return view('medicineinformations.edit',compact('medicineinformation', 'medicine_generic_names_id', 'medicine_groups_id', 'medicine_company_infos_id', 'medicine_units_id'));
+        $users = auth()->user();
+        return view('medicineinformations.edit',compact('medicineinformation', 'medicine_generic_names_id', 'medicine_groups_id', 'medicine_company_infos_id', 'medicine_units_id', 'users'));
     }
 
     /**
@@ -153,7 +153,6 @@ class MedicineinformationController extends Controller
             'medicine_groups_id' => 'required',
             'medicine_company_infos_id' => 'required',
             'medicine_units_id' => 'required',
-            'users_id' => 'required'
         ]);
 
         $medicineinformation = medicineinformation::find($medicineinformation->id);
@@ -173,7 +172,7 @@ class MedicineinformationController extends Controller
         $medicineinformation->save();
 
         return redirect()->route('medicineinformations.index')
-        ->with('success', 'Company updated successfully'); 
+        ->with('success', 'Medicine updated successfully'); 
     }
 
     /**

@@ -52,8 +52,6 @@ class InvoicelistController extends Controller
 
 	public function invoicelistswithdate(){
 
-
-
 		// dd($_POST);
 		extract($_POST);
 		// dd($invoicedate);
@@ -122,9 +120,6 @@ class InvoicelistController extends Controller
 											        JOIN
 											    patientregistration c ON a.patientregistration_id = c.id
 											GROUP BY a.id");
-
-
-
         }
 
 		// 
