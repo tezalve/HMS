@@ -46,7 +46,7 @@ class MedicinePurchaseOrderController extends Controller
     {
         $medicine_company_infos_id = Medicinecompanyinfo::all();
         $medicine_informations_id = Medicineinformation::all();
-        
+        // dd($medicine_informations_id);
         $user = auth()->user();
         return view('medicinepurchaseorders.create', compact('medicine_company_infos_id', 'user', 'medicine_informations_id'));
     }

@@ -78,33 +78,117 @@
         </div>
     </form>
 
+    <button id="addrow">Add Row</button>
+    <table id="datatable" class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Medicine Name</th>
+                <th>Price</th>
+                <th>TP</th>
+                <th>Default Discount</th>
+                <th>Default Vat</th>
+                <th>Act</th>
+            </tr>
+        </thead>
+    </table>
+
+    <div class="col-lg-6 col-md-6 col-xs-6">
+        <label for="Medicine Name" class="col-lg-1 col-md-1 col-xs-1 entry_panel_label">Total</label>
+        <input name="" type="text" id="total" value="" placeholder="" class="col-lg-2 col-md-2 col-xs-2 entry_panel_input" readonly>
+        <label for="Medicine Name" class="col-lg-4 col-md-4 col-xs-4 entry_panel_label">Including Vat & Discount</label>
+        <input name="" type="text" id="discountedvat_price" value="" placeholder="" class="col-lg-2 col-md-2 col-xs-2 entry_panel_input" readonly>
+    </div>
+    <div class="col-lg-6 col-md-6 col-xs-6">
+        <label for="Medicine Name" class="col-lg-2 col-md-2 col-xs-2 entry_panel_label">Discount</label>
+        <input name="" type="text" id="dis" value="" placeholder="" class="col-lg-2 col-md-2 col-xs-2 entry_panel_input" readonly>
+        <label for="Medicine Name" class="col-lg-1 col-md-1 col-xs-1 entry_panel_label">Vat</label>
+        <input name="" type="text" id="vat" value="" placeholder="" class="col-lg-2 col-md-2 col-xs-2 entry_panel_input" readonly>
+    </div>
+
 @section('scripts')
     <script>
-        jQuery(document).ready(function($){
+        // show medicine dropdown based on company
+        $(document).ready(function($){
             $('#medicine_company_infos_id').change(function(){
 
                 var companyid = document.getElementById('medicine_company_infos_id').value;
                 var senddata = '&medicine_company_infos_id='+companyid;
-                    $.ajax({
-                        headers: {
-                                'X-CSRF-TOKEN':'{{csrf_token()}}'
-                        },
-                        type: "POST",
-                        url :   "{{URL::to('/')}}/medlist",
-                        data :  senddata,
-                        dataType: "json",
-                        success: function(data){
-                            $('#medicine_informations_id').empty();
-                            var opts = data;
-                            // Use jQuery's each to iterate over the opts value
-                            // $('#department').append('<option value="">Select</option>');
-                            $.each(opts, function(i, d) {
-                            // You will need to alter the below to get the right values from your json object.  Guessing that d.id / d.modelName are columns in your carModels data
-                            $('#medicine_informations_id').append('<option value="' + d.id + '">' + d.medicine_name + '</option>');
-                            });
-                        }
-                    })		
-                });
-            })
+
+                $.ajax({
+                    headers: {
+                            'X-CSRF-TOKEN':'{{csrf_token()}}'
+                    },
+                    type: "POST",
+                    url :   "{{URL::to('/')}}/medlist",
+                    data :  senddata,
+                    dataType: "json",
+                    success: function(data){
+                        $('#medicine_informations_id').empty();
+                        var opts = data;
+                        // Use jQuery's each to iterate over the opts value
+                        // $('#department').append('<option value="">Select</option>');
+                        $.each(opts, function(i, d) {
+                        // You will need to alter the below to get the right values from your json object.  Guessing that d.id / d.modelName are columns in your carModels data
+                        $('#medicine_informations_id').append('<option value="' + d.id + '">' + d.medicine_name + '</option>');
+                        });
+                    }
+                })		
+            });
+        });
+    </script>
+
+    <script>
+        // show datatable of selected medicines
+        $(document).ready(function($){
+            let med;
+            var total = 0;
+            var dis = 0;
+            var vat = 0;
+            var discountedvat_price = 0;
+            var table = $('#datatable').DataTable(
+
+                $('#addrow').on( 'click', function () {
+                    medicineid = document.getElementById('medicine_informations_id').value;
+                    med = {!! json_encode($medicine_informations_id) !!};
+                    total += med[medicineid-1].mrp;
+                    dis += med[medicineid-1].mrp * med[medicineid-1].default_discount/100;
+                    vat += med[medicineid-1].mrp * med[medicineid-1].default_vat/100;
+                    discountedvat_price = total - dis + vat;
+                    $("#dis").attr("value", dis);
+                    $("#vat").attr("value", vat);
+                    $("#total").attr("value", total);
+                    $("#discountedvat_price").attr("value", discountedvat_price);
+                    // console.log(total);
+                    
+                    table.row.add( [
+                        med[medicineid-1].id,
+                        med[medicineid-1].medicine_name,
+                        med[medicineid-1].mrp,
+                        med[medicineid-1].tp,
+                        med[medicineid-1].default_discount,
+                        med[medicineid-1].default_vat,
+                        '<button type="button" id="row_delete">Delete</button>'
+                    ] ).draw()
+                })
+            );
+
+            $('#datatable tbody').on( 'click', '#row_delete', function () {
+                table.row (
+                    $(this).parents('tr')).remove().draw();
+                    total -= med[medicineid-1].mrp;
+                    dis -= med[medicineid-1].mrp * med[medicineid-1].default_discount/100;
+                    vat -= med[medicineid-1].mrp * med[medicineid-1].default_vat/100;
+                    discountedvat_price = total - dis + vat;
+                    console.log(med[medicineid-1]);
+                    $("#dis").attr("value", dis);
+                    $("#vat").attr("value", vat);
+                    $("#total").attr("value", total);
+                    $("#discountedvat_price").attr("value", discountedvat_price);
+            });
+        });
+    </script>
+
+    <script>
     </script>
 @stop
