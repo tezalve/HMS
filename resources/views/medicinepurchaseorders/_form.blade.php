@@ -1,22 +1,9 @@
     @csrf
+        <!-- purchase orders -->
         <div class="col-lg-6 col-md-6 col-xs-12 hidden">
             <div class="col-lg-12 entry_panel_body ">
                 <label for="Medicine Name" style="height: 40px;" class="col-lg-5 col-md-5 col-xs-5 entry_panel_label">PO Date</label>
                 <input name="po_date" type="date" id="po_date" value="<?= date('Y-m-d'); ?>" placeholder="po_date" class="col-lg-7 col-md-7 col-xs-7 entry_panel_input">				
-            </div>
-        </div>
-
-        <div class="col-lg-6 col-md-6 col-xs-12">
-            <div class="col-lg-12 entry_panel_body ">
-                <label for="Medicine Name" style="height: 40px;" class="col-lg-5 col-md-5 col-xs-5 entry_panel_label">Delivery Date</label>
-                <input name="delivery_date" type="date" id="delivery_date" value="{{ old('delivery_date',$medicinepurchaseorder->delivery_date??null) }}" placeholder="delivery_date" class="col-lg-7 col-md-7 col-xs-7 entry_panel_input">				
-            </div>
-        </div>
-
-        <div class="col-lg-6 col-md-6 col-xs-12">
-            <div class="col-lg-12 entry_panel_body ">
-                <label for="Medicine Name" class="col-lg-5 col-md-5 col-xs-5 entry_panel_label">Note</label>
-                <input name="note" type="text" id="note" value="{{ old('note',$medicinepurchaseorder->note??null) }}" placeholder="note" class="col-lg-7 col-md-7 col-xs-7 entry_panel_input">				
             </div>
         </div>
 
@@ -52,59 +39,78 @@
 
         <div class="col-lg-6 col-md-6 col-xs-12">
             <div class="col-lg-12 entry_panel_body ">
+                <label for="Medicine Name" class="col-lg-5 col-md-5 col-xs-5 entry_panel_label">Medicine</label>			
+                <select id="medicine_informations_id" name="medicine_informations_id" placeholder="" class="col-lg-7 entry_panel_dropdown"></select>
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-xs-12">
+            <div class="col-lg-12 entry_panel_body ">
                 <label for="Medicine Name" class="col-lg-5 col-md-5 col-xs-5 entry_panel_label">Requisition Quantity</label>
-                <input name="requisition_quantity" type="text" id="requisition_quantity" value="{{ old('requisition_quantity',$medicinepurchaseorderdetail->requisition_quantity??null) }}" placeholder="requisition_quantity" class="col-lg-7 col-md-7 col-xs-7 entry_panel_input">				
+                <input name="quantity" type="text" id="quantity" value="{{ 1 }}" placeholder="requisition_quantity" class="col-lg-7 col-md-7 col-xs-7 entry_panel_input">				
             </div>
         </div>
 
         <div class="col-lg-6 col-md-6 col-xs-12">
             <div class="col-lg-12 entry_panel_body ">
                 <label for="Medicine Name" class="col-lg-5 col-md-5 col-xs-5 entry_panel_label">Bonus Quantity</label>
-                <input name="bonus_quantity" type="text" id="bonus_quantity" value="{{ old('bonus_quantity',$medicinepurchaseorderdetail->bonus_quantity??null) }}" placeholder="bonus_quantity" class="col-lg-7 col-md-7 col-xs-7 entry_panel_input">				
+                <input name="bon_quantity" type="text" id="bon_quantity" value="0" placeholder="bonus_quantity" class="col-lg-7 col-md-7 col-xs-7 entry_panel_input">				
+            </div>
+        </div>
+
+        <button type="button" id="addrow">Add Row</button>
+        <table id="datatable" class="table table-bordered">
+            <thead>
+                <tr>
+                </tr>
+                <tr>
+                    <th>Medicine Name</th>
+                    <th>Price</th>
+                    <th>Default Discount</th>
+                    <th>Default Vat</th>
+                    <th>Quantity</th>
+                    <th>Unit</th>
+                    <th>Bonus Quantity</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+        </table>
+
+        <div class="col-lg-6 col-md-6 col-xs-12">
+            <div class="col-lg-12 entry_panel_body ">
+                <label for="Medicine Name" style="height: 40px;" class="col-lg-5 col-md-5 col-xs-5 entry_panel_label">Delivery Date</label>
+                <input name="delivery_date" type="date" id="delivery_date" value="{{ old('delivery_date',$medicinepurchaseorder->delivery_date??null) }}" placeholder="delivery_date" class="col-lg-7 col-md-7 col-xs-7 entry_panel_input">				
             </div>
         </div>
 
         <div class="col-lg-6 col-md-6 col-xs-12">
             <div class="col-lg-12 entry_panel_body ">
-                <label for="Medicine Name" class="col-lg-5 col-md-5 col-xs-5 entry_panel_label">Medicine</label>			
-                <select id="medicine_informations_id" name="medicine_informations_id" placeholder="" class="col-lg-7 entry_panel_dropdown"></select>
+                <label for="Medicine Name" style="height: 40px;" class="col-lg-5 col-md-5 col-xs-5 entry_panel_label">Note</label>
+                <input name="note" type="text" id="note" style="height: 40px;" value="{{ old('note',$medicinepurchaseorder->note??null) }}" placeholder="note" class="col-lg-7 col-md-7 col-xs-7 entry_panel_input">				
             </div>
         </div>
 
-        <div class="col-lg-6 col-md-6 col-sm-6">
+        <div class="col-lg-12 col-md-12 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-xs-12">
+                <label for="Medicine Name" class="col-lg-1 col-md-1 col-xs-1 entry_panel_label">Total</label>
+                <input name="" type="text" id="total" value="" placeholder="" class="col-lg-1 col-md-1 col-xs-1 entry_panel_input" readonly>
+                <label for="Medicine Name" class="col-lg-3 col-md-3 col-xs-3 entry_panel_label">Including Vat & Discount</label>
+                <input name="" type="text" id="discountedvat_price" value="" placeholder="" class="col-lg-1 col-md-1 col-xs-1 entry_panel_input" readonly>
+            </div>
+            <div class="col-lg-12 col-md-12 col-xs-12">
+                <label for="Medicine Name" class="col-lg-2 col-md-2 col-xs-2 entry_panel_label">Discount</label>
+                <input name="" type="text" id="dis" value="" placeholder="" class="col-lg-1 col-md-1 col-xs-1 entry_panel_input" readonly>
+                <label for="Medicine Name" class="col-lg-2 col-md-2 col-xs-2 entry_panel_label">Vat</label>
+                <input name="" type="text" id="vat" value="" placeholder="" class="col-lg-1 col-md-1 col-xs-1 entry_panel_input" readonly>
+            </div>
+        </div>
+
+        <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="col-lg-12 entry_panel_body">
-                <input type="submit" id="submit" name="submit" value="SAVE" class="col-lg-3 col-md-3 col-xs-3 btn btn-save btn-sm button button-save pull-right">
+                <input type="submit" id="submit" name="submit" value="SAVE" class="col-lg-1 col-md-1 col-xs-1 btn btn-save btn-sm button button-save pull-right">
             </div>
         </div>
     </form>
-
-    <button id="addrow">Add Row</button>
-    <table id="datatable" class="table table-bordered">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Medicine Name</th>
-                <th>Price</th>
-                <th>TP</th>
-                <th>Default Discount</th>
-                <th>Default Vat</th>
-                <th>Act</th>
-            </tr>
-        </thead>
-    </table>
-
-    <div class="col-lg-6 col-md-6 col-xs-6">
-        <label for="Medicine Name" class="col-lg-1 col-md-1 col-xs-1 entry_panel_label">Total</label>
-        <input name="" type="text" id="total" value="" placeholder="" class="col-lg-2 col-md-2 col-xs-2 entry_panel_input" readonly>
-        <label for="Medicine Name" class="col-lg-4 col-md-4 col-xs-4 entry_panel_label">Including Vat & Discount</label>
-        <input name="" type="text" id="discountedvat_price" value="" placeholder="" class="col-lg-2 col-md-2 col-xs-2 entry_panel_input" readonly>
-    </div>
-    <div class="col-lg-6 col-md-6 col-xs-6">
-        <label for="Medicine Name" class="col-lg-2 col-md-2 col-xs-2 entry_panel_label">Discount</label>
-        <input name="" type="text" id="dis" value="" placeholder="" class="col-lg-2 col-md-2 col-xs-2 entry_panel_input" readonly>
-        <label for="Medicine Name" class="col-lg-1 col-md-1 col-xs-1 entry_panel_label">Vat</label>
-        <input name="" type="text" id="vat" value="" placeholder="" class="col-lg-2 col-md-2 col-xs-2 entry_panel_input" readonly>
-    </div>
 
 @section('scripts')
     <script>
@@ -142,6 +148,7 @@
         // show datatable of selected medicines
         $(document).ready(function($){
             let med;
+            var i,j;
             var total = 0;
             var dis = 0;
             var vat = 0;
@@ -150,41 +157,65 @@
 
                 $('#addrow').on( 'click', function () {
                     medicineid = document.getElementById('medicine_informations_id').value;
+                    requisition_quantity = document.getElementById('quantity').value;
+                    bonus_quantity = document.getElementById('bon_quantity').value;
+
                     med = {!! json_encode($medicine_informations_id) !!};
-                    total += med[medicineid-1].mrp;
-                    dis += med[medicineid-1].mrp * med[medicineid-1].default_discount/100;
-                    vat += med[medicineid-1].mrp * med[medicineid-1].default_vat/100;
+                    unit = {!! json_encode($medicine_units_id) !!};
+                    for (i=0; i<Object.keys(med).length; i++) {
+                        if (med[i].id == medicineid){
+                            break;
+                        }
+                    }
+
+                    for (j=0; j<Object.keys(unit).length; j++) {
+                        if (unit[j].id == med[i].medicine_units_id){
+                            break;
+                        }
+                    }
+
+                    total += med[i].mrp*requisition_quantity;
+                    dis += requisition_quantity*med[i].mrp * med[i].default_discount/100;
+                    vat += requisition_quantity*med[i].mrp * med[i].default_vat/100;
                     discountedvat_price = total - dis + vat;
-                    $("#dis").attr("value", dis);
-                    $("#vat").attr("value", vat);
+                    fdis = dis.toFixed(2);
+                    fvat = vat.toFixed(2);
+                    $("#dis").attr("value", fdis);
+                    $("#vat").attr("value", fvat);
                     $("#total").attr("value", total);
                     $("#discountedvat_price").attr("value", discountedvat_price);
-                    // console.log(total);
                     
                     table.row.add( [
-                        med[medicineid-1].id,
-                        med[medicineid-1].medicine_name,
-                        med[medicineid-1].mrp,
-                        med[medicineid-1].tp,
-                        med[medicineid-1].default_discount,
-                        med[medicineid-1].default_vat,
-                        '<button type="button" id="row_delete">Delete</button>'
+                        med[i].medicine_name,
+                        med[i].mrp,
+                        med[i].default_discount,
+                        med[i].default_vat,
+                        requisition_quantity,
+                        unit[j].unit_name,
+                        bonus_quantity,
+                        '<button quantity="'+requisition_quantity+'" value="'+i+'" type="button" id="row_delete">Delete</button> <input name="sendmedicineid[]" type="text" id="rate" value="'+medicineid+'" class="hidden"> <input name="requisition_quantity[]" type="text" id="requisition_quantity" value="'+requisition_quantity+'" class="hidden"> <input name="bonus_quantity[]" type="text" id="bonus_quantity" value="'+bonus_quantity+'" class="hidden">'
                     ] ).draw()
+
+                    console.log(requisition_quantity);
                 })
             );
 
             $('#datatable tbody').on( 'click', '#row_delete', function () {
+                var val = $(this).val();
+                var quantity = $(this).attr("quantity");
+                console.log(med[val]);
+                total -= med[val].mrp*quantity;
+                dis = dis - quantity*med[val].mrp * med[val].default_discount/100;
+                vat = vat - quantity*med[val].mrp * med[val].default_vat/100;
+                discountedvat_price = total - dis + vat;
+                fdis = dis.toFixed(2);
+                fvat = vat.toFixed(2);
+                $("#dis").attr("value", fdis);
+                $("#vat").attr("value", fvat);
+                $("#total").attr("value", total);
+                $("#discountedvat_price").attr("value", discountedvat_price);
                 table.row (
                     $(this).parents('tr')).remove().draw();
-                    total -= med[medicineid-1].mrp;
-                    dis -= med[medicineid-1].mrp * med[medicineid-1].default_discount/100;
-                    vat -= med[medicineid-1].mrp * med[medicineid-1].default_vat/100;
-                    discountedvat_price = total - dis + vat;
-                    console.log(med[medicineid-1]);
-                    $("#dis").attr("value", dis);
-                    $("#vat").attr("value", vat);
-                    $("#total").attr("value", total);
-                    $("#discountedvat_price").attr("value", discountedvat_price);
             });
         });
     </script>

@@ -15,7 +15,6 @@
 					<th>Delivery Date</th>
 					<th>Note</th>
 					<th>User</th>
-					<th>Medicine Company</th>
 					<th>Requisition</th>
 					<th>Rate</th>
 					<th>Action</th>
@@ -37,7 +36,6 @@
 					{data: 'delivery_date', name: 'delivery_date'},
 					{data: 'note', name: 'note'},
 					{data: 'user_name', name: 'user_name'},
-					{data: 'company_name', name: 'company_name'},
 					{data: 'requisition', name: 'requisition'},
 					{data: 'rate', name: 'rate'},
 					{data: 'edit', name: 'edit', orderable: false, searchable: false},
