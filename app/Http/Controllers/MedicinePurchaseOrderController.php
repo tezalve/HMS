@@ -20,8 +20,10 @@ class MedicinePurchaseOrderController extends Controller
         if (request()->ajax()) {
             $data = MedicinePurchaseOrder::join('users as u', 'u.id','=', 'medicine_purchase_orders.users_id')
             ->join('medicine_purchase_order_details as m', 'm.medicine_purchase_orders_id', '=', 'medicine_purchase_orders.id')
-            ->select('medicine_purchase_orders.id as id', 'medicine_purchase_orders.po_number', 'medicine_purchase_orders.po_date', 'medicine_purchase_orders.delivery_date', 'medicine_purchase_orders.note', 'u.name as user_name', 'medicine_purchase_orders.valid', 'm.requisition_quantity as requisition', 'm.rate as rate')
+            ->join('medicine_informations as mi', 'mi.id', '=', 'm.medicine_informations_id')
+            ->select('medicine_purchase_orders.id as id', 'medicine_purchase_orders.po_number', 'medicine_purchase_orders.po_date', 'medicine_purchase_orders.delivery_date', 'medicine_purchase_orders.note', 'u.name as user_name', 'medicine_purchase_orders.valid', DB::raw('(SUM( (m.requisition_quantity*m.rate) - ( (m.requisition_quantity*m.rate*mi.default_discount)/100 ) + ( (m.requisition_quantity*m.rate*mi.default_vat)/100 ) ) ) as due'))
             ->where('medicine_purchase_orders.valid', '=', '1')
+            ->groupBy('m.medicine_purchase_orders_id')
             ->get();
 
             return Datatables::of($data)
@@ -77,22 +79,24 @@ class MedicinePurchaseOrderController extends Controller
         $medicinepurchaseorder->users_id = $request->users_id;
         $medicinepurchaseorder->valid = 1;
 
-        // $medicinepurchaseorder->save();
+        $medicinepurchaseorder->save();
 
         
 
         for ( $i=0; $i<count($request->sendmedicineid); $i++){
-            $medicine = MedicineInformation::where('medicine_informations.id', '=', 4)->first();
+            $medicine = MedicineInformation::where('medicine_informations.id', '=', $request->sendmedicineid[$i])->first();
+            // dd($medicine,$i,$request->sendmedicineid[$i]);
+
             $medicinepurchaseorderdetails = new MedicinePurchaseOrderDetail;
             $medicinepurchaseorderdetails->requisition_quantity = $request->requisition_quantity[$i];
             $medicinepurchaseorderdetails->rate = $medicine->mrp;
             $medicinepurchaseorderdetails->bonus_quantity = $request->bonus_quantity[$i];
             $medicinepurchaseorderdetails->medicine_units_id = $medicine->medicine_units_id;
             $medicinepurchaseorderdetails->valid = 1;
-            $medicinepurchaseorderdetails->medicine_purchase_orders_id = $medicine->medicine_purchase_orders_id;
-            $medicinepurchaseorderdetails->medicine_informations_id = $medicine->medicine_informations_id;
+            $medicinepurchaseorderdetails->medicine_purchase_orders_id = $medicinepurchaseorder->id;
+            $medicinepurchaseorderdetails->medicine_informations_id = $medicine->id;
             $medicinepurchaseorderdetails->medicine_company_infos_id = $medicine->medicine_company_infos_id;
-            dd($medicinepurchaseorderdetails);
+            // dd($medicinepurchaseorderdetails);
             $medicinepurchaseorderdetails->save();
         }
 

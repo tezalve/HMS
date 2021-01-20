@@ -15,8 +15,7 @@
 					<th>Delivery Date</th>
 					<th>Note</th>
 					<th>User</th>
-					<th>Requisition</th>
-					<th>Rate</th>
+					<th>Due</th>
 					<th>Action</th>
 				</tr>
 			</thead>
@@ -36,8 +35,7 @@
 					{data: 'delivery_date', name: 'delivery_date'},
 					{data: 'note', name: 'note'},
 					{data: 'user_name', name: 'user_name'},
-					{data: 'requisition', name: 'requisition'},
-					{data: 'rate', name: 'rate'},
+					{data: 'due', name: 'due'},
 					{data: 'edit', name: 'edit', orderable: false, searchable: false},
 				]
 			});
