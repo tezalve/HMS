@@ -39,7 +39,7 @@
             <div class="col-lg-12 entry_panel_body ">
                 <label for="Medicine Name" class="col-lg-5 col-md-5 col-xs-5 entry_panel_label">Medicine Company</label>			
                 <select id="medicine_company_infos_id" name="medicine_company_infos_id" placeholder="" class="col-lg-7 entry_panel_dropdown">
-                <option value="">Select Value</option>	
+                <option value="">Select Value</option>
                     @foreach ($medicine_company_infos_id as $medicine_company_infos_id)
                             @if (old('medicine_company_infos_id')==$medicine_company_infos_id->id)
                                 <option value="{{$medicine_company_infos_id->id}}" selected>{{ $medicine_company_infos_id->company_name }}</option>
@@ -51,24 +51,10 @@
             </div>
         </div>
 
-        <div class="col-lg-6 col-md-6 col-xs-12">
+        <div class="col-lg-6 col-md-6 col-xs-12 hidden">
             <div class="col-lg-12 entry_panel_body ">
                 <label for="Medicine Name" class="col-lg-5 col-md-5 col-xs-5 entry_panel_label">Medicine</label>			
                 <select id="medicine_informations_id" name="medicine_informations_id" placeholder="" class="col-lg-7 entry_panel_dropdown"></select>
-            </div>
-        </div>
-
-        <div class="col-lg-6 col-md-6 col-xs-12">
-            <div class="col-lg-12 entry_panel_body ">
-                <label for="Medicine Name" class="col-lg-5 col-md-5 col-xs-5 entry_panel_label">Requisition Quantity</label>
-                <input name="quantity" type="text" id="quantity" value="{{ 1 }}" placeholder="requisition_quantity" class="col-lg-7 col-md-7 col-xs-7 entry_panel_input">				
-            </div>
-        </div>
-
-        <div class="col-lg-6 col-md-6 col-xs-12">
-            <div class="col-lg-12 entry_panel_body ">
-                <label for="Medicine Name" class="col-lg-5 col-md-5 col-xs-5 entry_panel_label">Bonus Quantity</label>
-                <input name="bon_quantity" type="text" id="bon_quantity" value="0" placeholder="bonus_quantity" class="col-lg-7 col-md-7 col-xs-7 entry_panel_input">				
             </div>
         </div>
 
@@ -80,8 +66,10 @@
                 <tr>
                     <th>Medicine Name</th>
                     <th>Price</th>
-                    <th>Default Discount</th>
-                    <th>Default Vat</th>
+                    <th>Discount</th>
+                    <th>Vat</th>
+                    <th>Qantity</th>
+                    <th>Bonus Quantity</th>
                     <th>Unit</th>
                     <th>Action</th>
                 </tr>
@@ -131,6 +119,7 @@
 @section('scripts')
     <script>
         // show medicine dropdown based on company
+        var opts;
         $(document).ready(function(){
             $('#medicine_company_infos_id').change(function(){
                 
@@ -147,7 +136,7 @@
                     dataType: "json",
                     success: function(data){
                         $('#medicine_informations_id').empty();
-                        var opts = data;
+                        opts = data;
                         // Use jQuery's each to iterate over the opts value
                         // $('#department').append('<option value="">Select</option>');
                         $.each(opts, function(i, d) {
@@ -184,21 +173,63 @@
                         break;
                     }
                 }
-                console.log(med[k]);
+                // console.log(med[k]);
                 table2.clear()
+
                 table2.row.add( [
-                    med[k].medicine_name,
-                    med[k].mrp,
-                    med[k].default_discount,
-                    med[k].default_vat,
+                    '<select id="medicine_informations_id2" name="medicine_informations_id2" placeholder="" class="col-lg-7 col-md-7 col-xs-7 entry_panel_dropdown"></select>',
+                    '<input name="rate" type="text" id="rate" value="'+med[k].mrp+'" placeholder="price" class="col-lg-12 col-md-12 col-xs-12 entry_panel_input">',
+                    '<input name="default_discount" type="text" id="default_discount" value="'+med[k].default_discount+'" placeholder="discount" class="col-lg-7 col-md-7 col-xs-7 entry_panel_input">',
+                    '<input name="default_vat" type="text" id="default_vat" value="'+med[k].default_vat+'" placeholder="vat" class="col-lg-12 col-md-12 col-xs-12 entry_panel_input">',
+                    '<input name="quantity" type="text" id="quantity" value="1" placeholder="requisition_quantity" class="col-lg-7 col-md-7 col-xs-7 entry_panel_input">',				
+                    '<input name="bon_quantity" type="text" id="bon_quantity" value="0" placeholder="bonus_quantity" class="col-lg-3 col-md-3 col-xs-3 entry_panel_input">',
                     unit[k].unit_name,
                     '<button type="button" id="addrow">Add To Table</button>'
                 ] ).draw()
+
+                $('#medicine_informations_id').empty();
+                // Use jQuery's each to iterate over the opts value
+                // $('#department').append('<option value="">Select</option>');
+                $.each(opts, function(i, d) {
+                    // You will need to alter the below to get the right values from your json object.  Guessing that d.id / d.modelName are columns in your carModels data
+                    $('#medicine_informations_id2').append('<option value="' + d.id + '">' + d.medicine_name + '</option>');
+                });
+            };
+
+            function view2(){
+                console.log("here");
+                medicineid = document.getElementById('medicine_informations_id2').value;
+                for (k=0; k<Object.keys(med).length; k++) {
+                    if (med[k].id == medicineid){
+                        break;
+                    }
+                }
+                // console.log(med[k]);
+                table2.clear()
+
+                table2.row.add( [
+                    '<select id="medicine_informations_id2" name="medicine_informations_id2" placeholder="" class="col-lg-7 col-md-7 col-xs-7 entry_panel_dropdown"></select>',
+                    '<input name="rate" type="text" id="rate" value="'+med[k].mrp+'" placeholder="price" class="col-lg-12 col-md-12 col-xs-12 entry_panel_input">',
+                    '<input name="default_discount" type="text" id="default_discount" value="'+med[k].default_discount+'" placeholder="discount" class="col-lg-7 col-md-7 col-xs-7 entry_panel_input">',
+                    '<input name="default_vat" type="text" id="default_vat" value="'+med[k].default_vat+'" placeholder="vat" class="col-lg-12 col-md-12 col-xs-12 entry_panel_input">',
+                    '<input name="quantity" type="text" id="quantity" value="1" placeholder="requisition_quantity" class="col-lg-7 col-md-7 col-xs-7 entry_panel_input">',				
+                    '<input name="bon_quantity" type="text" id="bon_quantity" value="0" placeholder="bonus_quantity" class="col-lg-3 col-md-3 col-xs-3 entry_panel_input">',
+                    unit[k].unit_name,
+                    '<button type="button" id="addrow">Add To Table</button>'
+                ] ).draw()
+
+                $('#medicine_informations_id2').select2({
+                    minimumInputLength: 3
+                });
             };
 
             // selecting a medicine adds to view tables
             // $('#medicine_company_infos_id').click(view);
-            $('#medicine_informations_id').click(view);
+            $('#datatable2 tbody').on( 'change', '#medicine_informations_id2', function () {
+                view2();
+            });
+
+            
 
             // initialize order table
             var table = $('#datatable').DataTable({
@@ -210,8 +241,11 @@
 
             // add to order table on click from view table
             $('#datatable2 tbody').on( 'click', '#addrow', function () {
-                medicineid = document.getElementById('medicine_informations_id').value;
+                medicineid = document.getElementById('medicine_informations_id2').value;
                 requisition_quantity = document.getElementById('quantity').value;
+                price = document.getElementById('rate').value;
+                discount = document.getElementById('default_discount').value;
+                vatt = document.getElementById('default_vat').value;
                 bonus_quantity = document.getElementById('bon_quantity').value;
 
                 for (i=0; i<Object.keys(med).length; i++) {
@@ -226,12 +260,12 @@
                     }
                 }
 
-                total += med[i].mrp*requisition_quantity;
-                dis += requisition_quantity*med[i].mrp * med[i].default_discount/100;
-                vat += requisition_quantity*med[i].mrp * med[i].default_vat/100;
+                total += price*requisition_quantity;
+                dis += requisition_quantity*price * discount/100;
+                vat += requisition_quantity*price * vatt/100;
                 discountedvat_price = total - dis + vat;
-                fdis = dis.toFixed(1);
-                fvat = vat.toFixed(1);
+                fdis = dis.toFixed(2);
+                fvat = vat.toFixed(2);
                 $("#dis").attr("value", fdis);
                 $("#vat").attr("value", fvat);
                 $("#total").attr("value", total);
@@ -239,13 +273,13 @@
                 
                 table.row.add( [
                     med[i].medicine_name,
-                    med[i].mrp,
-                    med[i].default_discount,
-                    med[i].default_vat,
+                    price,
+                    discount,
+                    vatt,
                     requisition_quantity,
                     unit[j].unit_name,
                     bonus_quantity,
-                    '<button quantity="'+requisition_quantity+'" value="'+i+'" type="button" id="row_delete">Delete</button> <input name="sendmedicineid[]" type="text" id="rate" value="'+medicineid+'" class="hidden"> <input name="requisition_quantity[]" type="text" id="requisition_quantity" value="'+requisition_quantity+'" class="hidden"> <input name="bonus_quantity[]" type="text" id="bonus_quantity" value="'+bonus_quantity+'" class="hidden">'
+                    '<button vatt="'+vatt+'" discount="'+discount+'" price="'+price+'" quantity="'+requisition_quantity+'" value="'+i+'" type="button" id="row_delete">Delete</button> <input name="sendmedicineid[]" type="text" id="id" value="'+medicineid+'" class="hidden"> <input name="requisition_quantity[]" type="text" id="requisition_quantity" value="'+requisition_quantity+'" class="hidden"> <input name="bonus_quantity[]" type="text" id="bonus_quantity" value="'+bonus_quantity+'" class="hidden"> <input name="rate[]" type="text" id="rate" value="'+price+'" class="hidden">'
                 ] ).draw()
             });
 
@@ -253,13 +287,18 @@
             $('#datatable tbody').on( 'click', '#row_delete', function () {
                 var val = $(this).val();
                 var quantity = $(this).attr("quantity");
+                var price = $(this).attr("price");
+                var vatt = $(this).attr("vatt");
+                var discount = $(this).attr("discount");
+
                 console.log(med[val]);
-                total -= med[val].mrp*quantity;
-                dis = dis - quantity*med[val].mrp * med[val].default_discount/100;
-                vat = vat - quantity*med[val].mrp * med[val].default_vat/100;
+
+                total -= price*quantity;
+                dis = dis - quantity*price * discount/100;
+                vat = vat - quantity*price * vatt /100;
                 discountedvat_price = total - dis + vat;
-                fdis = dis.toFixed(1);
-                fvat = vat.toFixed(1);
+                fdis = dis.toFixed(2);
+                fvat = vat.toFixed(2);
                 $("#dis").attr("value", fdis);
                 $("#vat").attr("value", fvat);
                 $("#total").attr("value", total);

@@ -79,7 +79,7 @@ class MedicinePurchaseOrderController extends Controller
         $medicinepurchaseorder->users_id = $request->users_id;
         $medicinepurchaseorder->valid = 1;
 
-        $medicinepurchaseorder->save();
+        // $medicinepurchaseorder->save();
 
         
 
@@ -89,14 +89,14 @@ class MedicinePurchaseOrderController extends Controller
 
             $medicinepurchaseorderdetails = new MedicinePurchaseOrderDetail;
             $medicinepurchaseorderdetails->requisition_quantity = $request->requisition_quantity[$i];
-            $medicinepurchaseorderdetails->rate = $medicine->mrp;
+            $medicinepurchaseorderdetails->rate = $rate[$i]->mrp;
             $medicinepurchaseorderdetails->bonus_quantity = $request->bonus_quantity[$i];
             $medicinepurchaseorderdetails->medicine_units_id = $medicine->medicine_units_id;
             $medicinepurchaseorderdetails->valid = 1;
             $medicinepurchaseorderdetails->medicine_purchase_orders_id = $medicinepurchaseorder->id;
             $medicinepurchaseorderdetails->medicine_informations_id = $medicine->id;
             $medicinepurchaseorderdetails->medicine_company_infos_id = $medicine->medicine_company_infos_id;
-            // dd($medicinepurchaseorderdetails);
+            dd($medicinepurchaseorderdetails);
             $medicinepurchaseorderdetails->save();
         }
 
