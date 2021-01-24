@@ -3,7 +3,9 @@
         <div class="col-lg-6 col-md-6 col-xs-12 hidden">
             <div class="col-lg-12 entry_panel_body ">
                 <label for="Medicine Name" style="height: 40px;" class="col-lg-5 col-md-5 col-xs-5 entry_panel_label">PO Date</label>
-                <input name="po_date" type="date" id="po_date" value="<?= date('Y-m-d'); ?>" placeholder="po_date" class="col-lg-7 col-md-7 col-xs-7 entry_panel_input">				
+                <input name="po_date" type="date" id="po_date" value="<?= date(
+                  "Y-m-d"
+                ) ?>" placeholder="po_date" class="col-lg-7 col-md-7 col-xs-7 entry_panel_input">				
             </div>
         </div>
 
@@ -58,11 +60,9 @@
             </div>
         </div>
 
-        <h4 style="color: coral">Medicine View</h4>
+        <h4 style="color: coral">Medicine Select</h4>
         <table id="datatable2" class="table table-bordered">
             <thead>
-                <tr>
-                </tr>
                 <tr>
                     <th>Medicine Name</th>
                     <th>Price</th>
@@ -73,14 +73,24 @@
                     <th>Unit</th>
                     <th>Action</th>
                 </tr>
+                <?php
+// <tr>
+//     <td><select id="medicine_informations_id2" name="medicine_informations_id2" placeholder="" class="entry_panel_dropdown"></select></td>
+//     <td><input name="rate" type="text" id="rate" value="" placeholder="price" class="entry_panel_input"></td>
+//     <td><input name="default_discount" type="text" id="default_discount" value="" placeholder="discount" class="entry_panel_input"></td>
+//     <td><input name="default_vat" type="text" id="default_vat" value="" placeholder="vat" class="entry_panel_input"></td>
+//     <td><input name="quantity" type="text" id="quantity" value="1" placeholder="requisition_quantity" class="entry_panel_input"></td>
+//     <td><input name="bon_quantity" type="text" id="bon_quantity" value="0" placeholder="bonus_quantity" class="entry_panel_input"></td>
+//     <td>unit[k].unit_name</td>
+//     <td><button type="button" id="addrow">Add To Table</button></td>
+// </tr>
+?>
             </thead>
         </table>
 
         <h4 style="color: coral">Medicine Order Table</h4>
         <table id="datatable" class="table table-bordered">
             <thead>
-                <tr>
-                </tr>
                 <tr>
                     <th>Medicine Name</th>
                     <th>Price</th>
@@ -118,9 +128,9 @@
 
 @section('scripts')
     <script>
-        // show medicine dropdown based on company
         var opts;
         $(document).ready(function(){
+            // show medicine dropdown based on company
             $('#medicine_company_infos_id').change(function(){
                 
                 var companyid = document.getElementById('medicine_company_infos_id').value;
@@ -146,8 +156,9 @@
                         });
                         view();
                     }
-                })		
+                })
             });
+
             // use these globally
             med = {!! json_encode($medicine_informations_id) !!};
             unit = {!! json_encode($medicine_units_id) !!};
@@ -173,34 +184,9 @@
                         break;
                     }
                 }
-                // console.log(med[k]);
-                table2.clear()
 
-                table2.row.add( [
-                    '<select id="medicine_informations_id2" name="medicine_informations_id2" placeholder="" class="col-lg-7 col-md-7 col-xs-7 entry_panel_dropdown"></select>',
-                    '<input name="rate" type="text" id="rate" value="'+med[k].mrp+'" placeholder="price" class="col-lg-12 col-md-12 col-xs-12 entry_panel_input">',
-                    '<input name="default_discount" type="text" id="default_discount" value="'+med[k].default_discount+'" placeholder="discount" class="col-lg-7 col-md-7 col-xs-7 entry_panel_input">',
-                    '<input name="default_vat" type="text" id="default_vat" value="'+med[k].default_vat+'" placeholder="vat" class="col-lg-12 col-md-12 col-xs-12 entry_panel_input">',
-                    '<input name="quantity" type="text" id="quantity" value="1" placeholder="requisition_quantity" class="col-lg-7 col-md-7 col-xs-7 entry_panel_input">',				
-                    '<input name="bon_quantity" type="text" id="bon_quantity" value="0" placeholder="bonus_quantity" class="col-lg-3 col-md-3 col-xs-3 entry_panel_input">',
-                    unit[k].unit_name,
-                    '<button type="button" id="addrow">Add To Table</button>'
-                ] ).draw()
-
-                $('#medicine_informations_id').empty();
-                // Use jQuery's each to iterate over the opts value
-                // $('#department').append('<option value="">Select</option>');
-                $.each(opts, function(i, d) {
-                    // You will need to alter the below to get the right values from your json object.  Guessing that d.id / d.modelName are columns in your carModels data
-                    $('#medicine_informations_id2').append('<option value="' + d.id + '">' + d.medicine_name + '</option>');
-                });
-            };
-
-            function view2(){
-                console.log("here");
-                medicineid = document.getElementById('medicine_informations_id2').value;
-                for (k=0; k<Object.keys(med).length; k++) {
-                    if (med[k].id == medicineid){
+                for (a=0; a<Object.keys(unit).length; a++) {
+                    if (unit[a].id == med[k].medicine_units_id){
                         break;
                     }
                 }
@@ -214,22 +200,59 @@
                     '<input name="default_vat" type="text" id="default_vat" value="'+med[k].default_vat+'" placeholder="vat" class="col-lg-12 col-md-12 col-xs-12 entry_panel_input">',
                     '<input name="quantity" type="text" id="quantity" value="1" placeholder="requisition_quantity" class="col-lg-7 col-md-7 col-xs-7 entry_panel_input">',				
                     '<input name="bon_quantity" type="text" id="bon_quantity" value="0" placeholder="bonus_quantity" class="col-lg-3 col-md-3 col-xs-3 entry_panel_input">',
-                    unit[k].unit_name,
-                    '<button type="button" id="addrow">Add To Table</button>'
+                    '<p id="unit_name" value="'+unit[a].unit_name+'" class="col-lg-5 col-md-5 col-xs-5 entry_panel_input"></p>',
+                    '<button type="button" id="addrow">Add</button>'
                 ] ).draw()
 
+                $('#medicine_informations_id2').empty();
+                // Use jQuery's each to iterate over the opts value
+                // $('#department').append('<option value="">Select</option>');
+                $.each(opts, function(i, d) {
+                    // You will need to alter the below to get the right values from your json object.  Guessing that d.id / d.modelName are columns in your carModels data
+                    $('#medicine_informations_id2').append('<option value="' + d.id + '">' + d.medicine_name + '</option>');
+                });
+
                 $('#medicine_informations_id2').select2({
-                    minimumInputLength: 3
+                    minimumInputLength: 1
                 });
             };
 
-            // selecting a medicine adds to view tables
-            // $('#medicine_company_infos_id').click(view);
             $('#datatable2 tbody').on( 'change', '#medicine_informations_id2', function () {
+                console.log($(this).val());
                 view2();
             });
 
             
+
+            function view2(){
+                console.log("here");
+                medicineid = document.getElementById('medicine_informations_id2').value;
+                for (k=0; k<Object.keys(med).length; k++) {
+                    if (med[k].id == medicineid){
+                        break;
+                    }
+                }
+
+                
+                // console.log(med[k]);
+                // table2.clear()
+
+                // table2.row.add( [
+                //     '<select id="medicine_informations_id2" name="medicine_informations_id2" placeholder="" class="col-lg-7 col-md-7 col-xs-7 entry_panel_dropdown"></select>',
+                //     '<input name="rate" type="text" id="rate" value="'+med[k].mrp+'" placeholder="price" class="col-lg-12 col-md-12 col-xs-12 entry_panel_input">',
+                //     '<input name="default_discount" type="text" id="default_discount" value="'+med[k].default_discount+'" placeholder="discount" class="col-lg-7 col-md-7 col-xs-7 entry_panel_input">',
+                //     '<input name="default_vat" type="text" id="default_vat" value="'+med[k].default_vat+'" placeholder="vat" class="col-lg-12 col-md-12 col-xs-12 entry_panel_input">',
+                //     '<input name="quantity" type="text" id="quantity" value="1" placeholder="requisition_quantity" class="col-lg-7 col-md-7 col-xs-7 entry_panel_input">',				
+                //     '<input name="bon_quantity" type="text" id="bon_quantity" value="0" placeholder="bonus_quantity" class="col-lg-3 col-md-3 col-xs-3 entry_panel_input">',
+                //     unit[k].unit_name,
+                //     '<button type="button" id="addrow">Add To Table</button>'
+                // ] ).draw()
+                $("#rate").attr("value", med[k].mrp);
+                $("#default_discount").attr("value", med[k].default_discount);
+                $("#default_vat").attr("value", med[k].default_vat);
+                $("#quantity").attr("value", "1");
+                $("#bon_quantity").attr("value", "0");
+            };
 
             // initialize order table
             var table = $('#datatable').DataTable({
@@ -307,8 +330,5 @@
                     $(this).parents('tr')).remove().draw();
             });
         });
-    </script>
-
-    <script>
     </script>
 @stop
