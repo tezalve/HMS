@@ -37,11 +37,13 @@
             </div>
         </div>
 
+        <h4 style="color: coral; padding-left: 5px; padding-bottom: 5px;">Medicine Select</h4>
+
         <div class="col-lg-6 col-md-6 col-xs-12">
             <div class="col-lg-12 entry_panel_body ">
                 <label for="Medicine Name" class="col-lg-5 col-md-5 col-xs-5 entry_panel_label">Medicine Company</label>			
                 <select id="medicine_company_infos_id" name="medicine_company_infos_id" placeholder="" class="col-lg-7 entry_panel_dropdown">
-                <option value="">Select Value</option>
+                <option></option>
                     @foreach ($medicine_company_infos_id as $medicine_company_infos_id)
                             @if (old('medicine_company_infos_id')==$medicine_company_infos_id->id)
                                 <option value="{{$medicine_company_infos_id->id}}" selected>{{ $medicine_company_infos_id->company_name }}</option>
@@ -60,8 +62,7 @@
             </div>
         </div>
 
-        <h4 style="color: coral">Medicine Select</h4>
-        <table id="datatable2" class="table table-bordered">
+        <table style="padding-left: 5px; padding-bottom: 5px;" id="datatable2" class="table table.dataTable.no-footer">
             <thead>
                 <tr>
                     <th>Medicine Name</th>
@@ -88,8 +89,9 @@
             </thead>
         </table>
 
-        <h4 style="color: coral">Medicine Order Table</h4>
-        <table id="datatable" class="table table-bordered">
+        <h4 style="color: coral; padding-left: 5px; padding-bottom: 5px;">Medicine Order Table</h4>
+
+        <table style="padding-left: 5px; padding-bottom: 5px;" id="datatable" class="table table.dataTable.no-footer">
             <thead>
                 <tr>
                     <th>Medicine Name</th>
@@ -109,7 +111,7 @@
                 <label for="Medicine Name" class="col-lg-1 col-md-1 col-xs-1 entry_panel_label">Total</label>
                 <input name="" type="text" id="total" value="" placeholder="" class="col-lg-1 col-md-1 col-xs-1 entry_panel_input" readonly>
                 <label for="Medicine Name" class="col-lg-3 col-md-3 col-xs-3 entry_panel_label">Including Vat & Discount</label>
-                <input name="" type="text" id="discountedvat_price" value="" placeholder="" class="col-lg-1 col-md-1 col-xs-1 entry_panel_input" readonly>
+                <input name="total_price" type="text" id="discountedvat_price" value="" placeholder="" class="col-lg-1 col-md-1 col-xs-1 entry_panel_input" readonly>
             </div>
             <div class="col-lg-12 col-md-12 col-xs-12">
                 <label for="Medicine Name" class="col-lg-2 col-md-2 col-xs-2 entry_panel_label">Discount</label>
@@ -127,6 +129,13 @@
     </form>
 
 @section('scripts')
+    
+    <style>
+        table.dataTable.no-footer {
+            border-bottom: 0 !important;
+        }
+    </style>
+
     <script>
         var opts;
         $(document).ready(function(){
@@ -157,6 +166,13 @@
                         view();
                     }
                 })
+            });
+
+            $('#medicine_company_infos_id').select2({
+                placeholder: 'Search Company',
+                delay: 1000,
+                minimumInputLength: 1,
+                minimumResultsForSearch: 1
             });
 
             // use these globally
@@ -200,7 +216,7 @@
                     '<input name="default_vat" type="text" id="default_vat" value="'+med[k].default_vat+'" placeholder="vat" class="col-lg-12 col-md-12 col-xs-12 entry_panel_input">',
                     '<input name="quantity" type="text" id="quantity" value="1" placeholder="requisition_quantity" class="col-lg-7 col-md-7 col-xs-7 entry_panel_input">',				
                     '<input name="bon_quantity" type="text" id="bon_quantity" value="0" placeholder="bonus_quantity" class="col-lg-3 col-md-3 col-xs-3 entry_panel_input">',
-                    '<p id="unit_name" value="'+unit[a].unit_name+'" class="col-lg-5 col-md-5 col-xs-5 entry_panel_input"></p>',
+                    '<input id="unit_name" value="'+unit[a].unit_name+'" class="col-lg-9 col-md-9 col-xs-9 entry_panel_input" readonly></input>',
                     '<button type="button" id="addrow">Add</button>'
                 ] ).draw()
 
@@ -213,12 +229,14 @@
                 });
 
                 $('#medicine_informations_id2').select2({
-                    minimumInputLength: 1
+                    placeholder: 'Search Medincine',
+                    delay: 1000,
+                    minimumInputLength: 1,
+                    minimumResultsForSearch: 1
                 });
             };
 
             $('#datatable2 tbody').on( 'change', '#medicine_informations_id2', function () {
-                console.log($(this).val());
                 view2();
             });
 
@@ -250,6 +268,7 @@
                 $("#rate").attr("value", med[k].mrp);
                 $("#default_discount").attr("value", med[k].default_discount);
                 $("#default_vat").attr("value", med[k].default_vat);
+                console.log(med[k].default_vat);
                 $("#quantity").attr("value", "1");
                 $("#bon_quantity").attr("value", "0");
             };
@@ -265,12 +284,13 @@
             // add to order table on click from view table
             $('#datatable2 tbody').on( 'click', '#addrow', function () {
                 medicineid = document.getElementById('medicine_informations_id2').value;
+                
                 requisition_quantity = document.getElementById('quantity').value;
                 price = document.getElementById('rate').value;
                 discount = document.getElementById('default_discount').value;
                 vatt = document.getElementById('default_vat').value;
                 bonus_quantity = document.getElementById('bon_quantity').value;
-
+                console.log(discount);
                 for (i=0; i<Object.keys(med).length; i++) {
                     if (med[i].id == medicineid){
                         break;
@@ -294,6 +314,8 @@
                 $("#total").attr("value", total);
                 $("#discountedvat_price").attr("value", discountedvat_price);
                 
+                table2.clear()
+                
                 table.row.add( [
                     med[i].medicine_name,
                     price,
@@ -302,8 +324,10 @@
                     requisition_quantity,
                     unit[j].unit_name,
                     bonus_quantity,
-                    '<button vatt="'+vatt+'" discount="'+discount+'" price="'+price+'" quantity="'+requisition_quantity+'" value="'+i+'" type="button" id="row_delete">Delete</button> <input name="sendmedicineid[]" type="text" id="id" value="'+medicineid+'" class="hidden"> <input name="requisition_quantity[]" type="text" id="requisition_quantity" value="'+requisition_quantity+'" class="hidden"> <input name="bonus_quantity[]" type="text" id="bonus_quantity" value="'+bonus_quantity+'" class="hidden"> <input name="rate[]" type="text" id="rate" value="'+price+'" class="hidden">'
+                    '<button vatt="'+vatt+'" discount="'+discount+'" price="'+price+'" quantity="'+requisition_quantity+'" value="'+i+'" type="button" id="row_delete">Delete</button> <input name="sendmedicineid[]" type="text" id="id" value="'+medicineid+'" class="hidden"> <input name="requisition_quantity[]" type="text" id="requisition_quantity" value="'+requisition_quantity+'" class="hidden"> <input name="bonus_quantity[]" type="text" id="bonus_quantity" value="'+bonus_quantity+'" class="hidden"> <input name="rates[]" type="text" id="rate" value="'+price+'" class="hidden">'
                 ] ).draw()
+
+                
             });
 
             // delete a row from order table

@@ -21,10 +21,12 @@ class MedicinePurchaseOrderController extends Controller
             $data = MedicinePurchaseOrder::join('users as u', 'u.id','=', 'medicine_purchase_orders.users_id')
             ->join('medicine_purchase_order_details as m', 'm.medicine_purchase_orders_id', '=', 'medicine_purchase_orders.id')
             ->join('medicine_informations as mi', 'mi.id', '=', 'm.medicine_informations_id')
-            ->select('medicine_purchase_orders.id as id', 'medicine_purchase_orders.po_number', 'medicine_purchase_orders.po_date', 'medicine_purchase_orders.delivery_date', 'medicine_purchase_orders.note', 'u.name as user_name', 'medicine_purchase_orders.valid', DB::raw('(SUM( (m.requisition_quantity*m.rate) - ( (m.requisition_quantity*m.rate*mi.default_discount)/100 ) + ( (m.requisition_quantity*m.rate*mi.default_vat)/100 ) ) ) as due'))
+            ->select('medicine_purchase_orders.id as id', 'medicine_purchase_orders.po_number', 'medicine_purchase_orders.po_date', 'medicine_purchase_orders.delivery_date', 'medicine_purchase_orders.note', 'u.name as user_name', 'medicine_purchase_orders.valid', 'medicine_purchase_orders.total_price as due')
             ->where('medicine_purchase_orders.valid', '=', '1')
             ->groupBy('m.medicine_purchase_orders_id')
             ->get();
+
+            // DB::raw('(SUM( (m.requisition_quantity*m.rate) - ( (m.requisition_quantity*m.rate*mi.default_discount)/100 ) + ( (m.requisition_quantity*m.rate*mi.default_vat)/100 ) ) ) as due
 
             return Datatables::of($data)
                 ->addColumn('edit', function($row){
@@ -78,8 +80,9 @@ class MedicinePurchaseOrderController extends Controller
         $medicinepurchaseorder->note = $request->note;
         $medicinepurchaseorder->users_id = $request->users_id;
         $medicinepurchaseorder->valid = 1;
+        $medicinepurchaseorder->total_price = $request->total_price;
 
-        // $medicinepurchaseorder->save();
+        $medicinepurchaseorder->save();
 
         
 
@@ -89,14 +92,14 @@ class MedicinePurchaseOrderController extends Controller
 
             $medicinepurchaseorderdetails = new MedicinePurchaseOrderDetail;
             $medicinepurchaseorderdetails->requisition_quantity = $request->requisition_quantity[$i];
-            $medicinepurchaseorderdetails->rate = $rate[$i]->mrp;
+            $medicinepurchaseorderdetails->rate = $request->rates[$i];
             $medicinepurchaseorderdetails->bonus_quantity = $request->bonus_quantity[$i];
             $medicinepurchaseorderdetails->medicine_units_id = $medicine->medicine_units_id;
             $medicinepurchaseorderdetails->valid = 1;
             $medicinepurchaseorderdetails->medicine_purchase_orders_id = $medicinepurchaseorder->id;
             $medicinepurchaseorderdetails->medicine_informations_id = $medicine->id;
             $medicinepurchaseorderdetails->medicine_company_infos_id = $medicine->medicine_company_infos_id;
-            dd($medicinepurchaseorderdetails);
+            // dd($medicinepurchaseorderdetails, $medicinepurchaseorder);
             $medicinepurchaseorderdetails->save();
         }
 
