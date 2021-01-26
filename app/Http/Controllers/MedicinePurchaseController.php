@@ -47,7 +47,7 @@ class MedicinePurchaseController extends Controller
         //                                     ->where('medicine_purchase_orders.valid', '=', '1')
         //                                     ->get();
         // $medicine_units_id              = Medicineunit::all();
-        // $medicine_units_id_bonus        = Medicineunit::all();
+        // $medicine_units_id_bonus        = Medicineunit::all(); 
         // return view('medicinepurchases.create', compact('medicine_company_infos_id', 'medicine_informations_id', 'medicine_units_id', 'medicine_units_id_bonus', 'medicine_purchase_orders_id'));
     }
 
@@ -152,7 +152,7 @@ class MedicinePurchaseController extends Controller
         // dd("$decrypted");
         $medicinepurchase = medicinepurchase::where('id',$decrypted)->first();
 
-        return view('medicinepurchases.edit', compact('medicinepurchases'));
+        return view('medicinepurchases.edit', compact('medicinepurchase'));
     }
 
     /**

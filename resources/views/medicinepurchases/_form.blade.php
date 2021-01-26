@@ -3,7 +3,7 @@
         <div class="col-lg-6 col-md-6 col-xs-12 hidden">
             <div class="col-lg-12 entry_panel_body ">
                 <label for="Medicine Name" style="height: 40px;" class="col-lg-5 col-md-5 col-xs-5 entry_panel_label">PO Number</label>
-                <input name="medicine_purchase_orders_id" type="text" id="medicine_purchase_orders_id" value="{{$medicinePurchaseOrder->id}}" placeholder="{{$medicinePurchaseOrder->po_number}}" class="col-lg-7 col-md-7 col-xs-7 entry_panel_input" readonly>				
+                <input name="medicine_purchase_orders_id" type="text" id="medicine_purchase_orders_id" value="{{$medicinePurchaseOrder->id}}" placeholder="" class="col-lg-7 col-md-7 col-xs-7 entry_panel_input" readonly>				
             </div>
         </div>
 
@@ -17,12 +17,10 @@
         <div class="col-lg-6 col-md-6 col-xs-12">
             <div class="col-lg-12 entry_panel_body ">
                 <label for="Medicine Name" style="height: 40px;" class="col-lg-5 col-md-5 col-xs-5 entry_panel_label">Delivery Date</label>
-                <input name="delivery_date" type="date" id="delivery_date" value="<?= date(
-                  "Y-m-d"
-                ) ?>" placeholder="delivery_date" class="col-lg-7 col-md-7 col-xs-7 entry_panel_input" Readonly>				
+                <input name="delivery_date" type="date" id="delivery_date" value="<?= date("Y-m-d") ?>" placeholder="delivery_date" class="col-lg-7 col-md-7 col-xs-7 entry_panel_input" Readonly>				
             </div>
         </div>
-
+ 
         <div class="col-lg-6 col-md-6 col-xs-12">
             <div class="col-lg-12 entry_panel_body ">
                 <label for="Medicine Name" class="col-lg-5 col-md-5 col-xs-5 entry_panel_label">Note</label>
@@ -48,9 +46,9 @@
         <div class="col-lg-6 col-md-6 col-xs-12 hidden">
             <div class="col-lg-12 entry_panel_body ">
                 <label for="Medicine Name" style="height: 40px;" class="col-lg-5 col-md-5 col-xs-5 entry_panel_label">medicine_company_infos_id</label>
-                <input name="medicine_company_infos_id" type="text" id="medicine_company_infos_id" value="{{$medicine_company_infos_id->id}}" placeholder="{{$medicine_company_infos_id->po_number}}" class="col-lg-7 col-md-7 col-xs-7 entry_panel_input" readonly>				
+                <input name="medicine_company_infos_id" type="text" id="medicine_company_infos_id" value="MultiCom" placeholder="{{$medicine_company_infos_id->po_number}}" class="col-lg-7 col-md-7 col-xs-7 entry_panel_input" readonly>				
             </div>
-        </div>
+        </div> 
 
         <div class="col-lg-6 col-md-6 col-xs-12">
             <div class="col-lg-12 entry_panel_body ">
@@ -119,13 +117,6 @@
 
         <div class="col-lg-6 col-md-6 col-xs-12">
             <div class="col-lg-12 entry_panel_body ">
-                <label for="Medicine Name" class="col-lg-5 col-md-5 col-xs-5 entry_panel_label">VAT</label>
-                <input name="vat" type="text" id="vat" value="{{ old('vat',$medicinepurchase->vat??null) }}" placeholder="vat" class="col-lg-7 col-md-7 col-xs-7 entry_panel_input">				
-            </div>
-        </div>
-
-        <div class="col-lg-6 col-md-6 col-xs-12">
-            <div class="col-lg-12 entry_panel_body ">
                 <label for="Medicine Name" class="col-lg-5 col-md-5 col-xs-5 entry_panel_label">Bonus Quantity</label>
                 <input name="bonus_quantity" type="text" id="bonus_quantity" value="{{ $medicine_purchase_order_detail->bonus_quantity }}" placeholder="bonus_quantity" class="col-lg-7 col-md-7 col-xs-7 entry_panel_input" readonly>				
             </div>
@@ -145,6 +136,13 @@
                     @endforeach
                 </select>
                 <td><button type="button" class="col-lg-1 entry_panel_label" data-toggle="modal" data-target="#medicine_units_id_bonusModal">... </button></td>
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-xs-12"> 
+            <div class="col-lg-12 entry_panel_body ">
+                <label for="Medicine Name" class="col-lg-5 col-md-5 col-xs-5 entry_panel_label">VAT</label>
+                <input name="vat" type="text" id="vat" value="{{ old('vat',$medicinepurchase->vat??null) }}" placeholder="vat" class="col-lg-7 col-md-7 col-xs-7 entry_panel_input">				
             </div>
         </div>
 

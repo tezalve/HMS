@@ -135,17 +135,19 @@ class MedicinePurchaseOrderController extends Controller
         }
         // dd("$decrypted");
         $medicinePurchaseOrder = MedicinePurchaseOrder::where('id', '=', $decrypted)->first();
-        // dd($medicinePurchaseOrder->id);
-        $medicine_company_infos_id      = Medicinecompanyinfo::where('id', '=', $medicinePurchaseOrder->medicine_company_infos_id)->first();
         $medicine_purchase_order_detail = MedicinePurchaseOrderDetail::where('medicine_purchase_orders_id', '=', $medicinePurchaseOrder->id)->first();
+        $medicine_company_infos_id      = Medicinecompanyinfo::where('id', '=', $medicine_purchase_order_detail->medicine_company_infos_id)->first();
+        // dd($medicine_company_infos_id,$medicine_purchase_order_detail);
+
         $medicine_informations_id       = Medicineinformation::where('id', '=', $medicine_purchase_order_detail->medicine_informations_id)->first();
         
-        // $medicine_purchase_orders_id    = MedicinePurchaseOrder::select('medicine_purchase_orders.id', 'medicine_purchase_orders.po_number')
-        //                                     ->where('medicine_purchase_orders.valid', '=', '1')
-        //                                     ->get();
+        $medicine_purchase_orders_id    = MedicinePurchaseOrder::select('medicine_purchase_orders.id', 'medicine_purchase_orders.po_number')
+                                            ->where('medicine_purchase_orders.valid', '=', '1')
+                                            ->get();
+
         $medicine_units_id              = Medicineunit::where('id', '=', $medicine_purchase_order_detail->medicine_units_id)->first();
-        $bonus_units_id        = Medicineunit::all();
-        $total_price = $medicine_purchase_order_detail->requisition_quantity*$medicine_purchase_order_detail->rate;
+        $bonus_units_id                 = Medicineunit::all();
+        $total_price = $medicinePurchaseOrder->total_price;
         // dd($medicinePurchaseOrder);
         return view('medicinepurchases.create', compact('medicine_purchase_order_detail', 'medicinePurchaseOrder', 'medicine_company_infos_id', 'medicine_informations_id', 'medicine_units_id', 'bonus_units_id', 'total_price'));
     }

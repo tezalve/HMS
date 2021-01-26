@@ -74,18 +74,18 @@
                     <th>Unit</th>
                     <th>Action</th>
                 </tr>
-                <?php
-// <tr>
-//     <td><select id="medicine_informations_id2" name="medicine_informations_id2" placeholder="" class="entry_panel_dropdown"></select></td>
-//     <td><input name="rate" type="text" id="rate" value="" placeholder="price" class="entry_panel_input"></td>
-//     <td><input name="default_discount" type="text" id="default_discount" value="" placeholder="discount" class="entry_panel_input"></td>
-//     <td><input name="default_vat" type="text" id="default_vat" value="" placeholder="vat" class="entry_panel_input"></td>
-//     <td><input name="quantity" type="text" id="quantity" value="1" placeholder="requisition_quantity" class="entry_panel_input"></td>
-//     <td><input name="bon_quantity" type="text" id="bon_quantity" value="0" placeholder="bonus_quantity" class="entry_panel_input"></td>
-//     <td>unit[k].unit_name</td>
-//     <td><button type="button" id="addrow">Add To Table</button></td>
-// </tr>
-?>
+                    <?php
+                        // <tr>
+                        //     <td><select id="medicine_informations_id2" name="medicine_informations_id2" placeholder="" class="entry_panel_dropdown"></select></td>
+                        //     <td><input name="rate" type="text" id="rate" value="" placeholder="price" class="entry_panel_input"></td>
+                        //     <td><input name="default_discount" type="text" id="default_discount" value="" placeholder="discount" class="entry_panel_input"></td>
+                        //     <td><input name="default_vat" type="text" id="default_vat" value="" placeholder="vat" class="entry_panel_input"></td>
+                        //     <td><input name="quantity" type="text" id="quantity" value="1" placeholder="requisition_quantity" class="entry_panel_input"></td>
+                        //     <td><input name="bon_quantity" type="text" id="bon_quantity" value="0" placeholder="bonus_quantity" class="entry_panel_input"></td>
+                        //     <td>unit[k].unit_name</td>
+                        //     <td><button type="button" id="addrow">Add To Table</button></td>
+                        // </tr>
+                    ?>
             </thead>
         </table>
 
@@ -153,17 +153,25 @@
                     url :   "{{URL::to('/')}}/medlist",
                     data :  senddata,
                     dataType: "json",
-                    success: function(data){
+                    success: function(data) {
                         $('#medicine_informations_id').empty();
-                        opts = data;
-                        // Use jQuery's each to iterate over the opts value
-                        // $('#department').append('<option value="">Select</option>');
-                        $.each(opts, function(i, d) {
-                        // You will need to alter the below to get the right values from your json object.  Guessing that d.id / d.modelName are columns in your carModels data
-                        $('#medicine_informations_id').append('<option value="' + d.id + '">' + d.medicine_name + '</option>');
-                            
-                        });
-                        view();
+                        len = Object.keys(data).length
+                        console.log("length = " + len);
+                        if (len == 0){
+                            console.log("length = " + len);
+                            $('#medicine_informations_id2').empty();
+                            table2.clear();
+                        } else {
+                            opts = data;
+                            // Use jQuery's each to iterate over the opts value
+                            // $('#department').append('<option value="">Select</option>');
+                            $.each(opts, function(i, d) {
+                            // You will need to alter the below to get the right values from your json object.  Guessing that d.id / d.modelName are columns in your carModels data
+                            $('#medicine_informations_id').append('<option value="' + d.id + '">' + d.medicine_name + '</option>');
+                                
+                            });
+                            view();
+                        }
                     }
                 })
             });
@@ -251,7 +259,6 @@
                     }
                 }
 
-                
                 // console.log(med[k]);
                 // table2.clear()
 
@@ -265,12 +272,23 @@
                 //     unit[k].unit_name,
                 //     '<button type="button" id="addrow">Add To Table</button>'
                 // ] ).draw()
+
+                // Surprisingly .attr doesn't change chnged input value and .val doesn't show that the
+                // value changed in inspect so to be sure used both (.val should be enough)
                 $("#rate").attr("value", med[k].mrp);
+                $('#rate').val(med[k].mrp);
+
                 $("#default_discount").attr("value", med[k].default_discount);
+                $('#default_discount').val(med[k].default_discount);
+
                 $("#default_vat").attr("value", med[k].default_vat);
-                console.log(med[k].default_vat);
+                $('#default_vat').val(med[k].default_vat);
+
                 $("#quantity").attr("value", "1");
+                $('#quantity').val("1");
+
                 $("#bon_quantity").attr("value", "0");
+                $('#bon_quantity').val("0");
             };
 
             // initialize order table
@@ -324,7 +342,7 @@
                     requisition_quantity,
                     unit[j].unit_name,
                     bonus_quantity,
-                    '<button vatt="'+vatt+'" discount="'+discount+'" price="'+price+'" quantity="'+requisition_quantity+'" value="'+i+'" type="button" id="row_delete">Delete</button> <input name="sendmedicineid[]" type="text" id="id" value="'+medicineid+'" class="hidden"> <input name="requisition_quantity[]" type="text" id="requisition_quantity" value="'+requisition_quantity+'" class="hidden"> <input name="bonus_quantity[]" type="text" id="bonus_quantity" value="'+bonus_quantity+'" class="hidden"> <input name="rates[]" type="text" id="rate" value="'+price+'" class="hidden">'
+                    '<button vatt="'+vatt+'" discount="'+discount+'" price="'+price+'" quantity="'+requisition_quantity+'" value="'+i+'" type="button" id="row_delete">Delete</button> <input name="sendmedicineid[]" type="text" id="id" value="'+medicineid+'" class="hidden"> <input name="requisition_quantity[]" type="text" id="requisition_quantity" value="'+requisition_quantity+'" class="hidden"> <input name="bonus_quantity[]" type="text" id="bonus_quantity" value="'+bonus_quantity+'" class="hidden"> <input name="rates[]" type="text" id="rates" value="'+price+'" class="hidden">'
                 ] ).draw()
 
                 

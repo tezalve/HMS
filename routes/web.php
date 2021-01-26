@@ -27,9 +27,38 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/', function () {
     return view('main');
 })->name('dashboard');
 
-Route::resource('doctors',                          DoctorController::Class);
-Route::resource('patients',                         PatientController::Class);
-Route::resource('beds',                             BedController::Class);
+Route::group(['middleware' => ['can:Bed Settings']], function () {
+    Route::resource('beds',                             BedController::Class);
+});
+
+Route::group(['middleware' => ['can:Doctor Settings']], function () {
+    Route::resource('doctors',                          DoctorController::Class);
+});
+
+Route::group(['middleware' => ['can:Patient Settings']], function () {
+    Route::resource('patients',                         PatientController::Class);
+});
+
+Route::group(['middleware' => ['can:Pharmacy Settings']], function () {
+    Route::resource('medicinepurchaseorders',           MedicinePurchaseOrderController::Class);
+    Route::resource('medicinepurchases',                MedicinePurchaseController::Class);
+    Route::resource('medicinegenerics',                 MedicinegenericController::Class);
+    Route::resource('medicinegroups',                   MedicinegroupController::Class);
+    Route::resource('medicineunits',                    MedicineunitController::Class);
+    Route::resource('medicinecompanyinfos',             MedicinecompanyinfoController::Class);
+    Route::resource('medicineinformations',             MedicineinformationController::Class);
+    Route::resource('customertypes',                    CustomertypeController::Class);
+    Route::resource('vendortypes',                      VendortypeController::Class);
+    Route::resource('customers',                        CustomerController::Class);
+    Route::resource('vendors',                          VendorController::Class);
+});
+
+Route::group(['middleware' => ['can:Admin Settings']], function () {
+    Route::resource('users',                            UserController::Class);
+    Route::resource('roles',                            RoleController::Class);
+    Route::resource('permissions',                      PermissionController::Class);
+});
+
 Route::resource('departments',                      DepartmentController::Class);
 Route::resource('clinicalcharts',                   ClinicalchartController::Class);
 Route::resource('subdepartments',                   SubdepartmentController::Class);
@@ -48,20 +77,6 @@ Route::resource('invoicereturns',                   InvoicereturnController::Cla
 Route::resource('occupations',                      OccupationController::Class);
 Route::resource('floors',                           FloorController::Class);
 Route::resource('bedgroups',                        BedgroupController::Class);
-Route::resource('medicinegenerics',                 MedicinegenericController::Class);
-Route::resource('medicinegroups',                   MedicinegroupController::Class);
-Route::resource('medicineunits',                    MedicineunitController::Class);
-Route::resource('medicinecompanyinfos',             MedicinecompanyinfoController::Class);
-Route::resource('medicineinformations',             MedicineinformationController::Class);
-Route::resource('customertypes',                    CustomertypeController::Class);
-Route::resource('vendortypes',                      VendortypeController::Class);
-Route::resource('customers',                        CustomerController::Class);
-Route::resource('vendors',                          VendorController::Class);
-Route::resource('users',                            UserController::Class);
-Route::resource('roles',                            RoleController::Class);
-Route::resource('permissions',                      PermissionController::Class);
-Route::resource('medicinepurchaseorders',           MedicinePurchaseOrderController::Class);
-Route::resource('medicinepurchases',                MedicinePurchaseController::Class);
 
 Route::post('investigtionnew',                      [AutocompleteController::Class, 'investigtionnew']);
 Route::post('isempty',                              [AutocompleteController::Class, 'isempty']);
