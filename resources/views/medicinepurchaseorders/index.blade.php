@@ -15,7 +15,7 @@
 					<th>Delivery Date</th>
 					<th>Note</th>
 					<th>User</th>
-					<th>Due</th>
+					<th>Total</th>
 					<th>Action</th>
 				</tr>
 			</thead>
@@ -35,7 +35,7 @@
 					{data: 'delivery_date', name: 'delivery_date'},
 					{data: 'note', name: 'note'},
 					{data: 'user_name', name: 'user_name'},
-					{data: 'due', name: 'due'},
+					{data: 'total', name: 'total'},
 					{data: 'edit', name: 'edit', orderable: false, searchable: false},
 				]
 			});

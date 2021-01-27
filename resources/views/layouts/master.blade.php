@@ -41,18 +41,18 @@
             background-color: #CBF1F3;
             border: 1px solid #ccc;
         }
-        thead tr{
+        /* thead tr{
             background: #DBDCDD;
-        }
+        } */
         div legend {
             background: coral !important;
         }
-        tr td {
+        /* tr td {
             border : 0px !important;
         }
         tbody tr.odd {
             background-color: #f1f1f1 !important;
-        }
+        } */
     </style>
 
     @yield('includes')
@@ -176,6 +176,17 @@
                                 </li>
                             </ul>
                         </li>
+                        <li>
+                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>Medicine Purchase<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="{{ route('medicinepurchaseorders.index') }}">Medicine Purchase Orders</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('medicinepurchases.index') }}">Medicine Purchase</a>
+                                </li>
+                            </ul>
+                        </li>
 
                         <li>
                             <a href="#"><i class="fa fa-wrench fa-fw"></i>Master Setup<span class="fa arrow"></span></a>
@@ -210,17 +221,6 @@
                                     <a href="#"><i class="fa-fw fa-fw"></i>Pharmacy<span class="fa arrow"></span></a>
 
                                     <ul class="nav nav-second-level">
-                                        <li>
-                                            <a href="#"><i class="fa-fw fa-fw"></i>Purchase<span class="fa arrow"></span></a>
-                                            <ul class="nav nav-second-level">
-                                                <li>
-                                                    <a href="{{ route('medicinepurchaseorders.index') }}">Medicine Purchase Orders</a>
-                                                </li>
-                                                <li>
-                                                    <a href="{{ route('medicinepurchases.index') }}">Medicine Purchase</a>
-                                                </li>
-                                            </ul>
-                                        </li>
                                         <li>
                                             <a href="{{ route('medicinegenerics.index') }}">Generic Names</a>
                                         </li>

@@ -40,7 +40,7 @@ class UserController extends Controller
                     
                     ->rawColumns(['edit', 'delete'])
                     ->make(true);
-        } 
+        }
         
         return view('users.index');
     }
