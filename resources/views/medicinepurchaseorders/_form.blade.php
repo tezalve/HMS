@@ -24,7 +24,7 @@
         <div class="col-lg-7 col-md-7 col-xs-12">
             <div class="col-lg-12 entry_panel_body ">
                 <label for="Medicine Name" class="col-lg-3 col-md-3 col-xs-3 entry_panel_label">Delivery Date</label>
-                <input name="delivery_date" type="text" id="delivery_date" value="{{ old('delivery_date',$medicinepurchaseorder->delivery_date??null) }}" placeholder="delivery_date" class="ol-lg-3 col-md-3 col-xs-3 entry_panel_input">
+                <input name="delivery_date" type="text" id="delivery_date" value="{{ old('delivery_date',$medicinepurchaseorder->delivery_date??null) }}" placeholder="delivery_date" class="ol-lg-3 col-md-3 col-xs-3 entry_panel_input" autocomplete="off">
             </div>
         </div>
 
@@ -146,6 +146,7 @@
                             console.log("length = " + len);
                             $('#medicine_informations_id2').empty();
                             $('#medicine_informations_id2').append('<option></option>');
+                            alert("No medicine under this company!");
                         } else {
                             opts = data;
                             // Use jQuery's each to iterate over the opts value
@@ -300,7 +301,6 @@
             };
 
             function calc(){
-                
                 medicineid = document.getElementById('medicine_informations_id2').value;
                 requisition_quantity = document.getElementById('quantity').value;
                 price = document.getElementById('rate').value;
@@ -325,19 +325,19 @@
                 totalrow = totalbaserow - disrow + vatrow;
                 $("#totalrow").attr("value", totalrow);
                 $("#totalrow").val(totalrow);
+                console.log("calculated " + totalrow);
 
-                total += price*requisition_quantity;
-                dis += requisition_quantity*price * discount/100;
-                vat += requisition_quantity*price * vatt/100;
-                discountedvat_price = total - dis + vat;
-                fdis = dis.toFixed(2);
-                fvat = vat.toFixed(2);
-                $("#dis").attr("value", fdis);
-                $("#vat").attr("value", fvat);
-                $("#total").attr("value", total);
-                $("#discountedvat_price").attr("value", discountedvat_price);
-                $("#discountedvat_price").val(discountedvat_price);
-                console.log("calculated " + discountedvat_price);
+                // total += price*requisition_quantity;
+                // dis += requisition_quantity*price * discount/100;
+                // vat += requisition_quantity*price * vatt/100;
+                // discountedvat_price = total - dis + vat;
+                // fdis = dis.toFixed(2);
+                // fvat = vat.toFixed(2);
+                // $("#dis").attr("value", fdis);
+                // $("#vat").attr("value", fvat);
+                // $("#total").attr("value", total);
+                // $("#discountedvat_price").attr("value", discountedvat_price);
+                // $("#discountedvat_price").val(discountedvat_price);
             }
             // initialize order table
             var table = $('#datatable').DataTable({
@@ -348,7 +348,7 @@
 
                 "footerCallback": function ( row, data, start, end, display ) {
                     var api = this.api(), data;
-        
+
                     // Remove the formatting to get integer data for summation
                     var intVal = function ( i ) {
                         return typeof i === 'string' ?
@@ -375,28 +375,9 @@
             // add to order table on click from view table
             
             $('#datatable thead').on( 'click', '#addrow', function () {
-                if (med[$('#row_delete').val()] == null) {
-                    console.log(med[$('#row_delete').val()]);
-                    calc();
-                    table.row.add( [
-                        med[i].medicine_name,
-                        unit[j].unit_name,
-                        price,
-                        discount,
-                        vatt,
-                        requisition_quantity,
-                        bonus_quantity,
-                        totalrow,
-                        '<button vatt="'+vatt+'" discount="'+discount+'" price="'+price+'" quantity="'+requisition_quantity+'" value="'+i+'" type="button" id="row_delete">Delete</button> <input name="sendmedicineid[]" type="text" id="id" value="'+medicineid+'" class="hidden"> <input name="requisition_quantity[]" type="text" id="requisition_quantity" value="'+requisition_quantity+'" class="hidden"> <input name="bonus_quantity[]" type="text" id="bonus_quantity" value="'+bonus_quantity+'" class="hidden"> <input name="rates[]" type="text" id="rates" value="'+price+'" class="hidden"><input name="discount[]" type="text" id="discount" value="'+discount+'" class="hidden"><input name="vat[]" type="text" id="vatt" value="'+vatt+'" class="hidden">'
-                    ] ).draw()
-                } else {
-                    var medcom = med[$('#row_delete').val()].medicine_company_infos_id;
-                    var selcom = $('#medicine_company_infos_id').val();
-                    if (medcom != selcom) {
-                        console.log(medcom + "!=" + selcom);
-                        alert('Order from one company at a time (empty table or finish ordering)')
-                    } else {
-                        console.log(med[$('#row_delete').val()].medicine_company_infos_id);
+                
+                    if (med[$('#row_delete').val()] == null) {
+                        console.log(med[$('#row_delete').val()]);
                         calc();
                         table.row.add( [
                             med[i].medicine_name,
@@ -409,28 +390,48 @@
                             totalrow,
                             '<button vatt="'+vatt+'" discount="'+discount+'" price="'+price+'" quantity="'+requisition_quantity+'" value="'+i+'" type="button" id="row_delete">Delete</button> <input name="sendmedicineid[]" type="text" id="id" value="'+medicineid+'" class="hidden"> <input name="requisition_quantity[]" type="text" id="requisition_quantity" value="'+requisition_quantity+'" class="hidden"> <input name="bonus_quantity[]" type="text" id="bonus_quantity" value="'+bonus_quantity+'" class="hidden"> <input name="rates[]" type="text" id="rates" value="'+price+'" class="hidden"><input name="discount[]" type="text" id="discount" value="'+discount+'" class="hidden"><input name="vat[]" type="text" id="vatt" value="'+vatt+'" class="hidden">'
                         ] ).draw()
+                    } else {
+                        var medcom = med[$('#row_delete').val()].medicine_company_infos_id;
+                        var selcom = $('#medicine_company_infos_id').val();
+                        if (medcom != selcom) {
+                            console.log(medcom + "!=" + selcom);
+                            alert('Order from one company at a time (empty table or finish ordering)')
+                        } else {
+                            console.log(med[$('#row_delete').val()].medicine_company_infos_id);
+                            calc();
+                            table.row.add( [
+                                med[i].medicine_name,
+                                unit[j].unit_name,
+                                price,
+                                discount,
+                                vatt,
+                                requisition_quantity,
+                                bonus_quantity,
+                                totalrow,
+                                '<button vatt="'+vatt+'" discount="'+discount+'" price="'+price+'" quantity="'+requisition_quantity+'" value="'+i+'" type="button" id="row_delete">Delete</button> <input name="sendmedicineid[]" type="text" id="id" value="'+medicineid+'" class="hidden"> <input name="requisition_quantity[]" type="text" id="requisition_quantity" value="'+requisition_quantity+'" class="hidden"> <input name="bonus_quantity[]" type="text" id="bonus_quantity" value="'+bonus_quantity+'" class="hidden"> <input name="rates[]" type="text" id="rates" value="'+price+'" class="hidden"><input name="discount[]" type="text" id="discount" value="'+discount+'" class="hidden"><input name="vat[]" type="text" id="vatt" value="'+vatt+'" class="hidden">'
+                            ] ).draw()
+                        }
                     }
-                }
             });
 
             // delete a row from order table
             $('#datatable tbody').on( 'click', '#row_delete', function () {
-                var val = $(this).val();
-                var quantity = $(this).attr("quantity");
-                var price = $(this).attr("price");
-                var vatt = $(this).attr("vatt");
-                var discount = $(this).attr("discount");
+                // var val = $(this).val();
+                // var quantity = $(this).attr("quantity");
+                // var price = $(this).attr("price");
+                // var vatt = $(this).attr("vatt");
+                // var discount = $(this).attr("discount");
 
-                total -= price*quantity;
-                dis = dis - quantity*price * discount/100;
-                vat = vat - quantity*price * vatt /100;
-                discountedvat_price = total - dis + vat;
-                fdis = dis.toFixed(2);
-                fvat = vat.toFixed(2);
-                $("#dis").attr("value", fdis);
-                $("#vat").attr("value", fvat);
-                $("#total").attr("value", total);
-                $("#discountedvat_price").attr("value", discountedvat_price);
+                // total -= price*quantity;
+                // dis = dis - quantity*price * discount/100;
+                // vat = vat - quantity*price * vatt /100;
+                // discountedvat_price = total - dis + vat;
+                // fdis = dis.toFixed(2);
+                // fvat = vat.toFixed(2);
+                // $("#dis").attr("value", fdis);
+                // $("#vat").attr("value", fvat);
+                // $("#total").attr("value", total);
+                // $("#discountedvat_price").attr("value", discountedvat_price);
                 table.row (
                     $(this).parents('tr')).remove().draw();
             });

@@ -137,10 +137,12 @@ class MedicinePurchaseOrderController extends Controller
         // dd("$decrypted");
         $medicinePurchaseOrder = MedicinePurchaseOrder::where('id', '=', $decrypted)->first();
         $medicine_purchase_order_detail = MedicinePurchaseOrderDetail::where('medicine_purchase_orders_id', '=', $medicinePurchaseOrder->id)->first();
-        $medicine_company_infos_id      = Medicinecompanyinfo::where('id', '=', $medicine_purchase_order_detail->medicine_company_infos_id)->first();
+        $medicine_company_infos_id      = Medicinecompanyinfo::where('id', '=', $medicinePurchaseOrder->medicine_company_infos_id)->first();
         // dd($medicine_company_infos_id,$medicine_purchase_order_detail);
 
-        $medicine_informations_id       = Medicineinformation::where('id', '=', $medicine_purchase_order_detail->medicine_informations_id)->first();
+        $medicine_informations_id       = Medicineinformation::where('id', '=', $medicine_purchase_order_detail->medicine_informations_id);
+
+        // dd($medicine_informations_id);
         
         $medicine_purchase_orders_id    = MedicinePurchaseOrder::select('medicine_purchase_orders.id', 'medicine_purchase_orders.po_number')
                                             ->where('medicine_purchase_orders.valid', '=', '1')
@@ -148,9 +150,24 @@ class MedicinePurchaseOrderController extends Controller
 
         $medicine_units_id              = Medicineunit::where('id', '=', $medicine_purchase_order_detail->medicine_units_id)->first();
         $bonus_units_id                 = Medicineunit::all();
-        $total_price = $medicinePurchaseOrder->total_price;
-        // dd($medicinePurchaseOrder);
-        return view('medicinepurchases.create', compact('medicine_purchase_order_detail', 'medicinePurchaseOrder', 'medicine_company_infos_id', 'medicine_informations_id', 'medicine_units_id', 'bonus_units_id', 'total_price'));
+        
+        $total = MedicinePurchaseOrder::join('medicine_purchase_order_details as m', 'm.medicine_purchase_orders_id', '=', 'medicine_purchase_orders.id')
+        ->select('medicine_purchase_orders.id',DB::raw('(SUM( (m.requisition_quantity*m.rate) - ( (m.requisition_quantity*m.rate*m.discount)/100 ) + ( (m.requisition_quantity*m.rate*m.vat)/100 ) ) ) as total'))
+        ->where('medicine_purchase_orders.valid', '=', '1')
+        ->groupBy('m.medicine_purchase_orders_id', 'medicine_purchase_orders.id')
+        ->get();
+
+        for($i=0; $i<count($total); $i++){
+            if($total[$i]->id == $decrypted){
+                break;
+            }
+        }
+
+        // dd($total[$i]->total);
+
+        $total_price = $total[$i]->total;
+        
+        return view('medicinepurchases.create', compact('medicine_purchase_order_detail', 'medicinePurchaseOrder', 'medicine_company_infos_id', 'medicine_units_id', 'bonus_units_id', 'total_price'));
     }
 
     /**

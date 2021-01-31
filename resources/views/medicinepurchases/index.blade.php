@@ -15,11 +15,9 @@
 					<th>Delivery Date</th>
 					<th>Note</th>
 					<th>Transaction Type</th>
-					<th>Medicine Name</th>
 					<th>Medicine Company</th>
 					<th>Transaction Master ID</th>
-					<th>MRP</th>
-					<th>Total Price</th>
+					<th>Total</th>
 				</tr>
 			</thead>
 		</table>
@@ -39,10 +37,8 @@
 					{data: 'note', name: 'note'},
 					{data: 'transaction_type', name: 'transaction_type'},
 					{data: 'company_name', name: 'company_name'},
-					{data: 'medicine_name', name: 'medicine_name'},
 					{data: 'transaction_masters_id', name: 'transaction_masters_id'},
-					{data: 'mrp', name: 'mrp'},
-					{data: 'total_price', name: 'total_price'},
+					{data: 'total', name: 'total'},
 				]
 			});
 		});
