@@ -19,21 +19,19 @@ class MedicinePurchaseController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $data = medicinepurchasemaster::join('medicine_purchase_details as m', 'm.medicine_purchse_master_id', '=', 'medicine_purchase_master.id')
-                ->join('medicine_purchase_orders as med', 'med.id', '=', 'medicine_purchase_master.medicine_purchase_orders_id')
-                ->join('medicine_purchase_order_details as mpod', 'mpod.medicine_purchase_orders_id', '=', 'med.id')
-                ->join('medicine_company_infos as c', 'c.id','=', 'medicine_purchase_master.medicine_company_infos_id')
-                ->join('medicine_informations as mi', 'mi.id', '=', 'm.medicine_informations_id')
-                ->select('med.po_number', 'medicine_purchase_master.delivery_number', 'medicine_purchase_master.delivery_date', 'medicine_purchase_master.note', 'c.company_name as company_name', 'medicine_purchase_master.transaction_type', 'medicine_purchase_master.transaction_masters_id', DB::raw('(SUM( (m.quantity*m.tp) - ( (m.quantity*m.tp*mpod.discount)/100 ) + ( (m.quantity*m.tp*mpod.vat)/100 ) ) ) as total'))
-                ->where('m.valid', '=', '1')
-                ->groupBy('med.po_number', 'medicine_purchase_master.delivery_number', 'medicine_purchase_master.delivery_date', 'medicine_purchase_master.note', 'company_name', 'medicine_purchase_master.transaction_type', 'medicine_purchase_master.transaction_masters_id')
+            $data = medicinepurchasemaster::join('medicine_purchase_details as a', 'a.medicine_purchse_master_id', '=', 'medicine_purchase_master.id')
+                ->join('medicine_purchase_orders as b', 'b.id', '=', 'medicine_purchase_master.medicine_purchase_orders_id')
+                ->join('medicine_company_infos as c', 'c.id', '=', 'medicine_purchase_master.medicine_company_infos_id')
+                ->select('b.po_number', 'medicine_purchase_master.delivery_number', 'medicine_purchase_master.delivery_date', 'medicine_purchase_master.note', 'c.company_name as company_name', 'medicine_purchase_master.transaction_type as transaction_type', DB::raw('SUM(a.tp*a.quantity) as total'))
+                ->where('a.valid', '=', '1')
+                ->groupBy('b.po_number', 'medicine_purchase_master.delivery_number', 'medicine_purchase_master.delivery_date', 'medicine_purchase_master.note', 'company_name', 'transaction_type','medicine_purchase_master.id')
                 ->get();
+
+                // DB::raw('(SUM( (mpod.requisition_quantity*mpod.rate) - ( (mpod.requisition_quantity*mpod.rate)*mpod.discount/100 ) + ( (mpod.requisition_quantity*mpod.rate)*mpod.vat/100 ) ) ) as total'
         
             return Datatables::of($data)
                     ->make(true);
         } 
-
-        
         return view('medicinepurchases.index');
     }
 

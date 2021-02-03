@@ -16,7 +16,6 @@
 					<th>Note</th>
 					<th>Transaction Type</th>
 					<th>Medicine Company</th>
-					<th>Transaction Master ID</th>
 					<th>Total</th>
 				</tr>
 			</thead>
@@ -37,7 +36,6 @@
 					{data: 'note', name: 'note'},
 					{data: 'transaction_type', name: 'transaction_type'},
 					{data: 'company_name', name: 'company_name'},
-					{data: 'transaction_masters_id', name: 'transaction_masters_id'},
 					{data: 'total', name: 'total'},
 				]
 			});
